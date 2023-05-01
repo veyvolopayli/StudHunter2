@@ -1,5 +1,6 @@
 package com.veyvolopayli.studhunter.domain.usecases.get_publications
 
+import android.util.Log
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.toPublication
 import com.veyvolopayli.studhunter.domain.model.Publication

@@ -4,6 +4,7 @@ import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.repository.PublicationRepositoryImpl
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
+import com.veyvolopayli.studhunter.domain.usecases.get_publications.GetPublicationsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +32,12 @@ object AppModule {
     @Singleton
     fun providePublicationRepository(api: StudHunterApi): PublicationRepository {
         return PublicationRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetPublicationsUseCase(publicationsRepositoryImpl: PublicationRepositoryImpl): GetPublicationsUseCase {
+        return GetPublicationsUseCase(publicationsRepositoryImpl)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.veyvolopayli.studhunter.presentation.publications_list
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,13 @@ class PublicationsListViewModel @Inject constructor(
 
     init {
         getPublications()
+        Log.e("AAA", "vm created")
+    }
+
+    override fun onCleared() {
+        Log.e("AAA", "vm cleared")
+
+        super.onCleared()
     }
 
     private fun getPublications() {
