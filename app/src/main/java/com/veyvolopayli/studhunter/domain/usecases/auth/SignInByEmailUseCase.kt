@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.domain.usecases
+package com.veyvolopayli.studhunter.domain.usecases.auth
 
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.responses.SignInResponse

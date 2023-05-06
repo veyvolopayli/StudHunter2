@@ -1,8 +1,8 @@
-package com.veyvolopayli.studhunter.presentation.publications_list
+package com.veyvolopayli.studhunter.presentation.home_screen
 
 import com.veyvolopayli.studhunter.domain.model.Publication
 
-data class PublicationsListState(
+data class HomeViewModelState(
     val isLoading: Boolean = false,
     val publications: List<Publication> = emptyList(),
     val error: String = ""

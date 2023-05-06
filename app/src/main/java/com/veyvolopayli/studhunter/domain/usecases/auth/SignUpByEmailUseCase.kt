@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.domain.usecases
+package com.veyvolopayli.studhunter.domain.usecases.auth
 
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
