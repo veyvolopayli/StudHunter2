@@ -6,6 +6,7 @@ import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.SignInResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface StudHunterApi {
@@ -18,5 +19,8 @@ interface StudHunterApi {
 
     @POST("signun")
     suspend fun signUp(@Body signUpRequest: SignUpRequest)
+
+    @POST("authenticate")
+    suspend fun authenticate(@Header("Authorization") token: String)
 
 }
