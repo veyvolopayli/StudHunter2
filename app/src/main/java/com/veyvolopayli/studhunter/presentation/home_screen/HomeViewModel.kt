@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.domain.usecases.get_publications.FetchPublicationsUseCase
-import com.veyvolopayli.studhunter.presentation.home_screen.HomeViewModelState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -17,8 +16,8 @@ class HomeViewModel @Inject constructor(
     private val fetchPublicationsUseCase: FetchPublicationsUseCase
 ): ViewModel() {
 
-    private val _state = MutableLiveData(HomeViewModelState())
-    val state: LiveData<HomeViewModelState> = _state
+    private val _state = MutableLiveData(HomeState())
+    val state: LiveData<HomeState> = _state
 
     init {
         fetchPublications()
@@ -28,15 +27,15 @@ class HomeViewModel @Inject constructor(
         fetchPublicationsUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = HomeViewModelState(publications = result.data ?: emptyList())
+                    _state.value = HomeState(publications = result.data ?: emptyList())
                 }
                 is Resource.Error -> {
-                    _state.value = HomeViewModelState(
+                    _state.value = HomeState(
                         error = result.message ?: "Unexpected error"
                     )
                 }
                 is Resource.Loading -> {
-                    _state.value = HomeViewModelState(isLoading = true)
+                    _state.value = HomeState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)

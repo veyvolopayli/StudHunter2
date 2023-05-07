@@ -8,4 +8,5 @@ interface AuthRepository {
     suspend fun signUp(signUpRequest: SignUpRequest)
 
     suspend fun signIn(signInRequest: SignInRequest): SignInResponse
+
 }

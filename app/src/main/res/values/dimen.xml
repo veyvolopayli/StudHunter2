@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="text_22px">24sp</dimen>
+    <dimen name="text_18px">20sp</dimen>
+    <dimen name="text_16px">18sp</dimen>
+    <dimen name="text_14px">16sp</dimen>
+    <dimen name="text_12px">14sp</dimen>
+    <dimen name="text_10px">12sp</dimen>
+    <dimen name="between_welcome">18dp</dimen>
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">12sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
+</resources>
