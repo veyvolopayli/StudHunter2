@@ -1,5 +1,8 @@
 package com.veyvolopayli.studhunter.di
 
+import android.app.Application
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import com.veyvolopayli.studhunter.data.repository.PublicationRepositoryImpl
 import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
@@ -7,7 +10,6 @@ import com.veyvolopayli.studhunter.data.repository.AuthRepositoryImpl
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
 import com.veyvolopayli.studhunter.domain.usecases.auth.SignInByEmailUseCase
-import com.veyvolopayli.studhunter.presentation.sign_in_screen.SignInViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,8 +41,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(api: StudHunterApi): AuthRepository {
-        return AuthRepositoryImpl(api)
+    fun providesSharedPrefs(app: Application): SharedPreferences {
+        return app.getSharedPreferences("prefs", MODE_PRIVATE)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(api: StudHunterApi, prefs: SharedPreferences): AuthRepository {
+        return AuthRepositoryImpl(api, prefs)
     }
 
     @Provides

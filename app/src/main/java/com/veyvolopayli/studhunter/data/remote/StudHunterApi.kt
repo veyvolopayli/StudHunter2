@@ -3,7 +3,7 @@ package com.veyvolopayli.studhunter.data.remote
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
-import com.veyvolopayli.studhunter.domain.model.responses.SignInResponse
+import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -15,10 +15,10 @@ interface StudHunterApi {
     suspend fun fetchPublications(): List<PublicationDto>
 
     @POST("signin")
-    suspend fun signIn(@Body signInRequest: SignInRequest): SignInResponse
+    suspend fun signIn(@Body signInRequest: SignInRequest): AuthResponse
 
     @POST("signun")
-    suspend fun signUp(@Body signUpRequest: SignUpRequest)
+    suspend fun signUp(@Body signUpRequest: SignUpRequest) : AuthResponse
 
     @POST("authenticate")
     suspend fun authenticate(@Header("Authorization") token: String)

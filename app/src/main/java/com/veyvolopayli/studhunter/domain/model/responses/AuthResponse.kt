@@ -1,5 +1,5 @@
 package com.veyvolopayli.studhunter.domain.model.responses
 
-data class SignInResponse(
+data class AuthResponse(
     val token: String
 )

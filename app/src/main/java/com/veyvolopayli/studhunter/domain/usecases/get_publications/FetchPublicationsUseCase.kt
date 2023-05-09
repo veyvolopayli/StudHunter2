@@ -23,7 +23,6 @@ class FetchPublicationsUseCase @Inject constructor(
             emit(Resource.Error(e.localizedMessage ?: "Unexpected error occurred"))
         } catch (e: IOException) {
             emit(Resource.Error("Could not reach server. Check your internet connection!"))
-
         }
     }
 
