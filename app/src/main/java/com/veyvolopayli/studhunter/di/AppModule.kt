@@ -9,6 +9,7 @@ import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.repository.AuthRepositoryImpl
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
+import com.veyvolopayli.studhunter.domain.usecases.auth.AuthenticateUseCase
 import com.veyvolopayli.studhunter.domain.usecases.auth.SignInByEmailUseCase
 import dagger.Module
 import dagger.Provides
@@ -51,10 +52,16 @@ object AppModule {
         return AuthRepositoryImpl(api, prefs)
     }
 
-    @Provides
-    @Singleton
-    fun provideSignInByEmailUseCase(authRepository: AuthRepository): SignInByEmailUseCase {
-        return SignInByEmailUseCase(authRepository)
-    }
+//    @Provides
+//    @Singleton
+//    fun provideSignInByEmailUseCase(authRepository: AuthRepository, prefs: SharedPreferences): SignInByEmailUseCase {
+//        return SignInByEmailUseCase(authRepository, prefs)
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun provideAuthenticateUseCase(authRepository: AuthRepository, prefs: SharedPreferences): AuthenticateUseCase {
+//        return AuthenticateUseCase(authRepository, prefs)
+//    }
 
 }

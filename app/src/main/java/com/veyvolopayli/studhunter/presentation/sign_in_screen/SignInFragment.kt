@@ -24,15 +24,17 @@ class SignInFragment : Fragment() {
     ): View {
         binding = FragmentSignInBinding.inflate(layoutInflater)
 
+        vm.authenticate(requireContext())
+
         binding.button.setOnClickListener {
             val signInRequest = SignInRequest(
                 username = binding.username.text.toString(),
                 password = binding.password.text.toString()
             )
 
-            vm.signIn(signInRequest)
+            vm.signIn(signInRequest, requireContext())
 
-            vm.state.observe(requireActivity()) {
+            vm.state.observe(viewLifecycleOwner) {
                 if (it.username.isNotEmpty()) {
                     val intent = Intent(requireContext(), MainActivity::class.java)
                     intent.putExtra("token", it.username)

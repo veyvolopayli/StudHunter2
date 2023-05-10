@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val intent = intent
         val token = intent.getStringExtra("token")
 
-        Toast.makeText(this, token, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, token, Toast.LENGTH_SHORT).show()
 
         vm.state.observe(this) {
             Log.e("Publications", it.publications.toString())

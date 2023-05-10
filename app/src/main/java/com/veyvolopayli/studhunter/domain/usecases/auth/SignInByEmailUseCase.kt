@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.domain.usecases.auth
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.veyvolopayli.studhunter.common.AuthResult
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
@@ -22,7 +23,11 @@ class SignInByEmailUseCase @Inject constructor(
         } catch (e: HttpException) {
             if (e.code() == 401) {
                 emit(AuthResult.Unauthorized())
-            } else {
+            }
+            if (e.code() == 409) {
+                emit(AuthResult.WrongPassword())
+            }
+            else {
                 emit(AuthResult.UnknownError())
             }
         } catch (e: Exception) {

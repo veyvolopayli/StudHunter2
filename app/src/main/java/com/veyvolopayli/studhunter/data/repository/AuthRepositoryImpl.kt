@@ -18,20 +18,9 @@ class AuthRepositoryImpl(private val api: StudHunterApi, private val prefs: Shar
         return api.signIn(signInRequest)
     }
 
-    override suspend fun authenticate(): AuthResult<Unit> {
-        return try {
-            val token = prefs.getString("jwt", null) ?: return AuthResult.Unauthorized()
-            api.authenticate(token = token)
-            AuthResult.Authorized()
-        } catch (e: HttpException) {
-            if (e.code() == 401) {
-                AuthResult.Unauthorized()
-            } else {
-                AuthResult.UnknownError()
-            }
-        } catch (e: Exception) {
-            AuthResult.UnknownError()
-        }
+    override suspend fun authenticate() {
+        val token = prefs.getString("jwt", null) ?: return
+        api.authenticate(token)
     }
 
 }
