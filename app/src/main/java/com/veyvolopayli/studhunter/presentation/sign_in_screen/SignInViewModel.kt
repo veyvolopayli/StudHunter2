@@ -27,7 +27,7 @@ class SignInViewModel @Inject constructor(
     val state: LiveData<SignInState> = _state
 
     fun authenticate(context: Context) {
-        authenticateUseCase(context).onEach { result ->
+        authenticateUseCase().onEach { result ->
             when (result) {
                 is AuthResult.Authorized -> {
                     val intent = Intent(context, MainActivity::class.java)
@@ -42,10 +42,9 @@ class SignInViewModel @Inject constructor(
                 }
                 is AuthResult.WrongPassword -> {
                     Toast.makeText(context, "WrongPassword", Toast.LENGTH_SHORT).show()
-
                 }
             }
-        }
+        }.launchIn(viewModelScope)
     }
 
     fun signIn(signInRequest: SignInRequest, context: Context) {

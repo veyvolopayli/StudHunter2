@@ -33,14 +33,6 @@ class SignInFragment : Fragment() {
             )
 
             vm.signIn(signInRequest, requireContext())
-
-            vm.state.observe(viewLifecycleOwner) {
-                if (it.username.isNotEmpty()) {
-                    val intent = Intent(requireContext(), MainActivity::class.java)
-                    intent.putExtra("token", it.username)
-                    startActivity(intent)
-                }
-            }
         }
 
         return binding.root

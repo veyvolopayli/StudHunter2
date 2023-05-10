@@ -20,7 +20,7 @@ interface StudHunterApi {
     @POST("signup")
     suspend fun signUp(@Body signUpRequest: SignUpRequest) : AuthResponse
 
-    @POST("authenticate")
+    @GET("authenticate")
     suspend fun authenticate(@Header("Authorization") token: String)
 
 }

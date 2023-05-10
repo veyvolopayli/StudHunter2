@@ -19,6 +19,7 @@ class SignInByEmailUseCase @Inject constructor(
         try {
             val response = authRepository.signIn(signInRequest)
             prefs.edit().putString("jwt", "Bearer ${response.token}").apply()
+            Log.e("Token", prefs.getString("jwt", null) ?: "null")
             emit(AuthResult.Authorized(data = response))
         } catch (e: HttpException) {
             if (e.code() == 401) {

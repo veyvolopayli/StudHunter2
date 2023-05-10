@@ -15,7 +15,7 @@ class AuthenticateUseCase @Inject constructor(
     private val repository: AuthRepository,
     private val prefs: SharedPreferences
 ) {
-    operator fun invoke(context: Context): Flow<AuthResult<String>> = flow {
+    operator fun invoke(): Flow<AuthResult<Unit>> = flow {
         Log.e("PREFS", prefs.getString("jwt", null) ?: "null")
 
         try {
@@ -29,11 +29,14 @@ class AuthenticateUseCase @Inject constructor(
             emit(AuthResult.Authorized())
         } catch (e: HttpException) {
             if (e.code() == 401) {
+                Log.e("prefs", "null")
                 emit(AuthResult.Unauthorized())
             } else {
+                Log.e("prefs", "null")
                 emit(AuthResult.Unauthorized())
             }
         } catch (e: Exception) {
+            Log.e("prefs", "null")
             emit(AuthResult.UnknownError())
         }
     }
