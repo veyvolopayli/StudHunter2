@@ -9,7 +9,17 @@
         android:id="@+id/start_fragment"
         android:name="com.veyvolopayli.studhunter.presentation.start_screen.StartFragment"
         android:label="Start"
-        tools:layout="@layout/fragment_start" />
+        tools:layout="@layout/fragment_start" >
+
+        <action
+            android:id="@+id/action_start_to_sign_in_fragment"
+            app:destination="@id/sign_in_fragment" />
+
+        <action
+            android:id="@+id/action_start_to_pre_sign_up_fragment"
+            app:destination="@id/pre_sign_up_fragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/sign_in_fragment"
