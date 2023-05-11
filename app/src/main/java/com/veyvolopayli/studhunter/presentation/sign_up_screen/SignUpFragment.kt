@@ -1,20 +1,32 @@
 package com.veyvolopayli.studhunter.presentation.sign_up_screen
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {
+
+    private lateinit var binding: FragmentSignUpBinding
+    lateinit var viewPager: ViewPager2
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_up, container, false)
+    ): View {
+
+        binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
+
+        viewPager = binding.signUpViewPager
+        val vpAdapter = SignUpViewPagerAdapter(requireActivity(), viewPager)
+
+        viewPager.adapter = vpAdapter
+
+        return binding.root
     }
 
 }

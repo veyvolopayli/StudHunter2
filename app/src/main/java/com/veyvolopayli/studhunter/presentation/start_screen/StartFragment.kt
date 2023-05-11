@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.veyvolopayli.studhunter.R
@@ -28,12 +29,20 @@ class StartFragment : Fragment() {
     ): View {
 
         binding = FragmentStartBinding.inflate(layoutInflater, container, false)
+        val activity = requireActivity()
 
-        val navController = Navigation.findNavController(binding.root)
+        binding.signUpButton.setOnClickListener {
+            activity.supportFragmentManager.commit {
+                addToBackStack(null)
+                add(R.id.main_fragment_container, signUpFragment)
+            }
+        }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(1000)
-            navController.navigate(R.id.action_start_to_sign_in_fragment)
+        binding.signInButton.setOnClickListener {
+            activity.supportFragmentManager.commit {
+                addToBackStack(null)
+                add(R.id.main_fragment_container, signInFragment)
+            }
         }
 
         return binding.root
