@@ -29,6 +29,9 @@ class SignInViewModel @Inject constructor(
     fun authenticate(context: Context) {
         authenticateUseCase().onEach { result ->
             when (result) {
+                is AuthResult.Loading -> {
+                    _state.value = SignInState(isLoading = true)
+                }
                 is AuthResult.Authorized -> {
                     val intent = Intent(context, MainActivity::class.java)
                     context.startActivity(intent)
@@ -51,6 +54,9 @@ class SignInViewModel @Inject constructor(
         signInByEmailUseCase(signInRequest).onEach { result ->
 
             when (result) {
+                is AuthResult.Loading -> {
+
+                }
                 is AuthResult.Authorized -> {
                     val intent = Intent(context, MainActivity::class.java)
                     context.startActivity(intent)

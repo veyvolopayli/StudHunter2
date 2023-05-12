@@ -26,6 +26,10 @@ class SignInFragment : Fragment() {
 
         vm.authenticate(requireContext())
 
+        vm.state.observe(viewLifecycleOwner) {
+            val isLoading = it.isLoading
+        }
+
         binding.button.setOnClickListener {
             val signInRequest = SignInRequest(
                 username = binding.username.text.toString(),

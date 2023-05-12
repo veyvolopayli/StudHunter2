@@ -17,6 +17,7 @@ class SignInByEmailUseCase @Inject constructor(
 ) {
     operator fun invoke(signInRequest: SignInRequest): Flow<AuthResult<AuthResponse>> = flow {
         try {
+            emit(AuthResult.Loading())
             val response = authRepository.signIn(signInRequest)
             prefs.edit().putString("jwt", "Bearer ${response.token}").apply()
             Log.e("Token", prefs.getString("jwt", null) ?: "null")
