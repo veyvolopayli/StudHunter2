@@ -18,4 +18,9 @@
     <string name="university">Университет</string>
     <string name="_continue">Продолжить</string>
     <string name="sign_up">Зарегистрироваться</string>
+    <string name="favorites">Избранное</string>
+    <string name="profile">Профиль</string>
+    <string name="add">Добавить</string>
+    <string name="categories">Категории</string>
+    <string name="home">Главная</string>
 </resources>

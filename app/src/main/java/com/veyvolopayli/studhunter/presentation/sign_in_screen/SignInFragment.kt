@@ -24,7 +24,7 @@ class SignInFragment : Fragment() {
     ): View {
         binding = FragmentSignInBinding.inflate(layoutInflater)
 
-        vm.authenticate(requireContext())
+        vm.authenticate(requireContext(), requireActivity())
 
         vm.state.observe(viewLifecycleOwner) {
             val isLoading = it.isLoading
@@ -36,7 +36,7 @@ class SignInFragment : Fragment() {
                 password = binding.password.text.toString()
             )
 
-            vm.signIn(signInRequest, requireContext())
+            vm.signIn(signInRequest, requireContext(), requireActivity())
         }
 
         return binding.root

@@ -2,6 +2,7 @@ package com.veyvolopayli.studhunter.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -17,9 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val vm: HomeViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
-//    private val navController: NavController by lazy { findNavController(R.id.nav_graph) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
+            binding.bottomNavBar.bottomNavLl.visibility = View.GONE
             supportFragmentManager.commit {
                 replace(binding.mainFragmentContainer.id, StartFragment())
                 addToBackStack(null)

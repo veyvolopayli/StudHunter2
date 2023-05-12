@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:focusable="true"
+    android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.sign_in_screen.SignInFragment">
 

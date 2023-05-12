@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:layout_gravity="bottom"
+    android:id="@+id/bottom_nav_ll"
+    android:background="@drawable/background_bottom_navigation"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <TextView
+        android:id="@+id/bottom_home_tv"
+        style="@style/GilroyFontTheme"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/home"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/text_10px"
+        app:drawableTint="@color/grey"
+        app:drawableTopCompat="@drawable/ic_home" />
+
+    <TextView
+        android:id="@+id/bottom_categories_tv"
+        style="@style/GilroyFontTheme"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/categories"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/text_10px"
+        app:drawableTint="@color/grey"
+        app:drawableTopCompat="@drawable/ic_categories" />
+
+    <TextView
+        android:id="@+id/bottom_add_tv"
+        style="@style/GilroyFontTheme"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/add"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/text_10px"
+        app:drawableTint="@color/grey"
+        app:drawableTopCompat="@drawable/ic_add_rounded" />
+
+    <TextView
+        android:id="@+id/bottom_favourites_tv"
+        style="@style/GilroyFontTheme"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/favorites"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/text_10px"
+        app:drawableTint="@color/grey"
+        app:drawableTopCompat="@drawable/ic_heart" />
+
+    <TextView
+        android:id="@+id/bottom_profile_tv"
+        style="@style/GilroyFontTheme"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:gravity="center"
+        android:paddingVertical="10dp"
+        android:text="@string/profile"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/text_10px"
+        app:drawableTint="@color/grey"
+        app:drawableTopCompat="@drawable/ic_user" />
+
+</LinearLayout>
