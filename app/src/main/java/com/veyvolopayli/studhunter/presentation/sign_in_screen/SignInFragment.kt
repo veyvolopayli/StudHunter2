@@ -27,7 +27,7 @@ class SignInFragment : Fragment() {
         vm.authenticate(requireContext(), requireActivity())
 
         vm.state.observe(viewLifecycleOwner) {
-            val isLoading = it.isLoading
+            binding.loadingLayout.root.visibility = if (it.isLoading) View.VISIBLE else View.GONE
         }
 
         binding.button.setOnClickListener {

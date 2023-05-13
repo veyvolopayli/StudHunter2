@@ -40,15 +40,19 @@ class SignInViewModel @Inject constructor(
                     activity.supportFragmentManager.commit {
                         replace(R.id.main_fragment_container, HomeFragment())
                     }
+                    _state.value = SignInState(isLoading = false)
                 }
                 is AuthResult.Unauthorized -> {
                     Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show()
+                    _state.value = SignInState(isLoading = false)
                 }
                 is AuthResult.UnknownError -> {
                     Toast.makeText(context, "UnknownError", Toast.LENGTH_SHORT).show()
+                    _state.value = SignInState(isLoading = false)
                 }
                 is AuthResult.WrongPassword -> {
                     Toast.makeText(context, "WrongPassword", Toast.LENGTH_SHORT).show()
+                    _state.value = SignInState(isLoading = false)
                 }
             }
         }.launchIn(viewModelScope)
@@ -65,15 +69,19 @@ class SignInViewModel @Inject constructor(
                     activity.supportFragmentManager.commit {
                         replace(R.id.main_fragment_container, HomeFragment())
                     }
+                    _state.value = SignInState(isLoading = false)
                 }
                 is AuthResult.Unauthorized -> {
                     Toast.makeText(context, "Unauthorized", Toast.LENGTH_SHORT).show()
+                    _state.value = SignInState(isLoading = false)
                 }
                 is AuthResult.UnknownError -> {
                     Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                    _state.value = SignInState(isLoading = false)
                 }
                 is AuthResult.WrongPassword -> {
                     Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                    _state.value = SignInState(isLoading = false)
                 }
             }
 
