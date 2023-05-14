@@ -13,7 +13,6 @@ import javax.inject.Inject
 class FetchPublicationsUseCase @Inject constructor(
     private val publicationRepository: PublicationRepository
 ) {
-
     operator fun invoke(): Flow<Resource<List<Publication>>> = flow {
         try {
             emit(Resource.Loading())
@@ -25,5 +24,4 @@ class FetchPublicationsUseCase @Inject constructor(
             emit(Resource.Error("Could not reach server. Check your internet connection!"))
         }
     }
-
 }

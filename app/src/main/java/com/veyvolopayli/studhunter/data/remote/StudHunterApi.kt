@@ -4,10 +4,9 @@ import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import com.veyvolopayli.studhunter.domain.model.responses.CheckUpdateResponse
+import okhttp3.ResponseBody
+import retrofit2.http.*
 
 interface StudHunterApi {
 
@@ -22,5 +21,12 @@ interface StudHunterApi {
 
     @GET("authenticate")
     suspend fun authenticate(@Header("Authorization") token: String)
+
+    @GET("update/check/{version}")
+    suspend fun checkUpdate(@Path("version") version: String): CheckUpdateResponse
+
+    @GET("update/download/last")
+    @Streaming
+    suspend fun downloadUpdate(): ResponseBody
 
 }

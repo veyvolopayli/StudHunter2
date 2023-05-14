@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeViewModel
 import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.common.CheckUpdateResult
 import com.veyvolopayli.studhunter.databinding.ActivityMainBinding
 import com.veyvolopayli.studhunter.presentation.start_screen.StartFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +28,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
+
+            viewModel.state.observe(this) { state ->
+
+            }
+
             binding.bottomNavBar.bottomNavLl.visibility = View.GONE
             supportFragmentManager.commit {
                 replace(binding.mainFragmentContainer.id, StartFragment())
                 addToBackStack(null)
             }
         }
-
     }
-
 }
