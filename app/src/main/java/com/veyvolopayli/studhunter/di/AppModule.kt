@@ -17,6 +17,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -37,6 +38,7 @@ object AppModule {
         return Retrofit
             .Builder()
             .baseUrl(Constants.BASE_URL)
+            .client(OkHttpClient())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(StudHunterApi::class.java)
@@ -59,17 +61,5 @@ object AppModule {
     fun providesUpdateRepository(api: StudHunterApi): UpdateRepository {
         return UpdateRepositoryImpl(api)
     }
-
-//    @Provides
-//    @Singleton
-//    fun provideSignInByEmailUseCase(authRepository: AuthRepository, prefs: SharedPreferences): SignInByEmailUseCase {
-//        return SignInByEmailUseCase(authRepository, prefs)
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun provideAuthenticateUseCase(authRepository: AuthRepository, prefs: SharedPreferences): AuthenticateUseCase {
-//        return AuthenticateUseCase(authRepository, prefs)
-//    }
 
 }

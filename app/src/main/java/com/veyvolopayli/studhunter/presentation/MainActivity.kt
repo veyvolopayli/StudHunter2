@@ -14,6 +14,7 @@ import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.CheckUpdateResult
 import com.veyvolopayli.studhunter.databinding.ActivityMainBinding
 import com.veyvolopayli.studhunter.presentation.start_screen.StartFragment
+import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,8 +30,21 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
 
-            viewModel.state.observe(this) { state ->
+            viewModel.checkUpdateResult.observe(this) { result ->
+                when (result) {
+                    is CheckUpdateResult.UpdateAvailable -> {
+                        supportFragmentManager.commit {
+                            replace(binding.mainFragmentContainer.id, UpdateAppFragment())
+                        }
+                    }
+                    is CheckUpdateResult.LastVersionInstalled -> {
+                        Toast.makeText(this, "LastVersionInstalled", Toast.LENGTH_SHORT).show()
+                    }
+                    is CheckUpdateResult.Error -> {
+                        Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
 
+                    }
+                }
             }
 
             binding.bottomNavBar.bottomNavLl.visibility = View.GONE

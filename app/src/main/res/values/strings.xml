@@ -23,4 +23,7 @@
     <string name="add">Добавить</string>
     <string name="categories">Категории</string>
     <string name="home">Главная</string>
+    <string name="download_update">Скачать обновление</string>
+    <string name="install_update">Установить обновление</string>
+    <string name="stud_hunter">StudHunter</string>
 </resources>

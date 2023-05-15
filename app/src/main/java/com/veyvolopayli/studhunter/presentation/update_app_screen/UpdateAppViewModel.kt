@@ -11,11 +11,13 @@ import com.veyvolopayli.studhunter.common.DownloadUpdateResult
 import com.veyvolopayli.studhunter.common.FileUtil
 import com.veyvolopayli.studhunter.domain.usecases.update.DownloadUpdateUseCase
 import com.veyvolopayli.studhunter.domain.usecases.update.InstallUpdateUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import java.io.File
 import javax.inject.Inject
 
+@HiltViewModel
 class UpdateAppViewModel @Inject constructor(
     private val downloadUpdateUseCase: DownloadUpdateUseCase,
 //    private val installUpdateUseCase: InstallUpdateUseCase
@@ -24,11 +26,15 @@ class UpdateAppViewModel @Inject constructor(
     private val _state = MutableLiveData(UpdateAppState())
     val state: LiveData<UpdateAppState> = _state
 
-    fun downloadUpdate(context: Context) {
+    private val _event = MutableLiveData<DownloadUpdateResult<Unit>>()
+    val event: LiveData<DownloadUpdateResult<Unit>> = _event
+
+    fun downloadUpdate(context: Context, activity: FragmentActivity) {
         downloadUpdateUseCase(context).onEach { downloadUpdateResult ->
             when (downloadUpdateResult) {
                 is DownloadUpdateResult.Downloading -> {
                     _state.value = UpdateAppState(buttonPressed = true, downloading = true)
+                    _event.value = DownloadUpdateResult.Downloading()
                 }
                 is DownloadUpdateResult.Downloaded -> {
                     _state.value = UpdateAppState(
@@ -37,9 +43,12 @@ class UpdateAppViewModel @Inject constructor(
                         downloaded = false,
                         updateAppFile = downloadUpdateResult.downloadedUpdate
                     )
+                    _event.value = DownloadUpdateResult.Downloaded()
+                    installUpdate(downloadUpdateResult.downloadedUpdate!!, activity)
                 }
                 is DownloadUpdateResult.Error -> {
                     _state.value = UpdateAppState(error = "Some unexpected error.")
+                    _event.value = DownloadUpdateResult.Error(downloadUpdateResult.message)
                 }
             }
         }.launchIn(viewModelScope)

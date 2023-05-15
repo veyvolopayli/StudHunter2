@@ -8,10 +8,12 @@ import com.veyvolopayli.studhunter.common.AuthResult
 import com.veyvolopayli.studhunter.common.CheckUpdateResult
 import com.veyvolopayli.studhunter.domain.usecases.auth.AuthenticateUseCase
 import com.veyvolopayli.studhunter.domain.usecases.update.CheckUpdateUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+@HiltViewModel
 class MainViewModel @Inject constructor(
     private val authenticateUseCase: AuthenticateUseCase,
     private val checkUpdateUseCase: CheckUpdateUseCase
@@ -20,22 +22,29 @@ class MainViewModel @Inject constructor(
     private val _state = MutableLiveData(MainState())
     val state: LiveData<MainState> = _state
 
-    val _authResult = MutableLiveData<AuthResult<Unit>>()
+    private val _authResult = MutableLiveData<AuthResult<Unit>>()
     val authResult: LiveData<AuthResult<Unit>> = _authResult
 
-    val _checkUpdateResult = MutableLiveData<CheckUpdateResult<Unit>>()
+    private val _checkUpdateResult = MutableLiveData<CheckUpdateResult<Unit>>()
     val checkUpdateResult: LiveData<CheckUpdateResult<Unit>> = _checkUpdateResult
+
+    init {
+        checkUpdate()
+    }
 
     private fun checkUpdate() {
         checkUpdateUseCase().onEach { checkUpdateResult ->
             when (checkUpdateResult) {
                 is CheckUpdateResult.UpdateAvailable -> {
                     _state.value = MainState(isLoading = false)
+                    _checkUpdateResult.value = CheckUpdateResult.UpdateAvailable()
                 }
                 is CheckUpdateResult.LastVersionInstalled -> {
+                    _checkUpdateResult.value = CheckUpdateResult.LastVersionInstalled()
                     authenticate()
                 }
                 is CheckUpdateResult.Error -> {
+                    _checkUpdateResult.value = CheckUpdateResult.Error()
                     _state.value = MainState(isLoading = false, isError = true)
                 }
             }
