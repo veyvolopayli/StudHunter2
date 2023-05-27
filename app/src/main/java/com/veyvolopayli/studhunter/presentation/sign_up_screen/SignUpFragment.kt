@@ -21,10 +21,12 @@ class SignUpFragment : Fragment() {
 
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
 
-        viewPager = binding.signUpViewPager
+        /*viewPager = binding.signUpViewPager
         val vpAdapter = SignUpViewPagerAdapter(requireActivity(), viewPager)
 
-        viewPager.adapter = vpAdapter
+        viewPager.adapter = vpAdapter*/
+
+
 
         return binding.root
     }

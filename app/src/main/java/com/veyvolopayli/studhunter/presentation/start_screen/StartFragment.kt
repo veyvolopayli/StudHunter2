@@ -1,27 +1,27 @@
 package com.veyvolopayli.studhunter.presentation.start_screen
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.commit
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.common.CheckUpdateResult
+import com.veyvolopayli.studhunter.common.fragments.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentStartBinding
-import com.veyvolopayli.studhunter.presentation.sign_in_screen.SignInFragment
-import com.veyvolopayli.studhunter.presentation.sign_up_screen.SignUpFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.veyvolopayli.studhunter.presentation.auth_screen.AuthFragment
+import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
+import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StartFragment : Fragment() {
 
     private lateinit var binding: FragmentStartBinding
-    private val signInFragment = SignInFragment()
-    private val signUpFragment = SignUpFragment()
+    private val vm: StartViewModel by viewModels()
+//    val fragmentFeatures()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,19 +29,27 @@ class StartFragment : Fragment() {
     ): View {
 
         binding = FragmentStartBinding.inflate(layoutInflater, container, false)
-        val activity = requireActivity()
 
-        binding.signUpButton.setOnClickListener {
-            activity.supportFragmentManager.commit {
-                addToBackStack(null)
-                add(R.id.main_fragment_container, signUpFragment)
-            }
-        }
-
-        binding.signInButton.setOnClickListener {
-            activity.supportFragmentManager.commit {
-                addToBackStack(null)
-                add(R.id.main_fragment_container, signInFragment)
+        vm.checkUpdateResult.observe(viewLifecycleOwner) { checkUpdateResult ->
+            when (checkUpdateResult) {
+                is CheckUpdateResult.UpdateAvailable -> {
+                    replaceFragment(
+                        container = R.id.fullscreen_main_fragment_container,
+                        newFragment = UpdateAppFragment(),
+                        addToBackStack = false
+                    )
+                }
+                is CheckUpdateResult.LastVersionInstalled -> {
+                    replaceFragment(
+                        container = R.id.main_fragment_container,
+                        newFragment = AuthFragment(),
+                        addToBackStack = false
+                    )
+                    parentFragmentManager.beginTransaction().remove(this).commit()
+                }
+                is CheckUpdateResult.Error -> {
+                    Toast.makeText(requireContext(), getString(R.string.unknown_error), Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

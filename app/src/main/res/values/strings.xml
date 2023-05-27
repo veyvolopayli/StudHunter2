@@ -26,4 +26,12 @@
     <string name="download_update">Скачать обновление</string>
     <string name="install_update">Установить обновление</string>
     <string name="stud_hunter">StudHunter</string>
+    <string name="login">Логин</string>
+    <string name="sign_in_greeting">Пожалуйста, введите логин и пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="authorization">Авторизация</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="auth_greeting">Для продолжения зарегистрируйтесь, чтобы пользоваться всеми функциями приложения.</string>
+    <string name="wrong_password">Неправильный пароль</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>
