@@ -18,8 +18,8 @@ class AuthRepositoryImpl(private val api: StudHunterApi, private val prefs: Shar
         return api.signIn(signInRequest)
     }
 
-    override suspend fun authenticate() {
-        val token = prefs.getString("jwt", null) ?: return
+    override suspend fun authenticate(token: String) {
+//        val token = prefs.getString("jwt", null) ?: return
         api.authenticate(token)
     }
 

@@ -34,4 +34,5 @@
     <string name="auth_greeting">Для продолжения зарегистрируйтесь, чтобы пользоваться всеми функциями приложения.</string>
     <string name="wrong_password">Неправильный пароль</string>
     <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="wrong_username_or_password">Неправильный логин или пароль</string>
 </resources>

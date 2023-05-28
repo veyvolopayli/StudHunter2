@@ -30,28 +30,13 @@ class AuthFragment : Fragment() {
 
         binding = FragmentAuthBinding.inflate(layoutInflater, container, false)
 
-        vm.authResult.observe(viewLifecycleOwner) { authResult ->
-            if (authResult is AuthResult.Authorized) {
-                replaceFragment(
-                    container = R.id.main_fragment_container,
-                    newFragment = HomeFragment(),
-                    addToBackStack = false
-                )
-                removeFragment(R.id.fullscreen_main_fragment_container, this)
-            }
-            if (authResult is AuthResult.UnknownError) {
-                Toast.makeText(requireContext(), "Unknown error", Toast.LENGTH_SHORT).show()
-            }
-//            else Toast.makeText(requireContext(), "Something went super wrong! АЛЯРМ", Toast.LENGTH_SHORT).show()
-        }
-
-        /*binding.signUpButton.setOnClickListener {
+        binding.signUpButton.setOnClickListener {
             replaceFragment(
                 container = R.id.main_fragment_container,
                 newFragment = SignUpFragment(),
                 addToBackStack = true
             )
-        }*/
+        }
 
         binding.signInButton.setOnClickListener {
             replaceFragment(

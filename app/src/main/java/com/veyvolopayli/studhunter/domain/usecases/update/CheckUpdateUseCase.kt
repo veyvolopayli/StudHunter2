@@ -2,17 +2,18 @@ package com.veyvolopayli.studhunter.domain.usecases.update
 
 import com.veyvolopayli.studhunter.BuildConfig
 import com.veyvolopayli.studhunter.common.CheckUpdateResult
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.domain.repository.UpdateRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.launchIn
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class CheckUpdateUseCase @Inject constructor(
     private val updateRepository: UpdateRepository
 ) {
 
-    operator fun invoke(): Flow<CheckUpdateResult<Boolean>> = flow {
+    operator fun invoke(): Flow<CheckUpdateResult<ErrorType>> = flow {
         try {
             val currentAppVersion = BuildConfig.VERSION_NAME
             val curVerIntArr = currentAppVersion.split(".").map { it.toInt() }
@@ -23,8 +24,15 @@ class CheckUpdateUseCase @Inject constructor(
             if (isUpdateExists) emit(CheckUpdateResult.UpdateAvailable())
             else emit(CheckUpdateResult.LastVersionInstalled())
 
+        } catch (e: HttpException) {
+            if (e.code() == 409) {
+                emit(CheckUpdateResult.Error(error = ErrorType.ServerError))
+            }
+            else {
+                emit(CheckUpdateResult.Error(error = ErrorType.NetworkError))
+            }
         } catch (e: Exception) {
-            emit(CheckUpdateResult.Error())
+            emit(CheckUpdateResult.Error(error = ErrorType.UnexpectedError))
         }
     }
 

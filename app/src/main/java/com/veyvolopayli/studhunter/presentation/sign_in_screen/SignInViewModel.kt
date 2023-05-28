@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.AuthResult
+import com.veyvolopayli.studhunter.common.AuthorizationResult
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.usecases.auth.AuthenticateUseCase
 import com.veyvolopayli.studhunter.domain.usecases.auth.SignInByEmailUseCase
@@ -22,30 +23,17 @@ class SignInViewModel @Inject constructor(
     private val _state = MutableLiveData(SignInState())
 //    val state: LiveData<SignInState> = _state
 
-    private val _signInResult = MutableLiveData<AuthResult<Unit>>()
-    val signInResult: LiveData<AuthResult<Unit>> = _signInResult
+    private val _signInResult = MutableLiveData<AuthorizationResult<Unit>>()
+    val signInResult: LiveData<AuthorizationResult<Unit>> = _signInResult
 
     fun signIn(signInRequest: SignInRequest) {
         signInByEmailUseCase(signInRequest).onEach { result ->
-
-            when (result) {
-                is AuthResult.Loading -> {
-                    _signInResult.value = AuthResult.Loading()
-                }
-                is AuthResult.Authorized -> {
-                    _signInResult.value = AuthResult.Authorized()
-                }
-                is AuthResult.Unauthorized -> {
-                    _signInResult.value = AuthResult.Unauthorized()
-                }
-                is AuthResult.UnknownError -> {
-                    _signInResult.value = AuthResult.UnknownError()
-                }
-                is AuthResult.WrongPassword -> {
-                    _signInResult.value = AuthResult.WrongPassword()
-                }
+            _signInResult.value = when (result) {
+                is AuthorizationResult.Authorized -> AuthorizationResult.Authorized()
+                is AuthorizationResult.WrongData -> AuthorizationResult.WrongData()
+                is AuthorizationResult.UnknownError -> AuthorizationResult.UnknownError()
+                is AuthorizationResult.Error -> AuthorizationResult.UnknownError()
             }
-
         }.launchIn(viewModelScope)
     }
 

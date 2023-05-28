@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.AuthResult
+import com.veyvolopayli.studhunter.common.AuthorizationResult
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.fragments.removeFragment
 import com.veyvolopayli.studhunter.common.fragments.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSignInBinding
@@ -31,26 +33,35 @@ class SignInFragment : Fragment() {
 
         vm.signInResult.observe(viewLifecycleOwner) { signInResult ->
             when (signInResult) {
-                is AuthResult.Loading -> {
-                    loadingLayoutVisibility(true, binding.loadingLayout.root)
-                }
-                is AuthResult.Authorized -> {
+                is AuthorizationResult.Authorized -> {
                     loadingLayoutVisibility(false, binding.loadingLayout.root)
                     replaceFragment(R.id.main_fragment_container, HomeFragment(), false)
-                    removeFragment(R.id.fullscreen_main_fragment_container, this)
+                    removeFragment(R.id.main_fragment_container, this)
                 }
-                is AuthResult.Unauthorized -> {
-                    loadingLayoutVisibility(false, binding.loadingLayout.root)
-                }
-                is AuthResult.UnknownError -> {
-                    loadingLayoutVisibility(false, binding.loadingLayout.root)
-                    toast(getString(R.string.unknown_error))
-                }
-                is AuthResult.WrongPassword -> {
-                    loadingLayoutVisibility(false, binding.loadingLayout.root)
-                    toast(getString(R.string.wrong_password))
-                }
+                is AuthorizationResult.Error -> {
+                    when (signInResult.error) {
+                        is ErrorType.ServerError -> {
 
+                        }
+                        is ErrorType.NetworkError -> {
+
+                        }
+                        is ErrorType.UnexpectedError -> {
+                            toast(getString(R.string.unknown_error))
+                        }
+                        else -> {
+
+                        }
+                    }
+                    loadingLayoutVisibility(false, binding.loadingLayout.root)
+                }
+                is AuthorizationResult.WrongData -> {
+                    loadingLayoutVisibility(false, binding.loadingLayout.root)
+                    toast(getString(R.string.wrong_username_or_password))
+                }
+                is AuthorizationResult.UnknownError -> {
+
+                }
             }
         }
 

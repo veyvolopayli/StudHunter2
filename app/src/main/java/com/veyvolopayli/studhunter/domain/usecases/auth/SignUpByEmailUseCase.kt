@@ -2,7 +2,8 @@ package com.veyvolopayli.studhunter.domain.usecases.auth
 
 import android.content.SharedPreferences
 import com.veyvolopayli.studhunter.common.AuthResult
-import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
+import com.veyvolopayli.studhunter.common.AuthorizationResult
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
@@ -15,19 +16,20 @@ class SignUpByEmailUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val prefs: SharedPreferences
 ) {
-    operator fun invoke(signUpRequest: SignUpRequest): Flow<AuthResult<AuthResponse>> = flow {
+    operator fun invoke(signUpRequest: SignUpRequest): Flow<AuthorizationResult<AuthResponse>> = flow {
         try {
             val response = authRepository.signUp(signUpRequest)
             prefs.edit().putString("jwt", "Bearer ${response.token}").apply()
-            emit(AuthResult.Authorized(data = response))
+            emit(AuthorizationResult.Authorized())
         } catch (e: HttpException) {
-            if (e.code() == 401) {
-                emit(AuthResult.Unauthorized())
-            } else {
-                emit(AuthResult.UnknownError())
+            if (e.code() == 409) {
+                emit(AuthorizationResult.WrongData())
+            }
+            else {
+                emit(AuthorizationResult.Error(ErrorType.NetworkError))
             }
         } catch (e: Exception) {
-            emit(AuthResult.UnknownError())
+            emit(AuthorizationResult.Error(ErrorType.UnexpectedError))
         }
     }
 }

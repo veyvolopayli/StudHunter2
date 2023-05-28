@@ -1,10 +1,9 @@
 package com.veyvolopayli.studhunter.domain.usecases.auth
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import com.veyvolopayli.studhunter.common.AuthResult
-import com.veyvolopayli.studhunter.data.remote.StudHunterApi
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,28 +15,26 @@ class AuthenticateUseCase @Inject constructor(
     private val prefs: SharedPreferences
 ) {
     operator fun invoke(): Flow<AuthResult<Unit>> = flow {
-        Log.e("PREFS", prefs.getString("jwt", null) ?: "null")
 
         try {
             val token = prefs.getString("jwt", null) ?: run {
-                Log.e("prefs", "null")
                 emit(AuthResult.Unauthorized())
                 return@flow
             }
-            Log.e("prefs", token)
-            repository.authenticate()
+            repository.authenticate(token)
             emit(AuthResult.Authorized())
         } catch (e: HttpException) {
             if (e.code() == 401) {
-                Log.e("prefs", "null")
-                emit(AuthResult.Unauthorized())
-            } else {
-                Log.e("prefs", "null")
                 emit(AuthResult.Unauthorized())
             }
+            else if (e.code() == 409) {
+                emit(AuthResult.Error(ErrorType.ServerError))
+            }
+            else {
+                emit(AuthResult.Error(ErrorType.NetworkError))
+            }
         } catch (e: Exception) {
-            Log.e("prefs", "null")
-            emit(AuthResult.UnknownError())
+            emit(AuthResult.Error(ErrorType.UnexpectedError))
         }
     }
 }
