@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     * Если Activity запустилась в первый раз, должно быть проверено наличие обновления,
     * если обновление есть, то навигация на экран обновления без авторизации, иначе запуск юзкейса
     * для проверки авторизации и последующая навигация
+    *
+    * Bottom bar должен принимать состояние видимого только после навигации на HomeScreen
     * */
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +71,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     is LaunchAppResult.Ok -> {
                         // navigate to home screen
+                        vm.showBottomBar()
                         showFragment(binding.mainFragmentContainer.id, HomeFragment(), false)
                     }
                 }
@@ -81,13 +84,6 @@ class MainActivity : AppCompatActivity() {
             vm.isBottomBarVisible.collect { isVisible ->
                 binding.bottomNavBar.root.visibility = if (isVisible) View.VISIBLE else View.GONE
             }
-        }
-
-        if (supportFragmentManager.findFragmentById(HomeFragment().id) != null) {
-            vm.showBottomBar()
-            Toast.makeText(this, "!= null", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "== null", Toast.LENGTH_SHORT).show()
         }
     }
 }

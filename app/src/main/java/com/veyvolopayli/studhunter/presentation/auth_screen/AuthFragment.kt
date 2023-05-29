@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.base.BaseFragment
 import com.veyvolopayli.studhunter.common.AuthResult
 import com.veyvolopayli.studhunter.common.fragments.removeFragment
 import com.veyvolopayli.studhunter.common.fragments.replaceFragment

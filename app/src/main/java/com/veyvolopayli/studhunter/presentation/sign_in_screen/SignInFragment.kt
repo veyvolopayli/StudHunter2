@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.base.BaseFragment
 import com.veyvolopayli.studhunter.common.AuthResult
 import com.veyvolopayli.studhunter.common.AuthorizationResult
 import com.veyvolopayli.studhunter.common.ErrorType
@@ -17,26 +19,26 @@ import com.veyvolopayli.studhunter.common.fragments.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSignInBinding
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
+import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignInFragment : Fragment() {
+class SignInFragment : BaseFragment<FragmentSignInBinding>(
+    FragmentSignInBinding::inflate
+) {
 
-    private lateinit var binding: FragmentSignInBinding
     private val vm: SignInViewModel by viewModels()
+    private val mainVm: MainViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSignInBinding.inflate(layoutInflater)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         vm.signInResult.observe(viewLifecycleOwner) { signInResult ->
             when (signInResult) {
                 is AuthorizationResult.Authorized -> {
                     loadingLayoutVisibility(false, binding.loadingLayout.root)
                     replaceFragment(R.id.main_fragment_container, HomeFragment(), false)
-                    removeFragment(R.id.main_fragment_container, this)
+                    mainVm.launchAppOk()
                 }
                 is AuthorizationResult.Error -> {
                     when (signInResult.error) {
@@ -73,8 +75,6 @@ class SignInFragment : Fragment() {
 
             vm.signIn(signInRequest)
         }
-
-        return binding.root
     }
 
     private fun loadingLayoutVisibility(loading: Boolean, view: FrameLayout) {

@@ -22,8 +22,10 @@ class SignUpFragment : Fragment() {
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
 
         if (savedInstanceState == null) {
-            replaceFragment(binding.signUpFragmentContainer.id, FirstSignUpFragment(), true)
+            replaceFragment(binding.signUpFragmentContainer.id, FirstSignUpFragment(), false)
         }
+
+
 
         return binding.root
     }

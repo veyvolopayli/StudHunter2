@@ -74,4 +74,8 @@ class MainViewModel @Inject constructor(
         _isBottomBarVisible.value = true
     }
 
+    fun launchAppOk() {
+        _launchAppResult.value = LaunchAppResult.Ok()
+    }
+
 }
