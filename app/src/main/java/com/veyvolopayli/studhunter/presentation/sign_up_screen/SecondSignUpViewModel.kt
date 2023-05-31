@@ -1,40 +1,42 @@
 package com.veyvolopayli.studhunter.presentation.sign_up_screen
 
-import android.content.Context
-import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.commit
-import androidx.lifecycle.*
-import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.common.AuthResult
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.AuthorizationResult
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.usecases.auth.SignUpByEmailUseCase
-import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import javax.inject.Inject
 
-class SIgnUpViewModel @Inject constructor(
+@HiltViewModel
+class SecondSignUpViewModel(
     private val signUpByEmailUseCase: SignUpByEmailUseCase
 ) : ViewModel() {
 
-    var username: String = ""
-    var password: String = ""
-    var email: String = ""
-    var name: String = ""
-    var surname: String = ""
-    var university: String = ""
+    private val _signUpState = MutableLiveData(SignUpState())
+    val signUpState: LiveData<SignUpState> = _signUpState
 
-    /*private val _signUpState = MutableLiveData(SignUpState())
-    val state: LiveData<SignUpState> = _signUpState
-
-    *//*private val _stateFlow = MutableStateFlow(SignUpState())
-    val stateFlow = _state.asFlow()*//*
+    private val _signUpSecondState = MutableLiveData(SignUpSecondState())
+    val signUpSecondState: LiveData<SignUpSecondState> = _signUpSecondState
 
     private val _signUpResult = MutableLiveData<AuthorizationResult<Unit>>()
     val signUpResult: LiveData<AuthorizationResult<Unit>> = _signUpResult
+
+    init {
+
+    }
+
+    fun cacheNecessaryData(necessarySignUpData: NecessarySignUpData) {
+        _signUpState.value = SignUpState(
+            username = necessarySignUpData.username ?: "",
+            password = necessarySignUpData.password ?: "",
+            email = necessarySignUpData.email ?: ""
+        )
+    }
 
     fun signUp(signUpRequest: SignUpRequest) {
         signUpByEmailUseCase(signUpRequest).onEach { result ->
@@ -45,6 +47,6 @@ class SIgnUpViewModel @Inject constructor(
                 is AuthorizationResult.Error -> AuthorizationResult.UnknownError()
             }
         }.launchIn(viewModelScope)
-    }*/
+    }
 
 }

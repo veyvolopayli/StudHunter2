@@ -29,4 +29,10 @@ interface StudHunterApi {
     @Streaming
     suspend fun downloadUpdate(): ResponseBody
 
+    @GET("user/")
+    suspend fun isUsernameUnique(username: String): Boolean
+
+    @GET("")
+    suspend fun isEmailUnique(email:String): Boolean
+
 }

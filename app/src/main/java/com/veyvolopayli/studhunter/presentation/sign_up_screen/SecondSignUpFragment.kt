@@ -5,21 +5,38 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.base.BaseFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSecondSignUpBinding
+import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
+import dagger.hilt.android.AndroidEntryPoint
 
-class SecondSignUpFragment : Fragment() {
+@AndroidEntryPoint
+class SecondSignUpFragment(
+    private val necessarySignUpData: NecessarySignUpData
+    ) : BaseFragment<FragmentSecondSignUpBinding>(FragmentSecondSignUpBinding::inflate)
+{
+    private val vm: SecondSignUpViewModel by viewModels()
 
-    private lateinit var binding: FragmentSecondSignUpBinding
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        vm.cacheNecessaryData(necessarySignUpData)
+        val (username, password, email) = necessarySignUpData
 
-        binding = FragmentSecondSignUpBinding.inflate(layoutInflater, container, false)
+        var name = ""
+        var surname = ""
+        var university = ""
 
-        return binding.root
+        binding.continueButton.setOnClickListener {
+            name = binding.name.toString().trim()
+            surname = binding.surname.toString().trim()
+            university = binding.university.toString().trim()
+
+//            val signUpRequest = SignUpRequest(
+////                username = username, password = password,
+//            )
+        }
     }
-
 }

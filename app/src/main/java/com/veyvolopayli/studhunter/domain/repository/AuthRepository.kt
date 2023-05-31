@@ -9,4 +9,6 @@ interface AuthRepository {
     suspend fun signUp(signUpRequest: SignUpRequest): AuthResponse
     suspend fun signIn(signInRequest: SignInRequest): AuthResponse
     suspend fun authenticate(token: String)
+    suspend fun isUsernameUnique(username: String): Boolean
+    suspend fun isEmailUnique(email: String): Boolean
 }
