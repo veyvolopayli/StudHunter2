@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.viewpager2.widget.ViewPager2
-import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.common.fragments.replaceFragment
+import com.veyvolopayli.studhunter.common.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {

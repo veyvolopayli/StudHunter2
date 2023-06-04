@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/item_constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/on_background"
+        android:layout_marginHorizontal="8dp"
+        app:cardCornerRadius="16dp"
+        android:layout_marginTop="4dp"
+        app:cardElevation="0dp"
+        android:layout_marginBottom="12dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/item_top_image"
+                android:layout_width="match_parent"
+                android:layout_height="172dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius_top_left="16dp"
+                app:riv_corner_radius_top_right="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_top_image">
+                <!--android:background="?android:attr/selectableItemBackground"-->
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/price_main_item_tv"
+                        style="@style/GilroyFontThemeSemibold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="100 Р"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_16px"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/title_main_item_tv"
+                        style="@style/GilroyFontThemeMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Наименование услуги"
+                        android:minLines="1"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_16px" />
+
+                    <TextView
+                        android:id="@+id/subtitle_main_item_tv"
+                        style="@style/GilroyFontTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="Описание услуги"
+                        android:minLines="2"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_14px" />
+
+                    <!--<View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />-->
+
+                    <TextView
+                        android:id="@+id/rating_main_item_tv"
+                        style="@style/GilroyFontTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Нет рейтинга"
+                        android:textColor="@color/grey"
+                        android:visibility="gone"
+                        android:textSize="@dimen/text_12px" />
+
+                    <!--<View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />-->
+
+                    <TextView
+                        android:id="@+id/time_main_item_tv"
+                        style="@style/GilroyFontTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Время"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/text_12px" />
+
+
+                </LinearLayout>
+
+                <!--<View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />-->
+
+                <TextView
+                    android:id="@+id/category_main_items_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginVertical="5dp"
+                    android:fontFamily="@font/gilroy_regular"
+                    android:text="0"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!--<Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp" />-->
+
+</LinearLayout>

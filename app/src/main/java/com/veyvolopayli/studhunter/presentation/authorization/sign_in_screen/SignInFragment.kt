@@ -10,7 +10,7 @@ import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.base.BaseFragment
 import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
 import com.veyvolopayli.studhunter.common.ErrorType
-import com.veyvolopayli.studhunter.common.fragments.replaceFragment
+import com.veyvolopayli.studhunter.common.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSignInBinding
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment

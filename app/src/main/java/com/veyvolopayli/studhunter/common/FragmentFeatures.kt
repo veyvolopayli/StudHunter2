@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.common.fragments
+package com.veyvolopayli.studhunter.common
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

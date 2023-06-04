@@ -7,8 +7,10 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.ErrorType
-import com.veyvolopayli.studhunter.common.fragments.showFragment
+import com.veyvolopayli.studhunter.common.replaceFragment
+import com.veyvolopayli.studhunter.common.showFragment
 import com.veyvolopayli.studhunter.databinding.ActivityMainBinding
 import com.veyvolopayli.studhunter.presentation.auth_screen.AuthFragment
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
@@ -21,14 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val vm: MainViewModel by viewModels()
-
-    /*
-    * Если Activity запустилась в первый раз, должно быть проверено наличие обновления,
-    * если обновление есть, то навигация на экран обновления без авторизации, иначе запуск юзкейса
-    * для проверки авторизации и последующая навигация
-    *
-    * Bottom bar должен принимать состояние видимого только после навигации на HomeScreen
-    * */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                     is LaunchAppResult.Ok -> {
                         // navigate to home screen
                         vm.showBottomBar()
-//                        showFragment(binding.mainFragmentContainer.id, HomeFragment(), false)
+                        replaceFragment(R.id.main_fragment_container, HomeFragment(), false)
                     }
                 }
 

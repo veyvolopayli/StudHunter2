@@ -26,6 +26,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+/*    @Provides
+    fun providesApplication(app: Application): Application {
+        return app
+    }*/
+
     @Provides
     @Singleton
     fun providePublicationRepository(api: StudHunterApi): PublicationRepository {

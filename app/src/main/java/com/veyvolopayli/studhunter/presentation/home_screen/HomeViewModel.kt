@@ -1,9 +1,11 @@
 package com.veyvolopayli.studhunter.presentation.home_screen
 
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.veyvolopayli.studhunter.Application
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.domain.usecases.get_publications.FetchPublicationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +21,9 @@ class HomeViewModel @Inject constructor(
     private val _state = MutableLiveData(HomeState())
     val state: LiveData<HomeState> = _state
 
+    private val _event = MutableLiveData<HomeEvent>(HomeEvent.Loading)
+    val event: LiveData<HomeEvent> = _event
+
     init {
         fetchPublications()
     }
@@ -28,14 +33,17 @@ class HomeViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     _state.value = HomeState(publications = result.data ?: emptyList())
+                    _event.value = HomeEvent.Success
                 }
                 is Resource.Error -> {
                     _state.value = HomeState(
                         error = result.message ?: "Unexpected error"
                     )
+                    _event.value = HomeEvent.Error
                 }
                 is Resource.Loading -> {
                     _state.value = HomeState(isLoading = true)
+                    _event.value = HomeEvent.Loading
                 }
             }
         }.launchIn(viewModelScope)

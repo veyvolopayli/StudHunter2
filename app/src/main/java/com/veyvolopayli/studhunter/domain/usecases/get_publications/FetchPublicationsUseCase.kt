@@ -15,7 +15,7 @@ class FetchPublicationsUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<Resource<List<Publication>>> = flow {
         try {
-            emit(Resource.Loading())
+//            emit(Resource.Loading())
             val publications = publicationRepository.fetchPublications().map { it.toPublication() }
             emit(Resource.Success(publications))
         } catch (e: HttpException) {
