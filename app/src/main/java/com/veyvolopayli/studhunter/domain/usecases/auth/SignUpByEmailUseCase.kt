@@ -1,8 +1,7 @@
 package com.veyvolopayli.studhunter.domain.usecases.auth
 
 import android.content.SharedPreferences
-import com.veyvolopayli.studhunter.common.AuthResult
-import com.veyvolopayli.studhunter.common.AuthorizationResult
+import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
@@ -19,7 +18,7 @@ class SignUpByEmailUseCase @Inject constructor(
     operator fun invoke(signUpRequest: SignUpRequest): Flow<AuthorizationResult<AuthResponse>> = flow {
         try {
             val response = authRepository.signUp(signUpRequest)
-            prefs.edit().putString("jwt", "Bearer ${response.token}").apply()
+            prefs.edit().putString("jwt", "Bearer ${response.body()!!.token}").apply()
             emit(AuthorizationResult.Authorized())
         } catch (e: HttpException) {
             if (e.code() == 409) {

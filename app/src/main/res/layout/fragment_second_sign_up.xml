@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
-    tools:context=".presentation.sign_up_screen.SecondSignUpFragment">
+    tools:context=".presentation.authorization.sign_up_screen.SecondSignUpFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name"
-                android:inputType="text"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+                android:inputType="text|textFilter"
                 android:textSize="@dimen/text_16px" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -58,7 +59,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/surname"
-                android:inputType="text"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+                android:inputType="text|textFilter"
                 android:textSize="@dimen/text_16px" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -78,7 +80,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/university"
-                android:inputType="text"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+                android:inputType="text|textFilter"
                 android:textSize="@dimen/text_16px" />
 
         </com.google.android.material.textfield.TextInputLayout>

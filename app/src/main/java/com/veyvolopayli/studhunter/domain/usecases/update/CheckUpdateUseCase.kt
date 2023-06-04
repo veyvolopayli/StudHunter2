@@ -1,7 +1,7 @@
 package com.veyvolopayli.studhunter.domain.usecases.update
 
 import com.veyvolopayli.studhunter.BuildConfig
-import com.veyvolopayli.studhunter.common.CheckUpdateResult
+import com.veyvolopayli.studhunter.presentation.main.CheckUpdateResult
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.domain.repository.UpdateRepository
 import kotlinx.coroutines.flow.Flow

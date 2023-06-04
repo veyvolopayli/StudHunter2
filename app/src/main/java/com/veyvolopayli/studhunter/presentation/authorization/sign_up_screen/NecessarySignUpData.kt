@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.presentation.sign_up_screen
+package com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen
 
 data class NecessarySignUpData(
     val username: String?,

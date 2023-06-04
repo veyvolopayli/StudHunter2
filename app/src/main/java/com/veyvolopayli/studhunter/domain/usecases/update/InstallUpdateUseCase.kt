@@ -1,11 +1,9 @@
 package com.veyvolopayli.studhunter.domain.usecases.update
 
-import android.content.Context
 import android.content.Intent
-import android.os.Environment
 import androidx.fragment.app.FragmentActivity
 import com.veyvolopayli.studhunter.common.FileUtil.uriFromFile
-import com.veyvolopayli.studhunter.common.InstallUpdateResult
+import com.veyvolopayli.studhunter.presentation.update_app_screen.InstallUpdateResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File

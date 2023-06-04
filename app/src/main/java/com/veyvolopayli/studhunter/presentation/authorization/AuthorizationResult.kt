@@ -1,4 +1,6 @@
-package com.veyvolopayli.studhunter.common
+package com.veyvolopayli.studhunter.presentation.authorization
+
+import com.veyvolopayli.studhunter.common.ErrorType
 
 sealed class AuthorizationResult<T>(val data: T? = null, val error: ErrorType? = null) {
     class Authorized<T>(data: T? = null): AuthorizationResult<T>(data = data)

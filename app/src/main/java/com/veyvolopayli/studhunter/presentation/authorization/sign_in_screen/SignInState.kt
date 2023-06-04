@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.presentation.sign_in_screen
+package com.veyvolopayli.studhunter.presentation.authorization.sign_in_screen
 
 data class SignInState(
     val username: String = "",

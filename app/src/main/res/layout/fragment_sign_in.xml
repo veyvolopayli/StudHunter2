@@ -7,7 +7,7 @@
     android:focusable="true"
     android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.sign_in_screen.SignInFragment">
+    tools:context=".presentation.authorization.sign_in_screen.SignInFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -84,7 +84,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/login"
                     android:textSize="@dimen/text_16px"
-                    android:inputType="text" />
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&amp;*()_+-=\|/"
+                    android:inputType="text|textFilter" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,7 +106,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
                     android:textSize="@dimen/text_16px"
-                    android:inputType="textPassword" />
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&amp;*()_+-=\|/"
+                    android:inputType="textPassword|textFilter" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

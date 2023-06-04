@@ -2,10 +2,7 @@ package com.veyvolopayli.studhunter.domain.usecases.update
 
 import android.content.Context
 import android.os.Environment
-import android.util.Log
-import com.veyvolopayli.studhunter.BuildConfig
-import com.veyvolopayli.studhunter.common.CheckUpdateResult
-import com.veyvolopayli.studhunter.common.DownloadUpdateResult
+import com.veyvolopayli.studhunter.presentation.update_app_screen.DownloadUpdateResult
 import com.veyvolopayli.studhunter.domain.repository.UpdateRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

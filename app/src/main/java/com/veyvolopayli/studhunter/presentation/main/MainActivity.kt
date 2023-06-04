@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                     is LaunchAppResult.Ok -> {
                         // navigate to home screen
                         vm.showBottomBar()
-                        showFragment(binding.mainFragmentContainer.id, HomeFragment(), false)
+//                        showFragment(binding.mainFragmentContainer.id, HomeFragment(), false)
                     }
                 }
 

@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.common
+package com.veyvolopayli.studhunter.presentation.main
 
 sealed class MainNavigationDestination {
     object Home : MainNavigationDestination()

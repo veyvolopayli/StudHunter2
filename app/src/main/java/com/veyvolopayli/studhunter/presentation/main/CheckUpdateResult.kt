@@ -1,4 +1,6 @@
-package com.veyvolopayli.studhunter.common
+package com.veyvolopayli.studhunter.presentation.main
+
+import com.veyvolopayli.studhunter.common.ErrorType
 
 sealed class CheckUpdateResult<T>(val error: ErrorType? = null) {
     class UpdateAvailable<T>: CheckUpdateResult<T>()

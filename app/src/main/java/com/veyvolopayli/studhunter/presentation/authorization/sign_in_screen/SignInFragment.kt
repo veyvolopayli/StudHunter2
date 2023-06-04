@@ -1,20 +1,15 @@
-package com.veyvolopayli.studhunter.presentation.sign_in_screen
+package com.veyvolopayli.studhunter.presentation.authorization.sign_in_screen
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.base.BaseFragment
-import com.veyvolopayli.studhunter.common.AuthResult
-import com.veyvolopayli.studhunter.common.AuthorizationResult
+import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
 import com.veyvolopayli.studhunter.common.ErrorType
-import com.veyvolopayli.studhunter.common.fragments.removeFragment
 import com.veyvolopayli.studhunter.common.fragments.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSignInBinding
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
@@ -75,7 +70,13 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
 
             vm.signIn(signInRequest)
         }
+
+        binding.signInFragmentBackIv.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
     }
+
+
 
     private fun loadingLayoutVisibility(loading: Boolean, view: FrameLayout) {
         view.visibility = if (loading) View.VISIBLE else View.GONE

@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.common
+package com.veyvolopayli.studhunter.presentation.update_app_screen
 
 import java.io.File
 

@@ -1,8 +1,7 @@
 package com.veyvolopayli.studhunter.domain.usecases.auth
 
 import android.content.SharedPreferences
-import android.util.Log
-import com.veyvolopayli.studhunter.common.AuthResult
+import com.veyvolopayli.studhunter.presentation.main.AuthResult
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow

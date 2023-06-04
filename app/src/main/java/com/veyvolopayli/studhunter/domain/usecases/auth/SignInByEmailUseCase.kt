@@ -1,9 +1,7 @@
 package com.veyvolopayli.studhunter.domain.usecases.auth
 
 import android.content.SharedPreferences
-import android.util.Log
-import com.veyvolopayli.studhunter.common.AuthResult
-import com.veyvolopayli.studhunter.common.AuthorizationResult
+import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse

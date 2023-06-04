@@ -1,10 +1,11 @@
-package com.veyvolopayli.studhunter.presentation.sign_up_screen
+package com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.viewpager2.widget.ViewPager2
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.fragments.replaceFragment
@@ -25,7 +26,9 @@ class SignUpFragment : Fragment() {
             replaceFragment(binding.signUpFragmentContainer.id, FirstSignUpFragment(), false)
         }
 
-
+        binding.backIv.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
 
         return binding.root
     }

@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.presentation.sign_up_screen
+package com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen
 
 data class SignUpState(
     val username: String = "",
@@ -6,7 +6,5 @@ data class SignUpState(
     val email: String = "",
     val name: String = "",
     val surname: String? = null,
-    val university: String? = null,
-    val isLoading: Boolean = false,
-    val error: String = ""
+    val university: String? = null
 )

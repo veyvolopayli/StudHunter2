@@ -23,19 +23,19 @@
 
     <fragment
         android:id="@+id/sign_in_fragment"
-        android:name="com.veyvolopayli.studhunter.presentation.sign_in_screen.SignInFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_in_screen.SignInFragment"
         android:label="SignIn"
         tools:layout="@layout/fragment_sign_in" />
 
     <fragment
         android:id="@+id/pre_sign_up_fragment"
-        android:name="com.veyvolopayli.studhunter.presentation.sign_up_screen.FirstSignUpFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.FirstSignUpFragment"
         android:label="PreSignUp"
         tools:layout="@layout/fragment_first_sign_up" />
 
     <fragment
         android:id="@+id/sign_up_fragment"
-        android:name="com.veyvolopayli.studhunter.presentation.sign_up_screen.SignUpFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.SignUpFragment"
         android:label="SignUp"
         tools:layout="@layout/fragment_sign_up" />
 

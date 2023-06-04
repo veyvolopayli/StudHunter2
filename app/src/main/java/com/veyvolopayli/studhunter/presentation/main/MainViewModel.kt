@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.veyvolopayli.studhunter.common.AuthResult
-import com.veyvolopayli.studhunter.common.CheckUpdateResult
 import com.veyvolopayli.studhunter.domain.usecases.auth.AuthenticateUseCase
 import com.veyvolopayli.studhunter.domain.usecases.update.CheckUpdateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

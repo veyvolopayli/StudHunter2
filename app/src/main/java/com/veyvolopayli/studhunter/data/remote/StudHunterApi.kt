@@ -6,6 +6,7 @@ import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
 import com.veyvolopayli.studhunter.domain.model.responses.CheckUpdateResponse
 import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.*
 
 interface StudHunterApi {
@@ -17,7 +18,7 @@ interface StudHunterApi {
     suspend fun signIn(@Body signInRequest: SignInRequest): AuthResponse
 
     @POST("signup")
-    suspend fun signUp(@Body signUpRequest: SignUpRequest) : AuthResponse
+    suspend fun signUp(@Body signUpRequest: SignUpRequest) : Response<AuthResponse>
 
     @GET("authenticate")
     suspend fun authenticate(@Header("Authorization") token: String)

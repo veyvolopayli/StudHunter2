@@ -4,25 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.base.BaseFragment
-import com.veyvolopayli.studhunter.common.AuthResult
-import com.veyvolopayli.studhunter.common.fragments.removeFragment
 import com.veyvolopayli.studhunter.common.fragments.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentAuthBinding
-import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
-import com.veyvolopayli.studhunter.presentation.sign_in_screen.SignInFragment
-import com.veyvolopayli.studhunter.presentation.sign_up_screen.SignUpFragment
-import dagger.hilt.android.AndroidEntryPoint
+import com.veyvolopayli.studhunter.presentation.authorization.sign_in_screen.SignInFragment
+import com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.SignUpFragment
 
-@AndroidEntryPoint
 class AuthFragment : Fragment() {
 
     private lateinit var binding: FragmentAuthBinding
-    private val vm: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

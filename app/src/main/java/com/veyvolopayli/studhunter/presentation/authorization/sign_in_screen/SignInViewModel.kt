@@ -1,11 +1,10 @@
-package com.veyvolopayli.studhunter.presentation.sign_in_screen
+package com.veyvolopayli.studhunter.presentation.authorization.sign_in_screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.veyvolopayli.studhunter.common.AuthResult
-import com.veyvolopayli.studhunter.common.AuthorizationResult
+import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.usecases.auth.AuthenticateUseCase
 import com.veyvolopayli.studhunter.domain.usecases.auth.SignInByEmailUseCase

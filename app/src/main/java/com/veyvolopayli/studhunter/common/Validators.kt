@@ -16,8 +16,8 @@ fun String.passwordIsValid(): Boolean {
 
 fun String.usernameIsValid(): Boolean {
     if (this.length < 4) return false
-    return this.all { it in alphabetEN || it.digitToInt() in numbers }
+    return this.lowercase().all { it in alphabetEN || it.digitToInt() in numbers }
 }
 
 fun String.nameOrSurnameIsValid(): Boolean =
-    (this.length >= 2 && this.all { it in alphabetRU || it in alphabetEN })
+    (this.length >= 2 && this.lowercase().all { it in alphabetRU || it in alphabetEN })
