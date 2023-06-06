@@ -9,18 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.veyvolopayli.studhunter.databinding.FragmentHomeBinding
-import com.veyvolopayli.studhunter.presentation.home_screen.delete.TempHomeRvAdapter
-import com.veyvolopayli.studhunter.presentation.home_screen.delete.TempMainViewModel
+import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var binding: FragmentHomeBinding? = null
-    private val viewModel: TempMainViewModel by viewModels()
-
-    init {
-        Log.e("init", "reached")
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,20 +24,16 @@ class HomeFragment : Fragment() {
         val binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         this.binding = binding
 
-        Log.e("onCreateView", "reached")
 
         binding.rvHome.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        viewModel.state.observe(viewLifecycleOwner) { users ->
-//            Toast.makeText(requireContext(), "t", Toast.LENGTH_SHORT).show()
-//            val publications =
-            Log.e("observe", "reached")
-            val publicationsAdapter = TempHomeRvAdapter()
-            publicationsAdapter.setData(users)
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            val publicationsAdapter = HomeRvAdapter()
+            publicationsAdapter.setData(state.publications)
             binding.rvHome.adapter = publicationsAdapter
         }
 
-        /*viewModel.event.observe(viewLifecycleOwner) { homeEvent ->
+        viewModel.event.observe(viewLifecycleOwner) { homeEvent ->
             when (homeEvent) {
                 is HomeEvent.Loading -> {
                     binding.loadingLayout.root.visibility = View.VISIBLE
@@ -56,7 +47,7 @@ class HomeFragment : Fragment() {
                     binding.loadingLayout.root.visibility = View.VISIBLE
                 }
             }
-        }*/
+        }
 
         return binding.root
     }

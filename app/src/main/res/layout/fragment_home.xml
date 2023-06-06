@@ -52,50 +52,22 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_home"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll">
+        app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll"
+        tools:listitem="@layout/item_main" />
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="16dp"
-                    tools:listitem="@layout/item_main" />
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
-
-        <include
-            android:id="@+id/loading_layout"
-            layout="@layout/transparent_loading_layout"
-            android:visibility="gone" />
-
-        <!--<include
-            android:id="@+id/leave_review_prompt_home"
-            layout="@layout/leave_review_prompt"
-            android:visibility="gone"/>-->
-
-    </FrameLayout>
+    <include
+        android:id="@+id/loading_layout"
+        layout="@layout/transparent_loading_layout"
+        android:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
