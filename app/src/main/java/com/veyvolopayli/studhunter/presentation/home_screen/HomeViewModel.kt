@@ -1,11 +1,10 @@
 package com.veyvolopayli.studhunter.presentation.home_screen
 
-import androidx.lifecycle.AndroidViewModel
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.veyvolopayli.studhunter.Application
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.domain.usecases.get_publications.FetchPublicationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +22,9 @@ class HomeViewModel @Inject constructor(
 
     private val _event = MutableLiveData<HomeEvent>(HomeEvent.Loading)
     val event: LiveData<HomeEvent> = _event
+
+//    private var _recyclerState: Parcelable? = null
+//    val recyclerState = _recyclerState
 
     init {
         fetchPublications()
@@ -48,4 +50,8 @@ class HomeViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
+
+    /*fun saveRecyclerState(state: Parcelable?) {
+        _recyclerState = state
+    }*/
 }

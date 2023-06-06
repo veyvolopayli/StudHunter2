@@ -1,107 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     tools:context=".presentation.home_screen.HomeFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/home_fragment_toolbar_ll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="64dp"
+        android:background="@drawable/background_topbar"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/home_fragment_toolbar_ll"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@drawable/background_topbar"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/home_search_tv"
-                style="@style/GilroyFontTheme"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="20dp"
-                android:layout_weight="1"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:background="@drawable/background_search_outlined"
-                android:gravity="center_vertical"
-                android:drawablePadding="8dp"
-                android:hint="Напишите что-нибудь"
-                android:padding="8dp"
-                android:paddingVertical="1dp"
-                android:textColorHint="@color/tertiary"
-                android:textCursorDrawable="@drawable/cursor_drawable"
-                android:textSize="@dimen/text_12px"
-                tools:ignore="TouchTargetSizeCheck"
-                app:drawableStartCompat="@drawable/ic_search"
-                app:drawableTint="@color/tertiary" />
-
-            <ImageView
-                android:id="@+id/home_toolbar_filter_iv"
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_filter"
-                app:tint="@color/tertiary" />
-
-        </LinearLayout>
-
-        <FrameLayout
+        <TextView
+            android:id="@+id/home_search_tv"
+            style="@style/GilroyFontTheme"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_search_outlined"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:hint="Напишите что-нибудь"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:paddingVertical="1dp"
+            android:singleLine="true"
+            android:textColorHint="@color/tertiary"
+            android:textCursorDrawable="@drawable/cursor_drawable"
+            android:textSize="@dimen/text_12px"
+            app:drawableStartCompat="@drawable/ic_search"
+            app:drawableTint="@color/tertiary"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <ImageView
+            android:id="@+id/home_toolbar_filter_iv"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_filter"
+            app:tint="@color/tertiary" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll" >
+            app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll">
 
-            <androidx.core.widget.NestedScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll" >
+                android:orientation="vertical">
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_home"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical" >
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    tools:listitem="@layout/item_main" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_home"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:paddingVertical="16dp"
-                        android:paddingHorizontal="8dp"
-                        tools:listitem="@layout/item_main"/>
+            </LinearLayout>
 
-                </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-            </androidx.core.widget.NestedScrollView>
+        <include
+            android:id="@+id/loading_layout"
+            layout="@layout/transparent_loading_layout"
+            android:visibility="gone" />
 
-            <include
-                android:id="@+id/loading_layout"
-                layout="@layout/transparent_loading_layout"
-                android:visibility="gone" />
+        <!--<include
+            android:id="@+id/leave_review_prompt_home"
+            layout="@layout/leave_review_prompt"
+            android:visibility="gone"/>-->
 
-            <!--<include
-                android:id="@+id/leave_review_prompt_home"
-                layout="@layout/leave_review_prompt"
-                android:visibility="gone"/>-->
+    </FrameLayout>
 
-        </FrameLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

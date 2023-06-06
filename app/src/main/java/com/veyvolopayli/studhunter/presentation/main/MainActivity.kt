@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.presentation.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -21,8 +22,12 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private var binding: ActivityMainBinding? = null
     private val vm: MainViewModel by viewModels()
+
+    init {
+        Log.e("MainActivity", "MainActivity reached")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +36,13 @@ class MainActivity : AppCompatActivity() {
             setKeepOnScreenCondition { vm.isLoading.value }
         }
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        this.binding = binding
+
+        Log.e("MainActivity", "OnCreate reached")
 
         if (savedInstanceState == null) {
+            Log.e("MainActivity", "sIS reached")
             vm.launchAppResult.observe(this) { launchAppResult ->
                 when (launchAppResult) {
                     is LaunchAppResult.NeedToAuthorize -> {
@@ -65,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     is LaunchAppResult.Ok -> {
                         // navigate to home screen
+                        Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show()
                         vm.showBottomBar()
                         replaceFragment(R.id.main_fragment_container, HomeFragment(), false)
                     }
@@ -73,11 +82,12 @@ class MainActivity : AppCompatActivity() {
                 vm.appLaunched()
             }
         }
+        setContentView(binding.root)
 
-        lifecycleScope.launch {
-            vm.isBottomBarVisible.collect { isVisible ->
-                binding.bottomNavBar.root.visibility = if (isVisible) View.VISIBLE else View.GONE
-            }
-        }
+//        lifecycleScope.launch {
+//            vm.isBottomBarVisible.collect { isVisible ->
+//                binding.bottomNavBar.root.visibility = if (isVisible) View.VISIBLE else View.GONE
+//            }
+//        }
     }
 }

@@ -10,10 +10,10 @@ import com.veyvolopayli.studhunter.databinding.ItemMainBinding
 import com.veyvolopayli.studhunter.domain.model.Publication
 import java.lang.Exception
 
-class HomeRvAdapter(private val dataSet: List<Publication>)
-    : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnClickListener {
+class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnClickListener {
 
-    var onItemClick : ((Publication) -> Unit)? = null
+//    var onItemClick : ((Publication) -> Unit)? = null
+    private var publications: List<Publication> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,16 +23,16 @@ class HomeRvAdapter(private val dataSet: List<Publication>)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = dataSet[position]
+        val currentItem = publications[position]
 
         with(holder.binding){
             titleMainItemTv.text = currentItem.title
             subtitleMainItemTv.text = currentItem.description
             priceMainItemTv.text = currentItem.price.toString()
             timeMainItemTv.text = currentItem.timestamp
-            itemConstraintLayout.setOnClickListener {
+            /*itemConstraintLayout.setOnClickListener {
                 onItemClick?.invoke(currentItem)
-            }
+            }*/
 
             try {
                 Glide.with(itemTopImage.context).load(currentItem.imageUrl)
@@ -46,8 +46,13 @@ class HomeRvAdapter(private val dataSet: List<Publication>)
 
     }
 
+    fun setData(publications: List<Publication>) {
+        this.publications = publications
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
-        return dataSet.size
+        return publications.size
     }
 
     class ViewHolder(val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {

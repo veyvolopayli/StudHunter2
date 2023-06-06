@@ -76,8 +76,6 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
         }
     }
 
-
-
     private fun loadingLayoutVisibility(loading: Boolean, view: FrameLayout) {
         view.visibility = if (loading) View.VISIBLE else View.GONE
     }
