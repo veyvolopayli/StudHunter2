@@ -25,14 +25,11 @@ class MainViewModel @Inject constructor(
     private val _isBottomBarVisible = MutableStateFlow(false)
     val isBottomBarVisible = _isBottomBarVisible.asStateFlow()
 
-    /*private val _checkUpdateResult = MutableLiveData<CheckUpdateResult<Unit>>()
-    val checkUpdateResult: LiveData<CheckUpdateResult<Unit>> = _checkUpdateResult
-
-    private val _authResult = MutableLiveData<AuthResult<Unit>>()
-    val authResult: LiveData<AuthResult<Unit>> = _authResult*/
-
     private val _launchAppResult = MutableLiveData<LaunchAppResult<Unit>>()
     val launchAppResult: LiveData<LaunchAppResult<Unit>> = _launchAppResult
+
+    private val _navigationEvent = MutableLiveData<MainNavDestination>()
+    val navigationEvent: LiveData<MainNavDestination> = _navigationEvent
 
     init {
         checkUpdate()
@@ -64,6 +61,20 @@ class MainViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    fun navigateTo(navDestination: MainNavDestination) {
+        _navigationEvent.value = navDestination
+
+        /*_navigationEvent.value = when (navDestination) {
+            is MainNavDestination.Home -> navDestination
+            is MainNavDestination.Categories -> navDestination
+            is MainNavDestination.Upload -> navDestination
+            is MainNavDestination.Favorites -> navDestination
+            is MainNavDestination.Profile -> navDestination
+            is MainNavDestination.Filter -> navDestination
+            is MainNavDestination.Search -> navDestination
+        }*/
+    }
+
     fun appLaunched() {
         _isLoading.value = false
     }
@@ -75,5 +86,7 @@ class MainViewModel @Inject constructor(
     fun launchAppOk() {
         _launchAppResult.value = LaunchAppResult.Ok()
     }
+
+
 
 }

@@ -1,22 +1,30 @@
 package com.veyvolopayli.studhunter.presentation.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.github.terrakok.cicerone.androidx.FragmentScreen
+import com.veyvolopayli.studhunter.Application
+import com.veyvolopayli.studhunter.Application.Companion.INSTANCE
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.ErrorType
+import com.veyvolopayli.studhunter.common.Screens
 import com.veyvolopayli.studhunter.common.replaceFragment
 import com.veyvolopayli.studhunter.common.showFragment
 import com.veyvolopayli.studhunter.databinding.ActivityMainBinding
 import com.veyvolopayli.studhunter.presentation.auth_screen.AuthFragment
+import com.veyvolopayli.studhunter.presentation.categories_screen.CategoriesFragment
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
 import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -25,12 +33,28 @@ class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
     private val vm: MainViewModel by viewModels()
 
+    private val homeFragment = HomeFragment()
+    private val categoriesFragment = CategoriesFragment()
+//    private val homeFragment =
+//    private val homeFragment =
+//    private val homeFragment =
+
+    private var home: FragmentScreen? = null
+    private var categories: FragmentScreen? = null
+
+//    private val navigator = AppNavigator(this, R.id.main_fragment_container)
+
+    private val router = INSTANCE.router
+    private val navigator = AppNavigator(this, R.id.main_fragment_container)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         installSplashScreen().apply {
             setKeepOnScreenCondition { vm.isLoading.value }
         }
+
+        INSTANCE.navigatorHolder.setNavigator(navigator)
 
         val binding = ActivityMainBinding.inflate(layoutInflater)
         this.binding = binding
@@ -69,10 +93,44 @@ class MainActivity : AppCompatActivity() {
                     is LaunchAppResult.Ok -> {
                         // navigate to home screen
                         vm.showBottomBar()
-                        replaceFragment(R.id.main_fragment_container, HomeFragment(), false)
+                        router.navigateTo(Screens.home())
                     }
                 }
                 vm.appLaunched()
+            }
+        }
+
+        setBottomNavigation(binding)
+
+        vm.navigationEvent.observe(this) { destination ->
+            when (destination) {
+                is MainNavDestination.Home -> {
+//                    showFragment(binding.mainFragmentContainer.id, homeFragment, false)
+//                    router.navigateTo(Screens.home())
+                    if (home != null) router.backTo(home)
+                    else {
+                        val home = Screens.home()
+                        this.home = home
+                        router.navigateTo(home)
+                    }
+                }
+                is MainNavDestination.Categories -> {
+//                    showFragment(binding.mainFragmentContainer.id, categoriesFragment, false)
+//                    router.navigateTo(Screens.categories())
+//                    router.replaceScreen(Screens.categories())
+//                    router.backTo(Screens.categories())
+                    if (categories != null) router.backTo(categories)
+                    else {
+                        val categories = Screens.categories()
+                        this.categories = categories
+                        router.navigateTo(categories)
+                    }
+                }
+                is MainNavDestination.Upload -> Unit
+                is MainNavDestination.Favorites -> Unit
+                is MainNavDestination.Profile -> Unit
+                is MainNavDestination.Filter -> Unit
+                is MainNavDestination.Search -> Unit
             }
         }
 
@@ -82,9 +140,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        fun setBottomNavigation() {
+    }
 
-        }
-
+    private fun setBottomNavigation(binding: ActivityMainBinding) {
+        binding.bottomNavBar.home.setOnClickListener { vm.navigateTo(MainNavDestination.Home) }
+        binding.bottomNavBar.categories.setOnClickListener { vm.navigateTo(MainNavDestination.Categories) }
+        binding.bottomNavBar.upload.setOnClickListener { vm.navigateTo(MainNavDestination.Upload) }
+        binding.bottomNavBar.favourites.setOnClickListener { vm.navigateTo(MainNavDestination.Favorites) }
+        binding.bottomNavBar.profile.setOnClickListener { vm.navigateTo(MainNavDestination.Profile) }
     }
 }

@@ -13,7 +13,7 @@
     app:layout_constraintStart_toStartOf="parent">
 
     <TextView
-        android:id="@+id/bottom_home_tv"
+        android:id="@+id/home"
         style="@style/GilroyFontTheme"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -29,7 +29,7 @@
         app:drawableTopCompat="@drawable/ic_home" />
 
     <TextView
-        android:id="@+id/bottom_categories_tv"
+        android:id="@+id/categories"
         style="@style/GilroyFontTheme"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -45,7 +45,7 @@
         app:drawableTopCompat="@drawable/ic_categories" />
 
     <TextView
-        android:id="@+id/bottom_add_tv"
+        android:id="@+id/upload"
         style="@style/GilroyFontTheme"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -61,7 +61,7 @@
         app:drawableTopCompat="@drawable/ic_add_rounded" />
 
     <TextView
-        android:id="@+id/bottom_favourites_tv"
+        android:id="@+id/favourites"
         style="@style/GilroyFontTheme"
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -77,7 +77,7 @@
         app:drawableTopCompat="@drawable/ic_heart" />
 
     <TextView
-        android:id="@+id/bottom_profile_tv"
+        android:id="@+id/profile"
         style="@style/GilroyFontTheme"
         android:layout_width="0dp"
         android:layout_height="match_parent"

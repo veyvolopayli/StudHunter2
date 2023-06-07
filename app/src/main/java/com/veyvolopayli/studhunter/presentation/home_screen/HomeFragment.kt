@@ -24,7 +24,6 @@ class HomeFragment : Fragment() {
         val binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         this.binding = binding
 
-
         binding.rvHome.layoutManager = GridLayoutManager(requireContext(), 2)
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
