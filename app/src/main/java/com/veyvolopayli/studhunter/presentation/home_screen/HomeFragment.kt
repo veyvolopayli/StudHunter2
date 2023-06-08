@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.common.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentHomeBinding
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
+import com.veyvolopayli.studhunter.presentation.publication_screen.PublicationFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,6 +33,10 @@ class HomeFragment : Fragment() {
             val publicationsAdapter = HomeRvAdapter()
             publicationsAdapter.setData(state.publications)
             binding.rvHome.adapter = publicationsAdapter
+
+            publicationsAdapter.onItemClick = { id ->
+                replaceFragment(R.id.main_fragment_container, PublicationFragment(id), null)
+            }
         }
 
         viewModel.event.observe(viewLifecycleOwner) { homeEvent ->

@@ -1,5 +1,6 @@
 package com.veyvolopayli.studhunter.data.remote.dto
 
+import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.Publication
 
 data class PublicationDto(
@@ -26,5 +27,21 @@ fun PublicationDto.toPublication(): Publication {
         priceType = priceType,
         timestamp = timestamp,
         imageUrl = imageUrl
+    )
+}
+
+fun PublicationDto.toDetailedPublication(): DetailedPublication {
+    return DetailedPublication(
+        category = category,
+        description = description,
+        district = district,
+        id = id,
+        imageUrl = imageUrl,
+        price = price,
+        priceType = priceType,
+        socials = socials,
+        timestamp = timestamp,
+        title = title,
+        userId = userId
     )
 }

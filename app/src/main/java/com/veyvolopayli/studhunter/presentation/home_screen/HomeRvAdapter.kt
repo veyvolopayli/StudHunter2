@@ -12,7 +12,7 @@ import java.lang.Exception
 
 class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnClickListener {
 
-//    var onItemClick : ((Publication) -> Unit)? = null
+    var onItemClick : ((String) -> Unit)? = null
     private var publications: List<Publication> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,9 +30,9 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnC
             subtitleMainItemTv.text = currentItem.description
             priceMainItemTv.text = currentItem.price.toString()
             timeMainItemTv.text = currentItem.timestamp
-            /*itemConstraintLayout.setOnClickListener {
-                onItemClick?.invoke(currentItem)
-            }*/
+            itemConstraintLayout.setOnClickListener {
+                onItemClick?.invoke(currentItem.id)
+            }
 
             try {
                 Glide.with(itemTopImage.context).load(currentItem.imageUrl)

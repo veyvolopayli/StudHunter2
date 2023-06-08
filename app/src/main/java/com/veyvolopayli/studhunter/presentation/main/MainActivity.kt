@@ -22,7 +22,10 @@ import com.veyvolopayli.studhunter.presentation.categories_screen.CategoriesFrag
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
 import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Stack
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -93,7 +96,9 @@ class MainActivity : AppCompatActivity() {
                         // navigate to home screen
                         vm.showBottomBar()
 //                        router.replaceScreen(home)
-                        replaceFragment(container = binding.mainFragmentContainer.id, newFragment = homeFragment)
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            replaceFragment(container = binding.mainFragmentContainer.id, newFragment = homeFragment)
+                        }
                     }
                 }
                 vm.appLaunched()
@@ -103,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigation(binding)
 
         vm.navigationEvent.observe(this) { destination ->
+            val l =
             when (destination) {
                 is MainNavDestination.Home -> {
                     showFragment(container = binding.mainFragmentContainer.id, currentFragment = destination.previousDestination ?: currentFragment, newFragment = homeFragment)

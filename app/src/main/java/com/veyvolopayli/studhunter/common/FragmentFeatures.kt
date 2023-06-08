@@ -9,7 +9,7 @@ import com.veyvolopayli.studhunter.R
 
 fun Fragment.replaceFragment(container: Int, newFragment: Fragment, backStack: String?) {
     parentFragmentManager.commit {
-        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.no_animation, R.anim.no_animation, R.anim.slide_out_left)
         replace(container, newFragment)
         addToBackStack(backStack)
     }
@@ -17,7 +17,7 @@ fun Fragment.replaceFragment(container: Int, newFragment: Fragment, backStack: S
 
 fun Fragment.replaceFragment(container: Int, newFragment: Fragment) {
     parentFragmentManager.commit {
-        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.no_animation, R.anim.no_animation, R.anim.slide_out_left)
         replace(container, newFragment)
     }
 }
@@ -47,7 +47,8 @@ fun Fragment.removeFragment(container: Int, fragment: Fragment) {
 
 fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment, backStack: String?) {
     supportFragmentManager.commit {
-        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left)
+        setReorderingAllowed(true)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.no_animation, R.anim.no_animation, R.anim.slide_out_left)
         replace(container, newFragment)
         addToBackStack(backStack)
     }
@@ -55,7 +56,8 @@ fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment, bac
 
 fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment) {
     supportFragmentManager.commit {
-        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left)
+        setReorderingAllowed(true)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.no_animation, R.anim.no_animation, R.anim.slide_out_left)
         replace(container, newFragment)
     }
 }
@@ -63,6 +65,7 @@ fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment) {
 fun AppCompatActivity.showFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment, backStack: String?) {
     if (currentFragment === newFragment) return
     supportFragmentManager.commit {
+        setReorderingAllowed(true)
         currentFragment?.let { hide(it) }
         if (!newFragment.isAdded) add(container, newFragment)
         else show(newFragment)
@@ -73,6 +76,7 @@ fun AppCompatActivity.showFragment(container: Int, currentFragment: Fragment?, n
 fun AppCompatActivity.showFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment) {
     if (currentFragment === newFragment) return
     supportFragmentManager.commit {
+        setReorderingAllowed(true)
         currentFragment?.let { hide(it) }
         if (!newFragment.isAdded) add(container, newFragment)
         else show(newFragment)

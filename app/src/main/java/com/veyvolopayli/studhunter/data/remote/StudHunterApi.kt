@@ -36,4 +36,7 @@ interface StudHunterApi {
     @GET("")
     suspend fun isEmailUnique(email:String): Boolean
 
+    @GET("publications/id/{id}")
+    suspend fun fetchPublication(@Path("id") id: String): Response<PublicationDto>
+
 }
