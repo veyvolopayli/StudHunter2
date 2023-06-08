@@ -6,11 +6,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.fragment.app.commit
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import com.veyvolopayli.studhunter.Application
 import com.veyvolopayli.studhunter.Application.Companion.INSTANCE
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.ErrorType
@@ -23,8 +22,6 @@ import com.veyvolopayli.studhunter.presentation.categories_screen.CategoriesFrag
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
 import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -39,13 +36,15 @@ class MainActivity : AppCompatActivity() {
 //    private val homeFragment =
 //    private val homeFragment =
 
-    private var home: FragmentScreen? = null
-    private var categories: FragmentScreen? = null
+    private var home: FragmentScreen = Screens.home()
+    private var categories: FragmentScreen = Screens.categories()
 
 //    private val navigator = AppNavigator(this, R.id.main_fragment_container)
 
     private val router = INSTANCE.router
     private val navigator = AppNavigator(this, R.id.main_fragment_container)
+
+    private var currentFragment: Fragment = homeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,11 +65,11 @@ class MainActivity : AppCompatActivity() {
                 when (launchAppResult) {
                     is LaunchAppResult.NeedToAuthorize -> {
                         // navigate to authorization screen
-                        showFragment(binding.mainFragmentContainer.id, AuthFragment(), false)
+                        replaceFragment(binding.mainFragmentContainer.id, AuthFragment(), false)
                     }
                     is LaunchAppResult.NeedToUpdate -> {
                         // navigate to update screen
-                        showFragment(binding.mainFragmentContainer.id, UpdateAppFragment(), false)
+                        replaceFragment(binding.mainFragmentContainer.id, UpdateAppFragment(), false)
                     }
                     is LaunchAppResult.ErrorOccurred -> {
                         Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
@@ -93,7 +92,8 @@ class MainActivity : AppCompatActivity() {
                     is LaunchAppResult.Ok -> {
                         // navigate to home screen
                         vm.showBottomBar()
-                        router.navigateTo(Screens.home())
+//                        router.replaceScreen(home)
+                        showFragment(container = binding.mainFragmentContainer.id, currentFragment = null, newFragment = homeFragment)
                     }
                 }
                 vm.appLaunched()
@@ -105,26 +105,12 @@ class MainActivity : AppCompatActivity() {
         vm.navigationEvent.observe(this) { destination ->
             when (destination) {
                 is MainNavDestination.Home -> {
-//                    showFragment(binding.mainFragmentContainer.id, homeFragment, false)
-//                    router.navigateTo(Screens.home())
-                    if (home != null) router.backTo(home)
-                    else {
-                        val home = Screens.home()
-                        this.home = home
-                        router.navigateTo(home)
-                    }
+                    showFragment(container = binding.mainFragmentContainer.id, currentFragment = destination.previousDestination ?: currentFragment, newFragment = homeFragment)
+                    currentFragment = homeFragment
                 }
                 is MainNavDestination.Categories -> {
-//                    showFragment(binding.mainFragmentContainer.id, categoriesFragment, false)
-//                    router.navigateTo(Screens.categories())
-//                    router.replaceScreen(Screens.categories())
-//                    router.backTo(Screens.categories())
-                    if (categories != null) router.backTo(categories)
-                    else {
-                        val categories = Screens.categories()
-                        this.categories = categories
-                        router.navigateTo(categories)
-                    }
+                    showFragment(container = binding.mainFragmentContainer.id, currentFragment = destination.previousDestination ?: currentFragment, newFragment = categoriesFragment)
+                    currentFragment = categoriesFragment
                 }
                 is MainNavDestination.Upload -> Unit
                 is MainNavDestination.Favorites -> Unit
@@ -143,10 +129,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomNavigation(binding: ActivityMainBinding) {
-        binding.bottomNavBar.home.setOnClickListener { vm.navigateTo(MainNavDestination.Home) }
-        binding.bottomNavBar.categories.setOnClickListener { vm.navigateTo(MainNavDestination.Categories) }
-        binding.bottomNavBar.upload.setOnClickListener { vm.navigateTo(MainNavDestination.Upload) }
-        binding.bottomNavBar.favourites.setOnClickListener { vm.navigateTo(MainNavDestination.Favorites) }
-        binding.bottomNavBar.profile.setOnClickListener { vm.navigateTo(MainNavDestination.Profile) }
+        binding.bottomNavBar.home.setOnClickListener { vm.navigateTo(MainNavDestination.Home(currentFragment)) }
+        binding.bottomNavBar.categories.setOnClickListener { vm.navigateTo(MainNavDestination.Categories(currentFragment)) }
+        binding.bottomNavBar.upload.setOnClickListener { vm.navigateTo(MainNavDestination.Upload(currentFragment)) }
+        binding.bottomNavBar.favourites.setOnClickListener { vm.navigateTo(MainNavDestination.Favorites(currentFragment)) }
+        binding.bottomNavBar.profile.setOnClickListener { vm.navigateTo(MainNavDestination.Profile(currentFragment)) }
     }
 }

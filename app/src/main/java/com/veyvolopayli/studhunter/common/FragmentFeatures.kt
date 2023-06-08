@@ -41,38 +41,20 @@ fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment, add
     }
 }
 
-fun AppCompatActivity.showFragment(container: Int, newFragment: Fragment, tag: String, addToBackStack: Boolean) {
-    val fragment = supportFragmentManager.findFragmentByTag(tag)
+fun AppCompatActivity.showFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment, backStack: String) {
     supportFragmentManager.commit {
-        if (newFragment.isAdded) {
-            show(newFragment)
-            Log.e(newFragment.toString().substringBefore("@"), "fragment is added")
-        }
-        else if (!newFragment.isAdded) {
-            add(container, newFragment, tag)
-            if (addToBackStack) addToBackStack(null)
-            Log.e(newFragment.toString().substringBefore("@"), "fragment is not added")
-        }
-        else {
-            Log.e(newFragment.toString().substringBefore("@"), "else")
-        }
+        currentFragment?.let { hide(it) }
+        if (!newFragment.isAdded) add(container, newFragment)
+        else show(newFragment)
+        addToBackStack(backStack)
     }
 }
 
-fun AppCompatActivity.showFragment(container: Int, newFragment: Fragment, addToBackStack: Boolean) {
+fun AppCompatActivity.showFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment) {
     supportFragmentManager.commit {
-        if (newFragment.isAdded) {
-            show(newFragment)
-            Log.e(newFragment.toString().substringBefore("@"), "fragment is added")
-        }
-        else if (!newFragment.isAdded) {
-            add(container, newFragment)
-            if (addToBackStack) addToBackStack(null)
-            Log.e(newFragment.toString().substringBefore("@"), "fragment is not added")
-        }
-        else {
-            Log.e(newFragment.toString().substringBefore("@"), "else")
-        }
+        currentFragment?.let { hide(it) }
+        if (!newFragment.isAdded) add(container, newFragment)
+        else show(newFragment)
     }
 }
 
