@@ -8,6 +8,6 @@ interface PublicationRepository {
 
     suspend fun fetchPublications(): List<PublicationDto>
 
-    suspend fun fetchPublication(id: String): Response<PublicationDto>
+    suspend fun fetchPublication(token: String, id: String): Response<PublicationDto>
 
 }

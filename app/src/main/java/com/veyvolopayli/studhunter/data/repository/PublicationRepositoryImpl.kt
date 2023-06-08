@@ -11,8 +11,8 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
         return api.fetchPublications()
     }
 
-    override suspend fun fetchPublication(id: String): Response<PublicationDto> {
-        return api.fetchPublication(id)
+    override suspend fun fetchPublication(token: String, id: String): Response<PublicationDto> {
+        return api.fetchPublication(token, id)
     }
 
 }

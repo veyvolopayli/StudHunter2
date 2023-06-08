@@ -1,14 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.publication_screen.PublicationFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="64dp"
+        android:background="@drawable/background_topbar"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/view_publication_back_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="16dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_back"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@color/textColorPrimary" />
+
+        <TextView
+            style="@style/GilroyFontThemeMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text=""
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/text_22px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/publication_back_iv"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/add_to_favorite_iv"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginEnd="16dp"
+            android:padding="5dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_heart" />
+
+    </LinearLayout>
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager2"
+                android:layout_width="match_parent"
+                android:layout_height="262dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="18dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/view_publication_price"
+                        style="@style/GilroyFontThemeMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10 000 р"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_18px" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/view_publication_title"
+                    style="@style/GilroyFontThemeMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Название"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_18px" />
+
+                <TextView
+                    android:id="@+id/view_publication_subtitle"
+                    style="@style/GilroyFontTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Текст"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_16px" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/profile_block_cl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/view_publication_user_image_iv"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_user_avatar"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:riv_corner_radius="24dp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/view_publication_user_image_iv"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:id="@+id/view_publication_user_name_tv"
+                                style="@style/GilroyFontTheme"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Имя Фамилия"
+                                android:textColor="@color/textColorPrimary"
+                                android:textSize="@dimen/text_14px" />
+
+                            <TextView
+                                android:id="@+id/view_publication_user_nickname_tv"
+                                style="@style/GilroyFontTheme"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:text="\@nickname"
+                                android:textColor="@color/tertiary"
+                                android:textSize="@dimen/text_14px" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/view_publication_user_rating_tv"
+                            style="@style/GilroyFontTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Рейтинг"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/text_12px" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!--<androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/publish_button"
+        style="@style/GilroyFontTheme"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/background_button"
+        android:backgroundTint="@color/primary"
+        android:fitsSystemWindows="true"
+        android:text="Связаться с исполнителем"
+        android:textAllCaps="false"
+        android:textColor="@color/background"
+        android:textSize="@dimen/primary_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginBottom="14dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" >
+
+        <Button
+            style="@style/AppcompatButton"
+            android:id="@+id/vp_call_button"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:text="Позвонить"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <View
+            android:layout_width="14dp"
+            android:layout_height="0dp" />
+
+        <Button
+            style="@style/AppcompatButton"
+            android:id="@+id/vp_write_button"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:text="Написать"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

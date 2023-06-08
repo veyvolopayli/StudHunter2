@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
             binding.rvHome.adapter = publicationsAdapter
 
             publicationsAdapter.onItemClick = { id ->
+                Log.e("id", id)
                 replaceFragment(R.id.main_fragment_container, PublicationFragment(id), null)
             }
         }
