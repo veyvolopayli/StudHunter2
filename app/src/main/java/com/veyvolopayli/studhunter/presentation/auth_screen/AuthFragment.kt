@@ -25,16 +25,14 @@ class AuthFragment : Fragment() {
         binding.signUpButton.setOnClickListener {
             replaceFragment(
                 container = R.id.main_fragment_container,
-                newFragment = SignUpFragment(),
-                addToBackStack = true
+                newFragment = SignUpFragment()
             )
         }
 
         binding.signInButton.setOnClickListener {
             replaceFragment(
                 container = R.id.main_fragment_container,
-                newFragment = SignInFragment(),
-                addToBackStack = true
+                newFragment = SignInFragment()
             )
         }
 

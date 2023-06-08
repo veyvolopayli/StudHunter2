@@ -66,7 +66,7 @@ class FirstSignUpFragment() : Fragment() {
         }
 
         binding.continueButton.setOnClickListener {
-            replaceFragment(R.id.sign_up_fragment_container, SecondSignUpFragment(), true)
+            replaceFragment(R.id.sign_up_fragment_container, SecondSignUpFragment())
         }
 
         return binding.root

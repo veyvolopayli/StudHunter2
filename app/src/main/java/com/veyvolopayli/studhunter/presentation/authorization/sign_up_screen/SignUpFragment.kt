@@ -20,7 +20,7 @@ class SignUpFragment : Fragment() {
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
 
         if (savedInstanceState == null) {
-            replaceFragment(binding.signUpFragmentContainer.id, FirstSignUpFragment(), false)
+            replaceFragment(binding.signUpFragmentContainer.id, FirstSignUpFragment())
         }
 
         binding.backIv.setOnClickListener {

@@ -7,25 +7,37 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.veyvolopayli.studhunter.R
 
-fun Fragment.replaceFragment(container: Int, newFragment: Fragment, addToBackStack: Boolean) {
+fun Fragment.replaceFragment(container: Int, newFragment: Fragment, backStack: String?) {
     parentFragmentManager.commit {
-        setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out_right)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left)
         replace(container, newFragment)
-        if (addToBackStack) addToBackStack(null)
+        addToBackStack(backStack)
     }
 }
 
-fun Fragment.showFragment(container: Int, newFragment: Fragment, addToBackStack: Boolean) {
+fun Fragment.replaceFragment(container: Int, newFragment: Fragment) {
     parentFragmentManager.commit {
-        if (newFragment.isAdded && !newFragment.isVisible) show(newFragment)
-        if (!newFragment.isAdded) add(container, newFragment)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left)
+        replace(container, newFragment)
+    }
+}
 
-//        setCustomAnimations(R.anim.slide_in_animation, R.anim.slide_out_animation, R.anim.no_animation, R.anim.slide_out_animation)
-//        if (newFragment.isHidden) show(newFragment)
-//        else if (!newFragment.isAdded) {
-//            add(container, newFragment)
-//            if (addToBackStack) addToBackStack(null)
-//        }
+fun Fragment.showFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment, backStack: String?) {
+    if (currentFragment == newFragment) return
+    parentFragmentManager.commit {
+        currentFragment?.let { hide(it) }
+        if (!newFragment.isAdded) add(container, newFragment)
+        else show(newFragment)
+        addToBackStack(backStack)
+    }
+}
+
+fun Fragment.showFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment) {
+    if (currentFragment == newFragment) return
+    parentFragmentManager.commit {
+        currentFragment?.let { hide(it) }
+        if (!newFragment.isAdded) add(container, newFragment)
+        else show(newFragment)
     }
 }
 
@@ -33,15 +45,23 @@ fun Fragment.removeFragment(container: Int, fragment: Fragment) {
     parentFragmentManager.beginTransaction().remove(fragment).commit()
 }
 
-fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment, addToBackStack: Boolean) {
+fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment, backStack: String?) {
     supportFragmentManager.commit {
         setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left)
         replace(container, newFragment)
-        if (addToBackStack) addToBackStack(null)
+        addToBackStack(backStack)
     }
 }
 
-fun AppCompatActivity.showFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment, backStack: String) {
+fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment) {
+    supportFragmentManager.commit {
+        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_right, R.anim.slide_out_left)
+        replace(container, newFragment)
+    }
+}
+
+fun AppCompatActivity.showFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment, backStack: String?) {
+    if (currentFragment === newFragment) return
     supportFragmentManager.commit {
         currentFragment?.let { hide(it) }
         if (!newFragment.isAdded) add(container, newFragment)
@@ -51,6 +71,7 @@ fun AppCompatActivity.showFragment(container: Int, currentFragment: Fragment?, n
 }
 
 fun AppCompatActivity.showFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment) {
+    if (currentFragment === newFragment) return
     supportFragmentManager.commit {
         currentFragment?.let { hide(it) }
         if (!newFragment.isAdded) add(container, newFragment)

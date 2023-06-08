@@ -32,7 +32,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
             when (signInResult) {
                 is AuthorizationResult.Authorized -> {
                     loadingLayoutVisibility(false, binding.loadingLayout.root)
-                    replaceFragment(R.id.main_fragment_container, HomeFragment(), false)
+                    replaceFragment(R.id.main_fragment_container, HomeFragment())
                     mainVm.launchAppOk()
                 }
                 is AuthorizationResult.Error -> {

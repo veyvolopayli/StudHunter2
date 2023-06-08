@@ -65,7 +65,7 @@ class SecondSignUpFragment()
         vm.signUpResult.observe(viewLifecycleOwner) { authorizationResult ->
             when (authorizationResult) {
                 is AuthorizationResult.Authorized -> {
-                    replaceFragment(R.id.main_fragment_container, HomeFragment(), false)
+                    replaceFragment(R.id.main_fragment_container, HomeFragment())
                     mainVm.launchAppOk()
                 }
                 is AuthorizationResult.WrongData -> {

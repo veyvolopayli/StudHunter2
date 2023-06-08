@@ -65,11 +65,11 @@ class MainActivity : AppCompatActivity() {
                 when (launchAppResult) {
                     is LaunchAppResult.NeedToAuthorize -> {
                         // navigate to authorization screen
-                        replaceFragment(binding.mainFragmentContainer.id, AuthFragment(), false)
+                        replaceFragment(binding.mainFragmentContainer.id, AuthFragment())
                     }
                     is LaunchAppResult.NeedToUpdate -> {
                         // navigate to update screen
-                        replaceFragment(binding.mainFragmentContainer.id, UpdateAppFragment(), false)
+                        replaceFragment(binding.mainFragmentContainer.id, UpdateAppFragment())
                     }
                     is LaunchAppResult.ErrorOccurred -> {
                         Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                         // navigate to home screen
                         vm.showBottomBar()
 //                        router.replaceScreen(home)
-                        showFragment(container = binding.mainFragmentContainer.id, currentFragment = null, newFragment = homeFragment)
+                        replaceFragment(container = binding.mainFragmentContainer.id, newFragment = homeFragment)
                     }
                 }
                 vm.appLaunched()
