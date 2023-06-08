@@ -9,7 +9,7 @@ import com.veyvolopayli.studhunter.R
 
 fun Fragment.replaceFragment(container: Int, newFragment: Fragment, backStack: String?) {
     parentFragmentManager.commit {
-        setCustomAnimations(R.anim.slide_in_right, R.anim.no_animation, R.anim.no_animation, R.anim.slide_out_left)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out_left)
         replace(container, newFragment)
         addToBackStack(backStack)
     }
@@ -17,7 +17,7 @@ fun Fragment.replaceFragment(container: Int, newFragment: Fragment, backStack: S
 
 fun Fragment.replaceFragment(container: Int, newFragment: Fragment) {
     parentFragmentManager.commit {
-        setCustomAnimations(R.anim.slide_in_right, R.anim.no_animation, R.anim.no_animation, R.anim.slide_out_left)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out_left)
         replace(container, newFragment)
     }
 }
@@ -48,7 +48,7 @@ fun Fragment.removeFragment(container: Int, fragment: Fragment) {
 fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment, backStack: String?) {
     supportFragmentManager.commit {
         setReorderingAllowed(true)
-        setCustomAnimations(R.anim.slide_in_right, R.anim.no_animation, R.anim.no_animation, R.anim.slide_out_left)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out_left)
         replace(container, newFragment)
         addToBackStack(backStack)
     }
@@ -57,7 +57,7 @@ fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment, bac
 fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment) {
     supportFragmentManager.commit {
         setReorderingAllowed(true)
-        setCustomAnimations(R.anim.slide_in_right, R.anim.no_animation, R.anim.no_animation, R.anim.slide_out_left)
+        setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out_left)
         replace(container, newFragment)
     }
 }

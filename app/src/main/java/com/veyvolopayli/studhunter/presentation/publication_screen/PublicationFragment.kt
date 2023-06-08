@@ -31,9 +31,11 @@ class PublicationFragment(private val id: String) : Fragment() {
 
         }
 
-        viewModel.state.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
-            Log.e("Publication", "$it")
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            binding.title.text = state.title
+            binding.description.text = state.description
+            binding.price.text = "${state.price} ${state.priceType}"
+            binding.price.text = "${state.price} ${state.priceType}"
         }
 
         return binding.root

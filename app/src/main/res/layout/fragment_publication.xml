@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
     tools:context=".presentation.publication_screen.PublicationFragment">
 
     <LinearLayout
@@ -17,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/view_publication_back_iv"
+            android:id="@+id/back"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="16dp"
@@ -47,7 +48,7 @@
             android:layout_weight="1" />
 
         <ImageView
-            android:id="@+id/add_to_favorite_iv"
+            android:id="@+id/favorite"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
@@ -56,8 +57,6 @@
             android:src="@drawable/ic_heart" />
 
     </LinearLayout>
-
-
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView2"
@@ -76,7 +75,7 @@
             android:orientation="vertical">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager2"
+                android:id="@+id/images_vp"
                 android:layout_width="match_parent"
                 android:layout_height="262dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +95,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/view_publication_price"
+                        android:id="@+id/price"
                         style="@style/GilroyFontThemeMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -107,7 +106,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/view_publication_title"
+                    android:id="@+id/title"
                     style="@style/GilroyFontThemeMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -117,7 +116,7 @@
                     android:textSize="@dimen/text_18px" />
 
                 <TextView
-                    android:id="@+id/view_publication_subtitle"
+                    android:id="@+id/description"
                     style="@style/GilroyFontTheme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -136,7 +135,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/view_publication_user_image_iv"
+                        android:id="@+id/avatar"
                         android:layout_width="44dp"
                         android:layout_height="44dp"
                         android:scaleType="centerCrop"
@@ -149,20 +148,19 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
                         android:orientation="vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/view_publication_user_image_iv"
+                        app:layout_constraintStart_toEndOf="@+id/avatar"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal" >
+                            android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/view_publication_user_name_tv"
+                                android:id="@+id/fullname"
                                 style="@style/GilroyFontTheme"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -171,7 +169,7 @@
                                 android:textSize="@dimen/text_14px" />
 
                             <TextView
-                                android:id="@+id/view_publication_user_nickname_tv"
+                                android:id="@+id/username"
                                 style="@style/GilroyFontTheme"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -183,7 +181,7 @@
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/view_publication_user_rating_tv"
+                            android:id="@+id/rating"
                             style="@style/GilroyFontTheme"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -202,56 +200,17 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!--<androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/publish_button"
-        style="@style/GilroyFontTheme"
+    <Button
+        android:id="@+id/vp_write_button"
+        style="@style/AppcompatButton"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:layout_marginHorizontal="18dp"
         android:layout_marginBottom="14dp"
-        android:background="@drawable/background_button"
-        android:backgroundTint="@color/primary"
-        android:fitsSystemWindows="true"
-        android:text="Связаться с исполнителем"
-        android:textAllCaps="false"
-        android:textColor="@color/background"
-        android:textSize="@dimen/primary_text"
+        android:layout_weight="1"
+        android:text="Написать"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />-->
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginHorizontal="18dp"
-        android:layout_marginBottom="14dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" >
-
-        <Button
-            style="@style/AppcompatButton"
-            android:id="@+id/vp_call_button"
-            android:layout_width="wrap_content"
-            android:layout_height="46dp"
-            android:text="Позвонить"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <View
-            android:layout_width="14dp"
-            android:layout_height="0dp" />
-
-        <Button
-            style="@style/AppcompatButton"
-            android:id="@+id/vp_write_button"
-            android:layout_width="wrap_content"
-            android:layout_height="46dp"
-            android:text="Написать"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
