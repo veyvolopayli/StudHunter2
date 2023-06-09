@@ -25,6 +25,9 @@ class PublicationFragment(private val id: String) : Fragment() {
         val binding = FragmentPublicationBinding.inflate(layoutInflater, container, false)
         this.binding = binding
 
+        val adapter = ImagesAdapter()
+
+
         viewModel.fetchPublication(id)
 
         viewModel.globalEvent.observe(viewLifecycleOwner) {
@@ -34,8 +37,14 @@ class PublicationFragment(private val id: String) : Fragment() {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             binding.title.text = state.title
             binding.description.text = state.description
-            binding.price.text = "${state.price} ${state.priceType}"
-            binding.price.text = "${state.price} ${state.priceType}"
+            binding.price.text = "${state.price} ${state.priceType}" ?: ""
+
+            adapter.setImages(state.images)
+            binding.imagesVp.adapter = adapter
+
+            adapter.onClick = {
+                Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return binding.root

@@ -108,7 +108,6 @@ class MainActivity : AppCompatActivity() {
         setBottomNavigation(binding)
 
         vm.navigationEvent.observe(this) { destination ->
-            val l =
             when (destination) {
                 is MainNavDestination.Home -> {
                     showFragment(container = binding.mainFragmentContainer.id, currentFragment = destination.previousDestination ?: currentFragment, newFragment = homeFragment)

@@ -55,9 +55,7 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnC
         return publications.size
     }
 
-    class ViewHolder(val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    class ViewHolder(val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(v: View) {
         val publication = v.tag as Publication

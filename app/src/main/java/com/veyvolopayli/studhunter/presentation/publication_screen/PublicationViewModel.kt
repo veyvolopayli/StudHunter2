@@ -39,7 +39,7 @@ class PublicationViewModel @Inject constructor(
                         district = publication.district,
                         description = publication.description,
                         id = publication.id,
-                        imageUrl = publication.imageUrl,
+                        images = listOf(publication.imageUrl, publication.imageUrl.replaceAfterLast('_', "1"), publication.imageUrl.replaceAfterLast('_', "2")),
                         price = publication.price,
                         priceType = publication.priceType,
                         socials = publication.socials,
