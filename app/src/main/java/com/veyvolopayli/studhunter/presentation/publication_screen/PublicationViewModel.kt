@@ -6,7 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.toDetailedPublication
+import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.usecases.publication.FetchPublicationUseCase
+import com.veyvolopayli.studhunter.domain.usecases.publication.FetchUserByIdUseCase
+import com.veyvolopayli.studhunter.domain.usecases.publication.ImageUrlValidityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -14,32 +17,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PublicationViewModel @Inject constructor(
-    private val fetchPublicationUseCase: FetchPublicationUseCase
+    private val fetchPublicationUseCase: FetchPublicationUseCase,
+    private val imageUrlValidityUseCase: ImageUrlValidityUseCase,
+    private val fetchUserByIdUseCase: FetchUserByIdUseCase
 ) : ViewModel() {
 
-    private val _globalEvent = MutableLiveData<PublicationEvent>()
-    val globalEvent: LiveData<PublicationEvent> = _globalEvent
+    private val _dataState = MutableLiveData<PublicationState>()
+    val dataState: LiveData<PublicationState> = _dataState
 
-    private val _state = MutableLiveData<PublicationState>()
-    val state: LiveData<PublicationState> = _state
+    private val _imagesState = MutableLiveData<List<String>>()
+    val imagesState: LiveData<List<String>> = _imagesState
+
+    private val _userState = MutableLiveData<User>()
+    val userState: LiveData<User> = _userState
 
     fun fetchPublication(id: String) {
         fetchPublicationUseCase(id).onEach { resource ->
-            when (resource) {
-                is Resource.Loading -> {
-                    _globalEvent.value = PublicationEvent.Loading
-                }
-                is Resource.Success -> {
-                    _globalEvent.value = PublicationEvent.Success
-                    val publication = resource.data?.body()?.toDetailedPublication() ?: run {
-                        return@onEach
-                    }
-                    _state.value = PublicationState(
+            if (resource is Resource.Success) {
+                resource.data?.body()?.let { publication ->
+                    _dataState.value = PublicationState(
                         category = publication.category,
                         district = publication.district,
                         description = publication.description,
                         id = publication.id,
-                        images = listOf(publication.imageUrl, publication.imageUrl.replaceAfterLast('_', "1"), publication.imageUrl.replaceAfterLast('_', "2")),
                         price = publication.price,
                         priceType = publication.priceType,
                         socials = publication.socials,
@@ -47,9 +47,27 @@ class PublicationViewModel @Inject constructor(
                         title = publication.title,
                         userId = publication.userId
                     )
+                    fetchUser(publication.userId)
                 }
-                is Resource.Error -> {
-                    _globalEvent.value = PublicationEvent.Error
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun fetchImages(publicationId: String) {
+        imageUrlValidityUseCase(publicationId).onEach { resource ->
+            if (resource is Resource.Success) {
+                resource.data?.let { urls ->
+                    _imagesState.value = urls
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun fetchUser(userId: String) {
+        fetchUserByIdUseCase(userId).onEach { resource ->
+            if (resource is Resource.Success) {
+                resource.data?.let { user ->
+                    _userState.value = user
                 }
             }
         }.launchIn(viewModelScope)

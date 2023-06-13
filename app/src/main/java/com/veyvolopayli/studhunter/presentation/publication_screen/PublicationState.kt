@@ -5,7 +5,6 @@ data class PublicationState(
     val description: String = "",
     val district: String = "",
     val id: String = "",
-    val images: List<String> = emptyList(),
     val price: Int = 0,
     val priceType: Int = 0,
     val socials: String = "",

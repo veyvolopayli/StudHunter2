@@ -10,4 +10,6 @@ interface PublicationRepository {
 
     suspend fun fetchPublication(token: String, id: String): Response<PublicationDto>
 
+    suspend fun checkImageValidity(publicationId: String, num: Int)
+
 }

@@ -20,6 +20,7 @@ import com.veyvolopayli.studhunter.databinding.ActivityMainBinding
 import com.veyvolopayli.studhunter.presentation.auth_screen.AuthFragment
 import com.veyvolopayli.studhunter.presentation.categories_screen.CategoriesFragment
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
+import com.veyvolopayli.studhunter.presentation.publication_screen.PublicationFragment
 import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -122,6 +123,12 @@ class MainActivity : AppCompatActivity() {
                 is MainNavDestination.Profile -> Unit
                 is MainNavDestination.Filter -> Unit
                 is MainNavDestination.Search -> Unit
+                is MainNavDestination.Publication -> {
+                    val publicationFragment = PublicationFragment()
+                    publicationFragment.arguments = destination.bundle
+                    showFragment(R.id.main_fragment_container, destination.previousDestination ?: currentFragment, publicationFragment, null)
+                    destination.previousDestination?.let { currentFragment = it }
+                }
             }
         }
 

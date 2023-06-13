@@ -8,9 +8,11 @@ import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.repository.AuthRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.UpdateRepositoryImpl
+import com.veyvolopayli.studhunter.data.repository.UserRepositoryImpl
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
 import com.veyvolopayli.studhunter.domain.repository.UpdateRepository
+import com.veyvolopayli.studhunter.domain.repository.UserRepository
 import com.veyvolopayli.studhunter.domain.usecases.auth.AuthenticateUseCase
 import com.veyvolopayli.studhunter.domain.usecases.auth.SignInByEmailUseCase
 import dagger.Module
@@ -30,6 +32,12 @@ object AppModule {
     fun providesApplication(app: Application): Application {
         return app
     }*/
+
+    @Provides
+    @Singleton
+    fun providesUserRepository(api: StudHunterApi): UserRepository {
+        return UserRepositoryImpl(api)
+    }
 
     @Provides
     @Singleton

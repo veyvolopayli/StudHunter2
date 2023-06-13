@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.data.remote
 
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
@@ -38,5 +39,11 @@ interface StudHunterApi {
 
     @GET("publications/id/{id}")
     suspend fun fetchPublication(@Header("Authorization") token: String, @Path("id") id: String): Response<PublicationDto>
+
+    @GET("image/{publicationId}/image_{n}")
+    suspend fun checkImageValidity(@Path("publicationId") publicationId: String, @Path("n") n: Int)
+
+    @GET("users/{id}")
+    suspend fun fetchUserById(@Header("Authorization") token: String, @Path("id") id: String): User
 
 }
