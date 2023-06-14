@@ -19,4 +19,8 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
         api.checkImageValidity(publicationId, num)
     }
 
+    override suspend fun getCategories(): Map<Int, String> {
+        return api.getCategories()
+    }
+
 }

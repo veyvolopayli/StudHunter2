@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.veyvolopayli.studhunter.databinding.ItemMainBinding
+import com.veyvolopayli.studhunter.common.show
+import com.veyvolopayli.studhunter.databinding.HomePublicationItemBinding
 import com.veyvolopayli.studhunter.domain.model.Publication
-import java.lang.Exception
 
 class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnClickListener {
 
@@ -17,7 +17,7 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnC
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-        val binding: ItemMainBinding = ItemMainBinding.inflate(view, parent, false)
+        val binding: HomePublicationItemBinding = HomePublicationItemBinding.inflate(view, parent, false)
 
         return ViewHolder(binding)
     }
@@ -26,19 +26,23 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnC
         val currentItem = publications[position]
 
         with(holder.binding){
-            titleMainItemTv.text = currentItem.title
-            subtitleMainItemTv.text = currentItem.description
-            priceMainItemTv.text = currentItem.price.toString()
-            timeMainItemTv.text = currentItem.timestamp
+            currentItem.price?.let {
+                price.text = it.toString()
+                price.show()
+            }
+            title.text = currentItem.title
+            description.text = currentItem.description
+            priceType.text = currentItem.priceType
+            dateTime.text = currentItem.timestamp
             itemConstraintLayout.setOnClickListener {
                 onItemClick?.invoke(currentItem.id)
             }
 
             try {
-                Glide.with(itemTopImage.context).load(currentItem.imageUrl)
+                Glide.with(image.context).load(currentItem.imageUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
 //                .placeholder(R.drawable.background_splash_white)
-                    .into(itemTopImage)
+                    .into(image)
             } catch (_: Exception){
 
             }
@@ -55,7 +59,7 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnC
         return publications.size
     }
 
-    class ViewHolder(val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: HomePublicationItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(v: View) {
         val publication = v.tag as Publication

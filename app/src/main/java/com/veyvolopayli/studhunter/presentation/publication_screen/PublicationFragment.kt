@@ -57,11 +57,15 @@ class PublicationFragment() : Fragment() {
                 hide()
             }
             binding.apply {
-                publicationData.show()
+                state.price?.let {
+                    price.text = it.toString()
+                    price.show()
+                }
 
                 title.text = state.title
                 description.text = state.description
-                price.text = "${state.price} ${state.priceType}" ?: ""
+                priceType.text = state.priceType
+                publicationData.show()
             }
         }
 

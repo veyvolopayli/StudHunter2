@@ -46,4 +46,6 @@ interface StudHunterApi {
     @GET("users/{id}")
     suspend fun fetchUserById(@Header("Authorization") token: String, @Path("id") id: String): User
 
+    @GET("publication/categories")
+    suspend fun getCategories(): Map<Int, String>
 }

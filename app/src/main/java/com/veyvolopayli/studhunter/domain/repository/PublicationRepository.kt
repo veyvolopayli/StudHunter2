@@ -12,4 +12,6 @@ interface PublicationRepository {
 
     suspend fun checkImageValidity(publicationId: String, num: Int)
 
+    suspend fun getCategories(): Map<Int, String>
+
 }
