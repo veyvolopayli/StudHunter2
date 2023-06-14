@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.Resource
+import com.veyvolopayli.studhunter.data.remote.dto.millsToDateTime
 import com.veyvolopayli.studhunter.data.remote.dto.toDetailedPublication
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.usecases.publication.FetchPublicationUseCase
@@ -43,7 +45,7 @@ class PublicationViewModel @Inject constructor(
                         price = publication.price,
                         priceType = publication.priceType,
                         socials = publication.socials,
-                        timestamp = publication.timestamp,
+                        timestamp = publication.timestamp.millsToDateTime() ?: "Ошибка",
                         title = publication.title,
                         userId = publication.userId
                     )

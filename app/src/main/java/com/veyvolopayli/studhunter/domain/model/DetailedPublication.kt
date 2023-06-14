@@ -9,7 +9,7 @@ data class DetailedPublication(
     val price: Int,
     val priceType: Int,
     val socials: String,
-    val timestamp: String,
+    val timestamp: Long,
     val title: String,
     val userId: String
 )
