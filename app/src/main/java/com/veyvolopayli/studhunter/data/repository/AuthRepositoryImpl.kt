@@ -22,12 +22,12 @@ class AuthRepositoryImpl(private val api: StudHunterApi, private val prefs: Shar
         api.authenticate(token)
     }
 
-    override suspend fun isUsernameUnique(username: String): Boolean {
-        return api.isUsernameUnique(username)
+    override suspend fun isUsernameUnique(username: String) {
+        api.isUsernameUnique(username)
     }
 
-    override suspend fun isEmailUnique(email: String): Boolean {
-        return api.isEmailUnique(email)
+    override suspend fun isEmailUnique(email: String) {
+        api.isEmailUnique(email)
     }
 
 }

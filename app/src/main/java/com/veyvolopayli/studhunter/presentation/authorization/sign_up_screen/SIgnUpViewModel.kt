@@ -30,6 +30,12 @@ class SIgnUpViewModel @Inject constructor(
     private val _secondDataIsValid = MutableLiveData(false)
     val secondDataIsValid: LiveData<Boolean> = _secondDataIsValid
 
+    private val _isUsernameUniqueResult = MutableLiveData<Boolean>()
+    val isUsernameUniqueResult: LiveData<Boolean> = _isUsernameUniqueResult
+
+    private val _isEmailUniqueResult = MutableLiveData<Boolean>()
+    val isEmailUniqueResult: LiveData<Boolean> = _isEmailUniqueResult
+
     fun signUp() {
         if (!_secondDataIsValid.value!!) return
 

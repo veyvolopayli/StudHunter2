@@ -31,11 +31,11 @@ interface StudHunterApi {
     @Streaming
     suspend fun downloadUpdate(): ResponseBody
 
-    @GET("user/")
-    suspend fun isUsernameUnique(username: String): Boolean
+    @GET("user/public/get")
+    suspend fun isUsernameUnique(@Query("username") username: String)
 
-    @GET("")
-    suspend fun isEmailUnique(email:String): Boolean
+    @GET("user/public/get")
+    suspend fun isEmailUnique(@Query("email") email:String)
 
     @GET("publications/id/{id}")
     suspend fun fetchPublication(@Header("Authorization") token: String, @Path("id") id: String): Response<PublicationDto>
