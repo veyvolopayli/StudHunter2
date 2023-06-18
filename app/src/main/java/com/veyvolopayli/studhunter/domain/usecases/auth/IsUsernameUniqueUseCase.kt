@@ -11,8 +11,8 @@ class IsUsernameUniqueUseCase @Inject constructor(
 ) {
     operator fun invoke(username: String): Flow<DataUniquenessResult> = flow {
         try {
-            val isUsernameUnique = repository.isUsernameUnique(username)
-            if (isUsernameUnique) emit(DataUniquenessResult.Unique) else emit(DataUniquenessResult.NotUnique)
+            repository.isUsernameUnique(username)
+            emit(DataUniquenessResult.Unique)
         } catch (e: Exception) {
             emit(DataUniquenessResult.Error)
         }

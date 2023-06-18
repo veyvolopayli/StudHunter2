@@ -11,8 +11,8 @@ class IsEmailUniqueUseCase @Inject constructor(
 ) {
     operator fun invoke(email: String): Flow<DataUniquenessResult> = flow {
         try {
-            val isEmailUnique = authRepository.isEmailUnique(email)
-            if (isEmailUnique) emit(DataUniquenessResult.Unique) else emit(DataUniquenessResult.NotUnique)
+            authRepository.isEmailUnique(email)
+            emit(DataUniquenessResult.Unique)
         } catch (e: Exception) {
             emit(DataUniquenessResult.Error)
         }

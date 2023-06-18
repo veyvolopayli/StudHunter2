@@ -20,6 +20,7 @@ import com.veyvolopayli.studhunter.databinding.ActivityMainBinding
 import com.veyvolopayli.studhunter.presentation.auth_screen.AuthFragment
 import com.veyvolopayli.studhunter.presentation.categories_screen.CategoriesFragment
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
+import com.veyvolopayli.studhunter.presentation.image_gallery.GalleryFragment
 import com.veyvolopayli.studhunter.presentation.publication_screen.PublicationFragment
 import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,16 +37,10 @@ class MainActivity : AppCompatActivity() {
 
     private val homeFragment = HomeFragment()
     private val categoriesFragment = CategoriesFragment()
-//    private val homeFragment =
-//    private val homeFragment =
-//    private val homeFragment =
 
     private var home: FragmentScreen = Screens.home()
     private var categories: FragmentScreen = Screens.categories()
 
-//    private val navigator = AppNavigator(this, R.id.main_fragment_container)
-
-    private val router = INSTANCE.router
     private val navigator = AppNavigator(this, R.id.main_fragment_container)
 
     private var currentFragment: Fragment = homeFragment
@@ -129,6 +124,9 @@ class MainActivity : AppCompatActivity() {
                     showFragment(R.id.main_fragment_container, destination.previousDestination ?: currentFragment, publicationFragment, null)
                     destination.previousDestination?.let { currentFragment = it }
                 }
+                is MainNavDestination.Gallery -> {
+                    replaceFragment(container = binding.mainFragmentContainer.id, newFragment = GalleryFragment())
+                }
             }
         }
 
@@ -143,7 +141,7 @@ class MainActivity : AppCompatActivity() {
     private fun setBottomNavigation(binding: ActivityMainBinding) {
         binding.bottomNavBar.home.setOnClickListener { vm.navigateTo(MainNavDestination.Home(currentFragment)) }
         binding.bottomNavBar.categories.setOnClickListener { vm.navigateTo(MainNavDestination.Categories(currentFragment)) }
-        binding.bottomNavBar.upload.setOnClickListener { vm.navigateTo(MainNavDestination.Upload(currentFragment)) }
+        binding.bottomNavBar.upload.setOnClickListener { vm.navigateTo(MainNavDestination.Gallery(currentFragment)) }
         binding.bottomNavBar.favourites.setOnClickListener { vm.navigateTo(MainNavDestination.Favorites(currentFragment)) }
         binding.bottomNavBar.profile.setOnClickListener { vm.navigateTo(MainNavDestination.Profile(currentFragment)) }
     }

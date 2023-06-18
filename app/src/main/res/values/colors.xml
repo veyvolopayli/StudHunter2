@@ -32,5 +32,7 @@
     <color name="background_dark">#121212</color>
     <color name="item_dark">#1C1C1E</color>
 
+    <color name="transparent_white_80">#80FFFFFF</color>
+
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/tertiary</color>
 </resources>

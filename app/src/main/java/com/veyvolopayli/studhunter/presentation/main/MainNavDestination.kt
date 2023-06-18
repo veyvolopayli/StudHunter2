@@ -13,5 +13,7 @@ sealed class MainNavDestination(val previousDestination: Fragment? = null, val b
     object Search : MainNavDestination()
     object Filter : MainNavDestination()
 
+    class Gallery(previousDestination: Fragment) : MainNavDestination(previousDestination)
+
     class Publication(previousDestination: Fragment? = null, bundle: Bundle) : MainNavDestination(previousDestination, bundle)
 }
