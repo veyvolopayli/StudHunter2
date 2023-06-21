@@ -1,11 +1,13 @@
 package com.veyvolopayli.studhunter.data.remote
 
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
 import com.veyvolopayli.studhunter.domain.model.responses.CheckUpdateResponse
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -48,4 +50,15 @@ interface StudHunterApi {
 
     @GET("publication/categories")
     suspend fun getCategories(): Map<Int, String>
+
+    @GET("userid")
+    suspend fun getCurrentUserId(@Header("Authorization") token: String): String
+
+    @Multipart
+    @POST("publications/new")
+    suspend fun uploadPublication(
+        @Part imageFiles: List<MultipartBody.Part>,
+        @Part publicationData: PublicationToUpload,
+        @Header("Authorization") token: String
+    ): String
 }

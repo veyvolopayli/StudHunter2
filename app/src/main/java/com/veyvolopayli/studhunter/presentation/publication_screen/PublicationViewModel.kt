@@ -4,13 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.millsToDateTime
-import com.veyvolopayli.studhunter.data.remote.dto.toDetailedPublication
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.usecases.publication.FetchPublicationUseCase
-import com.veyvolopayli.studhunter.domain.usecases.publication.FetchUserByIdUseCase
+import com.veyvolopayli.studhunter.domain.usecases.user.FetchUserByIdUseCase
 import com.veyvolopayli.studhunter.domain.usecases.publication.ImageUrlValidityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

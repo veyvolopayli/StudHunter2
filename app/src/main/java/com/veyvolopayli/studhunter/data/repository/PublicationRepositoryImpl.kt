@@ -2,7 +2,9 @@ package com.veyvolopayli.studhunter.data.repository
 
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
+import okhttp3.MultipartBody
 import retrofit2.Response
 
 class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepository {
@@ -21,6 +23,14 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
 
     override suspend fun getCategories(): Map<Int, String> {
         return api.getCategories()
+    }
+
+    override suspend fun uploadPublication(
+        imageFiles: List<MultipartBody.Part>,
+        publicationData: PublicationToUpload,
+        token: String
+    ): String {
+        return api.uploadPublication(imageFiles, publicationData, token)
     }
 
 }

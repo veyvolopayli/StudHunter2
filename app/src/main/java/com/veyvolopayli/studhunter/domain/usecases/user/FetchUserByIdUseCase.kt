@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.domain.usecases.publication
+package com.veyvolopayli.studhunter.domain.usecases.user
 
 import android.content.SharedPreferences
 import com.veyvolopayli.studhunter.common.Constants.JWT

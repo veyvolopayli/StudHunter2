@@ -19,7 +19,11 @@ class GalleryViewModel @Inject constructor(
     private val _images = MutableLiveData<List<String>>()
     val images: LiveData<List<String>> = _images
 
-    fun getImages() {
+    init {
+        getImages()
+    }
+
+    private fun getImages() {
         getUserImagesUseCase().onEach { images ->
             if (images != null) {
                 _images.value = images

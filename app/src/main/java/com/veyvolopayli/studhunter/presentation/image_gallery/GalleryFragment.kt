@@ -2,6 +2,7 @@ package com.veyvolopayli.studhunter.presentation.image_gallery
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 class GalleryFragment : Fragment() {
     private var binding: FragmentGalleryBinding? = null
     private val viewModel: GalleryViewModel by viewModels()
+    private val isApiUnder33 = Build.VERSION.SDK_INT < 33
 
     private val requestPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -52,10 +54,17 @@ class GalleryFragment : Fragment() {
     }
 
     private fun hasReadStoragePermission(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED
+        return if (isApiUnder33) {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED
+        }
     }
 
     private fun requestStoragePermission() {
@@ -63,7 +72,11 @@ class GalleryFragment : Fragment() {
             // Explain why the permission is needed if necessary
         }
 
-        requestPermissionsLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (isApiUnder33) {
+            requestPermissionsLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+        } else {
+            requestPermissionsLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
     }
 
     private fun showImageGallery() {
