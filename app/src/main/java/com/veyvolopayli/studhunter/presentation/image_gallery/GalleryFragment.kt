@@ -7,27 +7,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.veyvolopayli.studhunter.databinding.FragmentGalleryBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class GalleryFragment : Fragment() {
     private var binding: FragmentGalleryBinding? = null
+    private val viewModel: GalleryViewModel by viewModels()
 
     private val requestPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            val uris = GalleryService.getImageUris(requireContext().contentResolver)
-            val adapter = ImageGalleryAdapter()
-            adapter.setData(uris)
-
-            binding?.imagesRv?.layoutManager = GridLayoutManager(requireContext(), 3)
-            binding?.imagesRv?.adapter = adapter
-
-            Log.e("TAG", uris.toString())
+            showImageGallery()
         } else {
             // Handle permission denied case
         }
@@ -65,14 +67,19 @@ class GalleryFragment : Fragment() {
     }
 
     private fun showImageGallery() {
-        val uris = GalleryService.getImageUris(requireContext().contentResolver)
-        val adapter = ImageGalleryAdapter()
-        adapter.setData(uris)
+        viewModel.images.observe(viewLifecycleOwner) { uris ->
+            val adapter = ImageGalleryAdapter()
+            adapter.setData(uris)
 
-        binding?.imagesRv?.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding?.imagesRv?.adapter = adapter
+            binding?.imagesRv?.layoutManager = GridLayoutManager(requireContext(), 3)
+            binding?.imagesRv?.adapter = adapter
 
-        Log.e("TAG", uris.toString())
+            adapter.onItemClick = {
+                adapter.dataChanged()
+            }
+
+        }
+
     }
 
     override fun onDestroyView() {

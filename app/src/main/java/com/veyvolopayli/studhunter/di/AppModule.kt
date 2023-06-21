@@ -1,15 +1,18 @@
 package com.veyvolopayli.studhunter.di
 
 import android.app.Application
+import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.veyvolopayli.studhunter.data.repository.PublicationRepositoryImpl
 import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.repository.AuthRepositoryImpl
+import com.veyvolopayli.studhunter.data.repository.GalleryRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.UpdateRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.UserRepositoryImpl
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
+import com.veyvolopayli.studhunter.domain.repository.GalleryRepository
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
 import com.veyvolopayli.studhunter.domain.repository.UpdateRepository
 import com.veyvolopayli.studhunter.domain.repository.UserRepository
@@ -27,11 +30,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-/*    @Provides
-    fun providesApplication(app: Application): Application {
-        return app
-    }*/
 
     @Provides
     @Singleton
@@ -55,6 +53,18 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(StudHunterApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesContentResolver(app: Application): ContentResolver {
+        return app.contentResolver
+    }
+
+    @Provides
+    @Singleton
+    fun providesGalleryRepository(contentResolver: ContentResolver): GalleryRepository {
+        return GalleryRepositoryImpl(contentResolver)
     }
 
     @Provides
