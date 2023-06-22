@@ -16,4 +16,6 @@ sealed class MainNavDestination(val previousDestination: Fragment? = null, val b
     class Gallery(previousDestination: Fragment) : MainNavDestination(previousDestination)
 
     class Publication(previousDestination: Fragment? = null, bundle: Bundle) : MainNavDestination(previousDestination, bundle)
+
+    class CreatePublication(previousDestination: Fragment?) : MainNavDestination(previousDestination)
 }

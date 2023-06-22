@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.presentation.image_gallery
+package com.veyvolopayli.studhunter.presentation.gallery
 
 import android.util.Log
 import android.view.LayoutInflater

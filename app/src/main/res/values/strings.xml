@@ -39,4 +39,17 @@
     <string name="choose_category">Выберите категорию</string>
     <string name="category">Категория</string>
     <string name="gallery_image_position">%2$d</string>
+    <string name="creating_publication">Создание объявления</string>
+    <string name="add_photo">Добавьте фото</string>
+    <string name="no_more_than_3_photo">Не более 3 фотографий</string>
+    <string name="add_title">Добавьте название</string>
+    <string name="title">Название</string>
+    <string name="add_description">Добавьте описание</string>
+    <string name="write_something">Напишите что-нибудь</string>
+    <string name="indicate_place">Укажите место</string>
+    <string name="indicate_price">Укажите цену</string>
+    <string name="price">Цена</string>
+    <string name="upload">Опубликовать</string>
+    <string name="delete_publication">Удалить объявление</string>
+    <string name="text">Текст</string>
 </resources>

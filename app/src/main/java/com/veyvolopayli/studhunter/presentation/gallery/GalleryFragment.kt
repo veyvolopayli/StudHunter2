@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.presentation.image_gallery
+package com.veyvolopayli.studhunter.presentation.gallery
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -8,24 +8,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.veyvolopayli.studhunter.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class GalleryFragment : Fragment() {
+class GalleryFragment : BottomSheetDialogFragment() {
     private var binding: FragmentGalleryBinding? = null
     private val viewModel: GalleryViewModel by viewModels()
     private val isApiUnder33 = Build.VERSION.SDK_INT < 33
+    private var images: List<String>? = null
 
     private val requestPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -48,6 +45,10 @@ class GalleryFragment : Fragment() {
             showImageGallery()
         } else {
             requestStoragePermission()
+        }
+
+        binding.apply.setOnClickListener {
+            dismiss()
         }
 
         return binding.root
@@ -84,6 +85,8 @@ class GalleryFragment : Fragment() {
             val adapter = ImageGalleryAdapter()
             adapter.setData(uris)
 
+            images = uris
+
             binding?.imagesRv?.layoutManager = GridLayoutManager(requireContext(), 3)
             binding?.imagesRv?.adapter = adapter
 
@@ -94,6 +97,8 @@ class GalleryFragment : Fragment() {
         }
 
     }
+
+    fun getImages() = images
 
     override fun onDestroyView() {
         super.onDestroyView()

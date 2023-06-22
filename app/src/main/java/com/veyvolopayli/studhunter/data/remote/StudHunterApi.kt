@@ -61,4 +61,7 @@ interface StudHunterApi {
         @Part publicationData: PublicationToUpload,
         @Header("Authorization") token: String
     ): String
+
+    @GET("publication/priceTypes")
+    suspend fun getPriceTypes(): Map<Int, String>
 }

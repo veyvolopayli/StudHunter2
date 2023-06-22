@@ -33,4 +33,8 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
         return api.uploadPublication(imageFiles, publicationData, token)
     }
 
+    override suspend fun getPriceTypes(): Map<Int, String> {
+        return api.getPriceTypes()
+    }
+
 }

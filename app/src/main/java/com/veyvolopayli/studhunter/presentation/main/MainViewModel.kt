@@ -83,6 +83,10 @@ class MainViewModel @Inject constructor(
         _isBottomBarVisible.value = true
     }
 
+    fun hideBottomBar() {
+        _isBottomBarVisible.value = false
+    }
+
     fun launchAppOk() {
         _launchAppResult.value = LaunchAppResult.Ok()
     }

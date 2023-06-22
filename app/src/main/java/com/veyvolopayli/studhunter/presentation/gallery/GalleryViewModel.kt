@@ -1,10 +1,9 @@
-package com.veyvolopayli.studhunter.presentation.image_gallery
+package com.veyvolopayli.studhunter.presentation.gallery
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.veyvolopayli.studhunter.domain.repository.GalleryRepository
 import com.veyvolopayli.studhunter.domain.usecases.gallery.GetUserImagesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn

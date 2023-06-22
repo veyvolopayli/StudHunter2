@@ -19,15 +19,14 @@ import com.veyvolopayli.studhunter.common.showFragment
 import com.veyvolopayli.studhunter.databinding.ActivityMainBinding
 import com.veyvolopayli.studhunter.presentation.auth_screen.AuthFragment
 import com.veyvolopayli.studhunter.presentation.categories_screen.CategoriesFragment
+import com.veyvolopayli.studhunter.presentation.create_publication_screen.CreatePublicationFragment
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
-import com.veyvolopayli.studhunter.presentation.image_gallery.GalleryFragment
+import com.veyvolopayli.studhunter.presentation.gallery.GalleryFragment
 import com.veyvolopayli.studhunter.presentation.publication_screen.PublicationFragment
 import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.Stack
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -127,6 +126,11 @@ class MainActivity : AppCompatActivity() {
                 is MainNavDestination.Gallery -> {
                     replaceFragment(container = binding.mainFragmentContainer.id, newFragment = GalleryFragment())
                 }
+                is MainNavDestination.CreatePublication -> {
+                    replaceFragment(container = binding.mainFragmentContainer.id, currentFragment = currentFragment, newFragment = CreatePublicationFragment(), null)
+                    currentFragment = CreatePublicationFragment()
+                    vm.hideBottomBar()
+                }
             }
         }
 
@@ -141,7 +145,7 @@ class MainActivity : AppCompatActivity() {
     private fun setBottomNavigation(binding: ActivityMainBinding) {
         binding.bottomNavBar.home.setOnClickListener { vm.navigateTo(MainNavDestination.Home(currentFragment)) }
         binding.bottomNavBar.categories.setOnClickListener { vm.navigateTo(MainNavDestination.Categories(currentFragment)) }
-        binding.bottomNavBar.upload.setOnClickListener { vm.navigateTo(MainNavDestination.Gallery(currentFragment)) }
+        binding.bottomNavBar.upload.setOnClickListener { vm.navigateTo(MainNavDestination.CreatePublication(currentFragment)) }
         binding.bottomNavBar.favourites.setOnClickListener { vm.navigateTo(MainNavDestination.Favorites(currentFragment)) }
         binding.bottomNavBar.profile.setOnClickListener { vm.navigateTo(MainNavDestination.Profile(currentFragment)) }
     }

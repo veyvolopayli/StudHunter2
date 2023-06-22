@@ -24,4 +24,6 @@ interface PublicationRepository {
         token: String
     ): String
 
+    suspend fun getPriceTypes(): Map<Int, String>
+
 }

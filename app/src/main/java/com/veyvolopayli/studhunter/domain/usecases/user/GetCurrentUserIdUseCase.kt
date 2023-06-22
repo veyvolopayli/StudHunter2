@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flow
 import java.lang.Exception
 import javax.inject.Inject
 
-class FetchCurrentUserIdUseCase @Inject constructor(
+class GetCurrentUserIdUseCase @Inject constructor(
     private val userRepository: UserRepository,
     private val prefs: SharedPreferences
 ) {

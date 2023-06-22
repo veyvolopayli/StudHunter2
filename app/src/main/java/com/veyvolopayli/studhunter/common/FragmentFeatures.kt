@@ -45,7 +45,8 @@ fun Fragment.removeFragment(container: Int, fragment: Fragment) {
     parentFragmentManager.beginTransaction().remove(fragment).commit()
 }
 
-fun AppCompatActivity.replaceFragment(container: Int, newFragment: Fragment, backStack: String?) {
+fun AppCompatActivity.replaceFragment(container: Int, currentFragment: Fragment?, newFragment: Fragment, backStack: String?) {
+    if (currentFragment === newFragment) return
     supportFragmentManager.commit {
         setReorderingAllowed(true)
         setCustomAnimations(R.anim.slide_in_right, R.anim.fade_out, R.anim.fade_in, R.anim.slide_out_left)
