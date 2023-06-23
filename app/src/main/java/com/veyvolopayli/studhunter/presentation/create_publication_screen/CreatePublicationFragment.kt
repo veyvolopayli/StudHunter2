@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentCreatePublicationBinding
@@ -40,6 +42,12 @@ class CreatePublicationFragment : Fragment() {
 
         val galleryBottomSheet = GalleryFragment()
 //        galleryBottomSheet.show(parentFragmentManager, null)
+
+        val imagesAdapter = CreatePublicationImagesAdapter()
+//        val tempImage = ContextCompat.getDrawable(requireContext(), R.drawable.create_publication_temp_image)
+        imagesAdapter.setData(listOf("http://5.181.255.253/image/common/create_publication_temp_image"))
+        binding.publicationRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.publicationRecycler.adapter = imagesAdapter
 
         viewModel.priceTypes.observe(viewLifecycleOwner) { types ->
             val values = types.values.toList()

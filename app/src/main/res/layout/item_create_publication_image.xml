@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.makeramen.roundedimageview.RoundedImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:id="@+id/image"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:src="@drawable/create_publication_temp_image"
+    android:scaleType="fitCenter"
+    app:riv_corner_radius="16dp"
+    app:layout_constraintDimensionRatio="H,1:1" />
