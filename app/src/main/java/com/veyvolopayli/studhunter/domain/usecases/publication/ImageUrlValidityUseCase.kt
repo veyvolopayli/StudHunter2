@@ -15,7 +15,7 @@ class ImageUrlValidityUseCase @Inject constructor(
     operator fun invoke(publicationId: String): Flow<Resource<List<String>>> = flow {
         val validImages = mutableListOf<String>()
         emit(Resource.Loading())
-        repeat(3) { n ->
+        repeat(10) { n ->
             try {
                 repository.checkImageValidity(publicationId, n)
                 validImages.add("${Constants.BASE_URL}image/$publicationId/image_$n")

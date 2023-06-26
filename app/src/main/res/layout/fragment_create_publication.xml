@@ -215,7 +215,7 @@
                     android:hint="@string/price"
                     android:imeOptions="actionNext"
                     android:inputType="number"
-                    android:maxLength="10"
+                    android:maxLength="9"
                     android:maxLines="1"
                     android:singleLine="true" />
 
@@ -259,5 +259,14 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/loading_layout"
+        layout="@layout/transparent_loading_layout"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

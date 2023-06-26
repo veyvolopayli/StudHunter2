@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import com.google.gson.GsonBuilder
 import com.veyvolopayli.studhunter.data.repository.PublicationRepositoryImpl
 import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
@@ -50,7 +51,7 @@ object AppModule {
             .Builder()
             .baseUrl(Constants.BASE_URL)
             .client(OkHttpClient())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .build()
             .create(StudHunterApi::class.java)
     }

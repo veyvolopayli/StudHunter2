@@ -29,6 +29,10 @@ class CreatePublicationImagesAdapter : RecyclerView.Adapter<CreatePublicationIma
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
 //                .placeholder(R.drawable.background_splash_white)
                 .into(image)
+
+            image.setOnClickListener {
+                onItemClick?.invoke(if (currentItem is String) currentItem else "")
+            }
         }
 
     }
@@ -37,6 +41,8 @@ class CreatePublicationImagesAdapter : RecyclerView.Adapter<CreatePublicationIma
         this.images = images
         notifyDataSetChanged()
     }
+
+    fun getSelectedImages() = images
 
     override fun getItemCount(): Int {
         return if (images.isEmpty()) 1 else images.size

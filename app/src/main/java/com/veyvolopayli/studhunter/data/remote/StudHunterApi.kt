@@ -58,7 +58,7 @@ interface StudHunterApi {
     @POST("publications/new")
     suspend fun uploadPublication(
         @Part imageFiles: List<MultipartBody.Part>,
-        @Part publicationData: PublicationToUpload,
+        @Part("publicationData") publicationData: PublicationToUpload,
         @Header("Authorization") token: String
     ): String
 

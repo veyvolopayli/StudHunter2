@@ -5,8 +5,8 @@ data class PublicationToUpload(
     val description: String,
     val district: String,
     val price: Int?,
-    val priceType: Int,
-    val socials: String,
+    val priceType: String,
     val title: String,
-    val userId: String
+    val userId: String,
+    val socials: String
 )
