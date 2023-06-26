@@ -29,8 +29,8 @@ class CreatePublicationViewModel @Inject constructor(
     private val _state = MutableLiveData<CreatePublicationState>()
     val state: LiveData<CreatePublicationState> = _state
 
-    private val _images = MutableLiveData<List<String>>()
-    val images: LiveData<List<String>> = _images
+    private val _selectedImages = MutableLiveData<List<String>>()
+    val selectedImages: LiveData<List<String>> = _selectedImages
 
     private val _priceTypes = MutableLiveData<Map<Int, String>>()
     val priceTypes: LiveData<Map<Int, String>> = _priceTypes
@@ -68,6 +68,10 @@ class CreatePublicationViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun setSelectedImages(selectedImages: List<String>) {
+        _selectedImages.value = selectedImages
     }
 
 }

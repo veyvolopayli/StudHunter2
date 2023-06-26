@@ -8,10 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ListAdapter
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Orientation
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -41,11 +45,10 @@ class CreatePublicationFragment : Fragment() {
         this.binding = binding
 
         val galleryBottomSheet = GalleryFragment()
-//        galleryBottomSheet.show(parentFragmentManager, null)
+        galleryBottomSheet.show(parentFragmentManager, null)
 
         val imagesAdapter = CreatePublicationImagesAdapter()
-//        val tempImage = ContextCompat.getDrawable(requireContext(), R.drawable.create_publication_temp_image)
-        imagesAdapter.setData(listOf("http://5.181.255.253/image/common/create_publication_temp_image"))
+        imagesAdapter.setData(listOf(TEMP_IMAGE_URL))
         binding.publicationRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.publicationRecycler.adapter = imagesAdapter
 
@@ -55,6 +58,17 @@ class CreatePublicationFragment : Fragment() {
             val priceTypesAdapter = ArrayAdapter(requireContext(), R.layout.price_type_item, values)
             binding.priceType.setAdapter(priceTypesAdapter)
             binding.priceType.setDropDownBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.background_12px))
+        }
+
+        viewModel.selectedImages.observe(viewLifecycleOwner) { images ->
+            imagesAdapter.setData(images)
+        }
+
+        setFragmentResultListener(IMAGES_KEY) { _, bundle ->
+            val images = bundle.getStringArrayList(SELECTED_IMAGES_KEY)?.toList() ?: run {
+                return@setFragmentResultListener
+            }
+            viewModel.setSelectedImages(images)
         }
 
         return binding.root
@@ -70,7 +84,9 @@ class CreatePublicationFragment : Fragment() {
         mainViewModel.showBottomBar()
     }
 
-    override fun onResume() {
-        super.onResume()
+    private companion object {
+        const val TEMP_IMAGE_URL = "http://5.181.255.253/image/common/create_publication_temp_image"
+        const val IMAGES_KEY = "imagesKey"
+        const val SELECTED_IMAGES_KEY = "selectedImages"
     }
 }

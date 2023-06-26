@@ -10,11 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.veyvolopayli.studhunter.databinding.FragmentGalleryBinding
+import com.veyvolopayli.studhunter.presentation.create_publication_screen.CreatePublicationFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +26,7 @@ class GalleryFragment : BottomSheetDialogFragment() {
     private val viewModel: GalleryViewModel by viewModels()
     private val isApiUnder33 = Build.VERSION.SDK_INT < 33
     private var images: List<String>? = null
+    private val adapter = ImageGalleryAdapter()
 
     private val requestPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -48,6 +52,10 @@ class GalleryFragment : BottomSheetDialogFragment() {
         }
 
         binding.apply.setOnClickListener {
+            val images = adapter.selectedImages
+            if (images.isNotEmpty()) {
+                setFragmentResult("imagesKey", bundleOf("selectedImages" to images))
+            }
             dismiss()
         }
 
@@ -82,7 +90,6 @@ class GalleryFragment : BottomSheetDialogFragment() {
 
     private fun showImageGallery() {
         viewModel.images.observe(viewLifecycleOwner) { uris ->
-            val adapter = ImageGalleryAdapter()
             adapter.setData(uris)
 
             images = uris
@@ -97,8 +104,6 @@ class GalleryFragment : BottomSheetDialogFragment() {
         }
 
     }
-
-    fun getImages() = images
 
     override fun onDestroyView() {
         super.onDestroyView()
