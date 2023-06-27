@@ -37,4 +37,8 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
         return api.getPriceTypes()
     }
 
+    override suspend fun getDistricts(): List<String> {
+        return api.getDistricts()
+    }
+
 }

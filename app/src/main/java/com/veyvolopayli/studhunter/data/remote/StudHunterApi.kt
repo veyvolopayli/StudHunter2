@@ -64,4 +64,7 @@ interface StudHunterApi {
 
     @GET("publication/priceTypes")
     suspend fun getPriceTypes(): Map<Int, String>
+
+    @GET("publication/districts")
+    suspend fun getDistricts(): List<String>
 }

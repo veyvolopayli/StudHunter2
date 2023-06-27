@@ -52,4 +52,7 @@
     <string name="upload">Опубликовать</string>
     <string name="delete_publication">Удалить объявление</string>
     <string name="text">Текст</string>
+    <string name="indicate_category">Укажите категорию</string>
+    <string name="indicate_district">Укажите район</string>
+    <string name="district">Район</string>
 </resources>

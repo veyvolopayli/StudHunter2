@@ -26,4 +26,5 @@ interface PublicationRepository {
 
     suspend fun getPriceTypes(): Map<Int, String>
 
+    suspend fun getDistricts(): List<String>
 }

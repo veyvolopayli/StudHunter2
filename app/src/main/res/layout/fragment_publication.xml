@@ -89,7 +89,7 @@
                 android:layout_height="264dp" >
 
                 <include
-                    layout="@layout/publication_image_item" />
+                    layout="@layout/item_image_publication" />
 
             </com.facebook.shimmer.ShimmerFrameLayout>
 

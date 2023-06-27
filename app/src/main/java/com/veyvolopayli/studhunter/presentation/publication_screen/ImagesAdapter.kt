@@ -1,12 +1,11 @@
 package com.veyvolopayli.studhunter.presentation.publication_screen
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.databinding.PublicationImageItemBinding
+import com.veyvolopayli.studhunter.databinding.ItemImagePublicationBinding
 
 
 class ImagesAdapter : RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
@@ -15,11 +14,11 @@ class ImagesAdapter : RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
 
     var onClick : ((Int) -> Unit)? = null
 
-    class ViewHolder(val binding: PublicationImageItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemImagePublicationBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = PublicationImageItemBinding.inflate(inflater, parent, false)
+        val binding = ItemImagePublicationBinding.inflate(inflater, parent, false)
 
         return ViewHolder(binding)
     }

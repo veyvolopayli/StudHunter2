@@ -1,15 +1,9 @@
 package com.veyvolopayli.studhunter.presentation.categories_screen
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.veyvolopayli.studhunter.common.show
-import com.veyvolopayli.studhunter.databinding.HomePublicationItemBinding
 import com.veyvolopayli.studhunter.databinding.ItemCategoryBinding
-import com.veyvolopayli.studhunter.domain.model.Publication
 
 class CategoriesRvAdapter : RecyclerView.Adapter<CategoriesRvAdapter.ViewHolder>() {
 

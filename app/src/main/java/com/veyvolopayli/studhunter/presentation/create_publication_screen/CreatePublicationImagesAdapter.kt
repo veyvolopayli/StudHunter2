@@ -27,7 +27,7 @@ class CreatePublicationImagesAdapter : RecyclerView.Adapter<CreatePublicationIma
         with(holder.binding){
             Glide.with(image.context).load(currentItem)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .placeholder(R.drawable.background_splash_white)
+                .placeholder(R.drawable.create_publication_temp_image)
                 .into(image)
 
             image.setOnClickListener {

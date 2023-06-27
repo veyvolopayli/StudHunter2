@@ -1,13 +1,16 @@
 package com.veyvolopayli.studhunter.presentation.home_screen
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.common.hide
 import com.veyvolopayli.studhunter.common.show
-import com.veyvolopayli.studhunter.databinding.HomePublicationItemBinding
+import com.veyvolopayli.studhunter.databinding.ItemPublicationHomeBinding
 import com.veyvolopayli.studhunter.domain.model.Publication
 
 class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnClickListener {
@@ -17,7 +20,7 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnC
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-        val binding: HomePublicationItemBinding = HomePublicationItemBinding.inflate(view, parent, false)
+        val binding: ItemPublicationHomeBinding = ItemPublicationHomeBinding.inflate(view, parent, false)
 
         return ViewHolder(binding)
     }
@@ -26,9 +29,11 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnC
         val currentItem = publications[position]
 
         with(holder.binding){
+            price.hide()
             currentItem.price?.let {
                 price.text = it.toString()
                 price.show()
+                Log.e("TAG", it.toString())
             }
             title.text = currentItem.title
             description.text = currentItem.description
@@ -38,14 +43,9 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnC
                 onItemClick?.invoke(currentItem.id)
             }
 
-            try {
-                Glide.with(image.context).load(currentItem.imageUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .placeholder(R.drawable.background_splash_white)
-                    .into(image)
-            } catch (_: Exception){
-
-            }
+            Glide.with(image.context).load(currentItem.imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(image)
         }
 
     }
@@ -59,7 +59,7 @@ class HomeRvAdapter : RecyclerView.Adapter<HomeRvAdapter.ViewHolder>(), View.OnC
         return publications.size
     }
 
-    class ViewHolder(val binding: HomePublicationItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ItemPublicationHomeBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onClick(v: View) {
         val publication = v.tag as Publication

@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
+import com.veyvolopayli.studhunter.domain.usecases.categories.GetCategoriesUseCase
+import com.veyvolopayli.studhunter.domain.usecases.categories.GetDistrictsUseCase
 import com.veyvolopayli.studhunter.domain.usecases.create_publication.GetPriceTypesUseCase
 import com.veyvolopayli.studhunter.domain.usecases.create_publication.UploadPublicationUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
@@ -20,7 +22,8 @@ import javax.inject.Inject
 class CreatePublicationViewModel @Inject constructor(
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
     private val uploadPublicationUseCase: UploadPublicationUseCase,
-    private val getPriceTypesUseCase: GetPriceTypesUseCase
+    private val getPriceTypesUseCase: GetPriceTypesUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase
 ) : ViewModel() {
 
     private val _userId = MutableLiveData<String>()
@@ -35,9 +38,24 @@ class CreatePublicationViewModel @Inject constructor(
     private val _priceTypes = MutableLiveData<Map<Int, String>>()
     val priceTypes: LiveData<Map<Int, String>> = _priceTypes
 
+    private val _categories = MutableLiveData<Map<Int, String>>()
+    val categories: LiveData<Map<Int, String>> = _categories
+
+    private val _selectedDistrict = MutableLiveData<String>()
+    val selectedDistrict: LiveData<String> = _selectedDistrict
+
     init {
         getUserId()
         getPriceTypes()
+        getCategories()
+    }
+
+    private fun getCategories() {
+        getCategoriesUseCase().onEach { pubCategories ->
+            if (pubCategories is Resource.Success) {
+                _categories.value = pubCategories.data ?: emptyMap()
+            }
+        }.launchIn(viewModelScope)
     }
 
     private fun getUserId() {
@@ -62,6 +80,10 @@ class CreatePublicationViewModel @Inject constructor(
 
     fun setSelectedImages(selectedImages: List<String>) {
         _selectedImages.value = selectedImages
+    }
+
+    fun setSelectedDistrict(district: String) {
+        _selectedDistrict.value = district
     }
 
 }

@@ -17,6 +17,7 @@ import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.databinding.FragmentCreatePublicationBinding
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
+import com.veyvolopayli.studhunter.presentation.districts.DistrictsFragment
 import com.veyvolopayli.studhunter.presentation.gallery.GalleryFragment
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,12 +44,17 @@ class CreatePublicationFragment : Fragment() {
         }
 
         val galleryBottomSheet = GalleryFragment()
+        val districtsFragment = DistrictsFragment()
 
         val imagesAdapter = CreatePublicationImagesAdapter()
         imagesAdapter.setData(listOf(TEMP_IMAGE_URL))
         binding.publicationRecycler.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.publicationRecycler.adapter = imagesAdapter
+
+        binding.district.setOnClickListener {
+            districtsFragment.show(parentFragmentManager, null)
+        }
 
         imagesAdapter.onItemClick = {
             galleryBottomSheet.show(parentFragmentManager, null)
@@ -62,13 +68,18 @@ class CreatePublicationFragment : Fragment() {
 
             val publicationImages = imagesAdapter.getSelectedImages()
 
+            val district = binding.district.text.toString().trim()
+            if (district.isEmpty()) {
+                return@setOnClickListener
+            }
+
             val publicationToUpload = PublicationToUpload(
                 title = binding.title.string() ?: kotlin.run { return@setOnClickListener },
                 description = binding.description.string() ?: kotlin.run { return@setOnClickListener },
-                district = "Строгино",
+                district = district,
                 price = binding.price.int(),
                 priceType = binding.priceType.text.toString().trim(),
-                category = "негры",
+                category = binding.category.text.toString().trim(),
                 userId = userId!!,
                 socials = "главный негр"
             )
@@ -77,10 +88,23 @@ class CreatePublicationFragment : Fragment() {
 
         viewModel.priceTypes.observe(viewLifecycleOwner) { types ->
             val values = types.values.toList()
-            if (savedInstanceState == null) binding.priceType.setText(values[0])
-            val priceTypesAdapter = ArrayAdapter(requireContext(), R.layout.price_type_item, values)
+            if (savedInstanceState == null) binding.priceType.setText(values.first())
+            val priceTypesAdapter = ArrayAdapter(requireContext(), R.layout.item_autocomplete_textview_default, values)
             binding.priceType.setAdapter(priceTypesAdapter)
             binding.priceType.setDropDownBackgroundDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.background_12px
+                )
+            )
+        }
+
+        viewModel.categories.observe(viewLifecycleOwner) { categoriesMap ->
+            val categories = categoriesMap.values.toList()
+            if (savedInstanceState == null) binding.category.setText(categories.first())
+            val categoriesAdapter = ArrayAdapter(requireContext(), R.layout.item_autocomplete_textview_default, categories)
+            binding.category.setAdapter(categoriesAdapter)
+            binding.category.setDropDownBackgroundDrawable(
                 ContextCompat.getDrawable(
                     requireContext(),
                     R.drawable.background_12px
@@ -115,11 +139,22 @@ class CreatePublicationFragment : Fragment() {
             }
         }
 
+        viewModel.selectedDistrict.observe(viewLifecycleOwner) { district ->
+            binding.district.setText(district)
+        }
+
         setFragmentResultListener(IMAGES_KEY) { _, bundle ->
             val images = bundle.getStringArrayList(SELECTED_IMAGES_KEY)?.toList() ?: run {
                 return@setFragmentResultListener
             }
             viewModel.setSelectedImages(images)
+        }
+
+        setFragmentResultListener(DISTRICTS_KEY) { _, bundle ->
+            val selectedDistrict = bundle.getString("district", null) ?: run {
+                return@setFragmentResultListener
+            }
+            viewModel.setSelectedDistrict(selectedDistrict)
         }
 
         return binding.root
@@ -152,5 +187,6 @@ class CreatePublicationFragment : Fragment() {
         const val TEMP_IMAGE_URL = "http://5.181.255.253/image/common/create_publication_temp_image"
         const val IMAGES_KEY = "imagesKey"
         const val SELECTED_IMAGES_KEY = "selectedImages"
+        const val DISTRICTS_KEY = "districtKey"
     }
 }

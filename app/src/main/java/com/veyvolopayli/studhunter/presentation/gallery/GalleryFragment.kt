@@ -41,7 +41,7 @@ class GalleryFragment : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val binding = FragmentGalleryBinding.inflate(inflater, container, false)
         this.binding = binding
 
