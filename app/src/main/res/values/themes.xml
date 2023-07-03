@@ -43,7 +43,6 @@
     <style name="AppcompatButton" parent="Widget.AppCompat.Button">
         <item name="android:textSize">@dimen/text_16px</item>
         <item name="android:background">@drawable/background_12px</item>
-        <item name="backgroundTint">@color/primary</item>
         <item name="fontFamily">@font/gilroy_medium</item>
         <item name="android:fontFamily">@font/gilroy_medium</item>
         <item name="android:textColor">@color/mat_white</item>

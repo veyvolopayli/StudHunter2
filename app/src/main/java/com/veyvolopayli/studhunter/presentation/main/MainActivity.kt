@@ -22,6 +22,7 @@ import com.veyvolopayli.studhunter.presentation.categories_screen.CategoriesFrag
 import com.veyvolopayli.studhunter.presentation.create_publication_screen.CreatePublicationFragment
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
 import com.veyvolopayli.studhunter.presentation.gallery.GalleryFragment
+import com.veyvolopayli.studhunter.presentation.profile_screen.ProfileFragment
 import com.veyvolopayli.studhunter.presentation.publication_screen.PublicationFragment
 import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -114,7 +115,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 is MainNavDestination.Upload -> Unit
                 is MainNavDestination.Favorites -> Unit
-                is MainNavDestination.Profile -> Unit
+                is MainNavDestination.Profile -> {
+                    showFragment(R.id.main_fragment_container, destination.previousDestination ?: currentFragment, ProfileFragment(), null)
+                    destination.previousDestination?.let { currentFragment = it }
+                }
                 is MainNavDestination.Filter -> Unit
                 is MainNavDestination.Search -> Unit
                 is MainNavDestination.Publication -> {

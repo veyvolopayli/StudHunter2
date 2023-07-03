@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".presentation.profile_screen.ProfileFragment">
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@drawable/background_topbar"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/GilroyFontThemeMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="24dp"
+            android:text="@string/my_profile"
+            android:textColor="@color/textColorPrimary"
+            android:textSize="@dimen/text_22px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/profile_notifications_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="18dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="5dp"
+            android:src="@drawable/ic_notification"
+            app:tint="@color/textColorPrimary" />
+
+        <ImageView
+            android:id="@+id/profile_edit_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="18dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="5dp"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/textColorPrimary" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        android:paddingBottom="34dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="18dp"
+            android:layout_marginTop="22dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/profile_block_cl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/profile_image_iv"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_user_avatar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:riv_corner_radius="24dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="22dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/profile_image_iv"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/full_name"
+                        style="@style/GilroyFontThemeMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_full_name"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_18px" />
+
+                    <TextView
+                        android:id="@+id/username"
+                        style="@style/GilroyFontTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/username"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_12px" />
+
+                    <TextView
+                        android:id="@+id/email"
+                        style="@style/GilroyFontTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/example_mail"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_12px" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/my_publications_tv"
+                    style="@style/GilroyFontTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background_12px"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="15dp"
+                    android:text="@string/my_publications"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_16px" />
+
+                <TextView
+                    android:id="@+id/faq_tv"
+                    style="@style/GilroyFontTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/background_12px"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="15dp"
+                    android:text="@string/reference_Information"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_16px" />
+
+                <TextView
+                    android:id="@+id/change_password_tv"
+                    style="@style/GilroyFontTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/background_12px"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="15dp"
+                    android:text="@string/change_password"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_16px" />
+
+                <TextView
+                    android:id="@+id/about_us_tv"
+                    style="@style/GilroyFontTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/background_12px"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="15dp"
+                    android:text="@string/about_us"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_16px" />
+
+                <TextView
+                    android:id="@+id/about_app_tv"
+                    style="@style/GilroyFontTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/background_12px"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="18dp"
+                    android:paddingVertical="15dp"
+                    android:text="@string/about_app"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_16px" />
+
+                <TextView
+                    android:id="@+id/exit_app_tv"
+                    style="@style/GilroyFontTheme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="12dp"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="18dp"
+                    android:text="@string/logout"
+                    android:textColor="@color/tertiary"
+                    android:textSize="@dimen/text_18px"
+                    app:drawableTint="@color/tertiary" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <include
+        android:id="@+id/loading_layout"
+        android:visibility="gone"
+        layout="@layout/transparent_loading_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

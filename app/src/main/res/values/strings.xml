@@ -55,4 +55,14 @@
     <string name="indicate_category">Укажите категорию</string>
     <string name="indicate_district">Укажите район</string>
     <string name="district">Район</string>
+    <string name="my_profile">Мой профиль</string>
+    <string name="change_password">Сменить пароль</string>
+    <string name="my_publications">Мои объявления</string>
+    <string name="reference_Information">Справочная информация</string>
+    <string name="about_us">О нас</string>
+    <string name="about_app">О приложении</string>
+    <string name="logout">Выйти из аккаунта</string>
+    <string name="username">Никнейм</string>
+    <string name="user_full_name">Полное имя пользователя</string>
+    <string name="example_mail">example@mail.ru</string>
 </resources>

@@ -45,8 +45,8 @@ interface StudHunterApi {
     @GET("image/{publicationId}/image_{n}")
     suspend fun checkImageValidity(@Path("publicationId") publicationId: String, @Path("n") n: Int)
 
-    @GET("users/{id}")
-    suspend fun fetchUserById(@Header("Authorization") token: String, @Path("id") id: String): User
+    @GET("user/get")
+    suspend fun fetchUserById(@Header("Authorization") token: String, @Query("id") id: String): User
 
     @GET("publication/categories")
     suspend fun getCategories(): Map<Int, String>

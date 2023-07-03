@@ -26,6 +26,7 @@ class FetchUserByIdUseCase @Inject constructor(
             emit(Resource.Success(user))
         } catch (e: HttpException) {
             emit(Resource.Error("Check your internet connection"))
+            e.printStackTrace()
             return@flow
         } catch (e: Exception) {
             emit(Resource.Error("Some unexpected error occurred"))

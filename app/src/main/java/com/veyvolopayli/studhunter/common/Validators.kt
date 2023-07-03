@@ -21,3 +21,33 @@ fun String.usernameIsValid(): Boolean {
 
 fun String.nameOrSurnameIsValid(): Boolean =
     (this.length >= 2 && this.lowercase().all { it in alphabetRU || it in alphabetEN })
+
+fun String.titleIsValid(): Boolean {
+    if (length < 3) return false
+    return true
+}
+
+fun String.descriptionIsValid(): Boolean {
+    if (length < 10) return false
+    return true
+}
+
+fun String.districtIsValid(): Boolean {
+    if (length < 3) return false
+    return true
+}
+
+fun String.categoryIsValid(): Boolean {
+    if (length < 3) return false
+    return true
+}
+
+fun Int.priceIsValid(): Boolean {
+    if (toString().isEmpty()) return false
+    return true
+}
+
+fun String.priceTypeIsValid(): Boolean {
+    if (length < 3) return false
+    return true
+}
