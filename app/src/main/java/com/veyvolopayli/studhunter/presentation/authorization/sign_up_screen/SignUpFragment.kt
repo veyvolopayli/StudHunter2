@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.veyvolopayli.studhunter.common.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {
@@ -20,7 +19,6 @@ class SignUpFragment : Fragment() {
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
 
         if (savedInstanceState == null) {
-            replaceFragment(binding.signUpFragmentContainer.id, FirstSignUpFragment())
         }
 
         binding.backIv.setOnClickListener {

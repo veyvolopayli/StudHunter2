@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth"
+    app:startDestination="@id/authFragment">
+
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.auth_screen.AuthFragment"
+        android:label="fragment_auth"
+        tools:layout="@layout/fragment_auth" >
+        <action
+            android:id="@+id/action_authFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_authFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_in_screen.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_firstSignUpFragment"
+            app:destination="@id/firstSignUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/firstSignUpFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.FirstSignUpFragment"
+        android:label="fragment_first_sign_up"
+        tools:layout="@layout/fragment_first_sign_up" >
+        <action
+            android:id="@+id/action_firstSignUpFragment_to_secondSignUpFragment"
+            app:destination="@id/secondSignUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondSignUpFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.SecondSignUpFragment"
+        android:label="fragment_second_sign_up"
+        tools:layout="@layout/fragment_second_sign_up" >
+        <action
+            android:id="@+id/action_secondSignUpFragment_to_homeFragment2"
+            app:destination="@id/homeFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment2"
+        android:name="com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+</navigation>

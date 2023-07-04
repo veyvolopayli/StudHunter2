@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.common.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentAuthBinding
-import com.veyvolopayli.studhunter.presentation.authorization.sign_in_screen.SignInFragment
-import com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.SignUpFragment
 
 class AuthFragment : Fragment() {
 
@@ -23,19 +21,11 @@ class AuthFragment : Fragment() {
         binding = FragmentAuthBinding.inflate(layoutInflater, container, false)
 
         binding.signUpButton.setOnClickListener {
-            replaceFragment(
-                container = R.id.main_fragment_container,
-                newFragment = SignUpFragment(),
-                null
-            )
+            findNavController().navigate(R.id.signUpFragment)
         }
 
         binding.signInButton.setOnClickListener {
-            replaceFragment(
-                container = R.id.main_fragment_container,
-                newFragment = SignInFragment(),
-                null
-            )
+            findNavController().navigate(R.id.signInFragment)
         }
 
         return binding.root

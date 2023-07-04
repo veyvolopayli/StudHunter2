@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.base.BaseFragment
-import com.veyvolopayli.studhunter.common.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSecondSignUpBinding
 import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
 import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
@@ -24,10 +23,6 @@ class SecondSignUpFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-//        binding.name.setText("Илья")
-//        binding.surname.setText("Поло")
-//        binding.university.setText("ГУУ")
 
         vm.secondDataIsValid.observe(viewLifecycleOwner) { isValid ->
             binding.continueButton.isEnabled = isValid
@@ -65,7 +60,6 @@ class SecondSignUpFragment()
         vm.signUpResult.observe(viewLifecycleOwner) { authorizationResult ->
             when (authorizationResult) {
                 is AuthorizationResult.Authorized -> {
-                    replaceFragment(R.id.main_fragment_container, HomeFragment())
                     mainVm.launchAppOk()
                 }
                 is AuthorizationResult.WrongData -> {

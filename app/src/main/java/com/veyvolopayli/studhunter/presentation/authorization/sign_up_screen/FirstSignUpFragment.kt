@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.common.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentFirstSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,10 +24,6 @@ class FirstSignUpFragment() : Fragment() {
     ): View {
 
         binding = FragmentFirstSignUpBinding.inflate(layoutInflater, container, false)
-
-        /*binding.username.setText("someuser2")
-        binding.password.setText("password123")
-        binding.email.setText("ilya.polovyev2003@mail.ru")*/
 
         vm.signUpState.observe(viewLifecycleOwner) {
             vm.firstPageListener()
@@ -66,7 +61,6 @@ class FirstSignUpFragment() : Fragment() {
         }
 
         binding.continueButton.setOnClickListener {
-            replaceFragment(R.id.sign_up_fragment_container, SecondSignUpFragment())
         }
 
         return binding.root

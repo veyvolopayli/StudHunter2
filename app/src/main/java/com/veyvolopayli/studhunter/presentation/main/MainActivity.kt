@@ -6,27 +6,20 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.github.terrakok.cicerone.androidx.AppNavigator
-import com.github.terrakok.cicerone.androidx.FragmentScreen
-import com.veyvolopayli.studhunter.Application.Companion.INSTANCE
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.ErrorType
-import com.veyvolopayli.studhunter.common.Screens
-import com.veyvolopayli.studhunter.common.replaceFragment
-import com.veyvolopayli.studhunter.common.showFragment
 import com.veyvolopayli.studhunter.databinding.ActivityMainBinding
-import com.veyvolopayli.studhunter.presentation.auth_screen.AuthFragment
-import com.veyvolopayli.studhunter.presentation.categories_screen.CategoriesFragment
-import com.veyvolopayli.studhunter.presentation.create_publication_screen.CreatePublicationFragment
-import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
-import com.veyvolopayli.studhunter.presentation.gallery.GalleryFragment
-import com.veyvolopayli.studhunter.presentation.profile_screen.ProfileFragment
-import com.veyvolopayli.studhunter.presentation.publication_screen.PublicationFragment
-import com.veyvolopayli.studhunter.presentation.update_app_screen.UpdateAppFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -35,15 +28,7 @@ class MainActivity : AppCompatActivity() {
     private var binding: ActivityMainBinding? = null
     private val vm: MainViewModel by viewModels()
 
-    private val homeFragment = HomeFragment()
-    private val categoriesFragment = CategoriesFragment()
-
-    private var home: FragmentScreen = Screens.home()
-    private var categories: FragmentScreen = Screens.categories()
-
-    private val navigator = AppNavigator(this, R.id.main_fragment_container)
-
-    private var currentFragment: Fragment = homeFragment
+    private var navController: NavController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,23 +37,32 @@ class MainActivity : AppCompatActivity() {
             setKeepOnScreenCondition { vm.isLoading.value }
         }
 
-        INSTANCE.navigatorHolder.setNavigator(navigator)
-
         val binding = ActivityMainBinding.inflate(layoutInflater)
         this.binding = binding
 
         setContentView(binding.root)
+
+        val navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.main_fragment_container
+        ) as NavHostFragment
+
+        navController = navHostFragment.navController
+
+        navController?.let {
+            binding.bottomNavigationBar.setupWithNavController(it)
+        }
 
         if (savedInstanceState == null) {
             vm.launchAppResult.observe(this) { launchAppResult ->
                 when (launchAppResult) {
                     is LaunchAppResult.NeedToAuthorize -> {
                         // navigate to authorization screen
-                        replaceFragment(binding.mainFragmentContainer.id, AuthFragment())
+//                        replaceFragment(binding.mainFragmentContainer.id, AuthFragment())
+                        navController?.navigate(R.id.authFragment)
                     }
                     is LaunchAppResult.NeedToUpdate -> {
                         // navigate to update screen
-                        replaceFragment(binding.mainFragmentContainer.id, UpdateAppFragment())
+//                        replaceFragment(binding.mainFragmentContainer.id, UpdateAppFragment())
                     }
                     is LaunchAppResult.ErrorOccurred -> {
                         Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
@@ -91,10 +85,8 @@ class MainActivity : AppCompatActivity() {
                     is LaunchAppResult.Ok -> {
                         // navigate to home screen
                         vm.showBottomBar()
-//                        router.replaceScreen(home)
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            replaceFragment(container = binding.mainFragmentContainer.id, newFragment = homeFragment)
-                        }
+//                        replaceFragment(container = binding.mainFragmentContainer.id, newFragment = HomeFragment())
+//                        navController?.navigate(R.id.action_signInFragment_to_homeFragment2)
                     }
                 }
                 vm.appLaunched()
@@ -102,41 +94,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setBottomNavigation(binding)
-
-        vm.navigationEvent.observe(this) { destination ->
-            when (destination) {
-                is MainNavDestination.Home -> {
-                    showFragment(container = binding.mainFragmentContainer.id, currentFragment = destination.previousDestination ?: currentFragment, newFragment = homeFragment)
-                    currentFragment = homeFragment
-                }
-                is MainNavDestination.Categories -> {
-                    showFragment(container = binding.mainFragmentContainer.id, currentFragment = destination.previousDestination ?: currentFragment, newFragment = categoriesFragment)
-                    currentFragment = categoriesFragment
-                }
-                is MainNavDestination.Upload -> Unit
-                is MainNavDestination.Favorites -> Unit
-                is MainNavDestination.Profile -> {
-                    showFragment(R.id.main_fragment_container, destination.previousDestination ?: currentFragment, ProfileFragment(), null)
-                    destination.previousDestination?.let { currentFragment = it }
-                }
-                is MainNavDestination.Filter -> Unit
-                is MainNavDestination.Search -> Unit
-                is MainNavDestination.Publication -> {
-                    val publicationFragment = PublicationFragment()
-                    publicationFragment.arguments = destination.bundle
-                    showFragment(R.id.main_fragment_container, destination.previousDestination ?: currentFragment, publicationFragment, null)
-                    destination.previousDestination?.let { currentFragment = it }
-                }
-                is MainNavDestination.Gallery -> {
-                    replaceFragment(container = binding.mainFragmentContainer.id, newFragment = GalleryFragment())
-                }
-                is MainNavDestination.CreatePublication -> {
-                    replaceFragment(container = binding.mainFragmentContainer.id, currentFragment = currentFragment, newFragment = CreatePublicationFragment(), null)
-                    currentFragment = CreatePublicationFragment()
-                    vm.hideBottomBar()
-                }
-            }
-        }
 
         lifecycleScope.launch {
             vm.isBottomBarVisible.collect { isVisible ->
@@ -147,10 +104,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setBottomNavigation(binding: ActivityMainBinding) {
-        binding.bottomNavBar.home.setOnClickListener { vm.navigateTo(MainNavDestination.Home(currentFragment)) }
-        binding.bottomNavBar.categories.setOnClickListener { vm.navigateTo(MainNavDestination.Categories(currentFragment)) }
-        binding.bottomNavBar.upload.setOnClickListener { vm.navigateTo(MainNavDestination.CreatePublication(currentFragment)) }
-        binding.bottomNavBar.favourites.setOnClickListener { vm.navigateTo(MainNavDestination.Favorites(currentFragment)) }
-        binding.bottomNavBar.profile.setOnClickListener { vm.navigateTo(MainNavDestination.Profile(currentFragment)) }
+        binding.bottomNavBar.home.setOnClickListener {
+
+        }
+
+        binding.bottomNavBar.categories.setOnClickListener {
+
+        }
+
+        binding.bottomNavBar.upload.setOnClickListener {
+
+        }
+
+        binding.bottomNavBar.favourites.setOnClickListener {
+
+        }
+
+        binding.bottomNavBar.profile.setOnClickListener {
+
+        }
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController?.navigateUp() ?: super.onSupportNavigateUp()
     }
 }

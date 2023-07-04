@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.StudHunter" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -52,7 +52,7 @@
         <item name="android:letterSpacing">0.02</item>
     </style>
 
-    <style name="TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:gravity">center</item>
         <item name="boxBackgroundColor">@color/on_background</item>
         <item name="hintTextAppearance">@style/GilroyFontTheme</item>
@@ -65,7 +65,7 @@
         <item name="boxCornerRadiusTopStart">12dp</item>
     </style>
 
-    <style name="TextInputEdittext" parent="ThemeOverlay.Material3.TextInputEditText">
+    <style name="TextInputEdittext" parent="ThemeOverlay.MaterialComponents.TextInputEditText">
         <item name="fontFamily">@font/gilroy_regular</item>
         <item name="android:fontFamily">@font/gilroy_regular</item>
         <item name="backgroundTint">@color/on_background</item>
@@ -126,5 +126,12 @@
     <style name="Theme.StudHunter.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.StudHunter.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="BottomNavigationTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/gilroy_regular</item>
+        <item name="android:textSize">12sp</item>
+        <!-- Add any other text-related attributes you want to customize -->
+    </style>
+
 
 </resources>

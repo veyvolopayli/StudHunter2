@@ -1,20 +1,17 @@
 package com.veyvolopayli.studhunter.presentation.home_screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.common.replaceFragment
 import com.veyvolopayli.studhunter.databinding.FragmentHomeBinding
-import com.veyvolopayli.studhunter.presentation.main.MainNavDestination
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
-import com.veyvolopayli.studhunter.presentation.publication_screen.PublicationFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,7 +37,8 @@ class HomeFragment : Fragment() {
             publicationsAdapter.onItemClick = { id ->
                 val bundle = Bundle()
                 bundle.putString("id", id)
-                mainViewModel.navigateTo(MainNavDestination.Publication(previousDestination = this, bundle = bundle))
+
+                findNavController().navigate(R.id.action_homeFragment_to_publicationFragment, bundle)
             }
         }
 
@@ -62,17 +60,6 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
-
-    /*override fun onPause() {
-        super.onPause()
-        val state = binding?.rvHome?.layoutManager?.onSaveInstanceState() ?: return
-        viewModel.saveRecyclerState(state)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding?.rvHome?.layoutManager?.onRestoreInstanceState(viewModel.recyclerState) ?: return
-    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

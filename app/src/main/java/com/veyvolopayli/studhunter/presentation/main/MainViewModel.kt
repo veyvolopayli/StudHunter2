@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.domain.usecases.auth.AuthenticateUseCase
 import com.veyvolopayli.studhunter.domain.usecases.update.CheckUpdateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,11 +26,8 @@ class MainViewModel @Inject constructor(
     private val _isBottomBarVisible = MutableStateFlow(false)
     val isBottomBarVisible = _isBottomBarVisible.asStateFlow()
 
-    private val _launchAppResult = MutableLiveData<LaunchAppResult<Unit>>()
-    val launchAppResult: LiveData<LaunchAppResult<Unit>> = _launchAppResult
-
-    private val _navigationEvent = MutableLiveData<MainNavDestination>()
-    val navigationEvent: LiveData<MainNavDestination> = _navigationEvent
+    private val _launchAppResult = MutableLiveData<LaunchAppResult<ErrorType>>()
+    val launchAppResult: LiveData<LaunchAppResult<ErrorType>> = _launchAppResult
 
     init {
         checkUpdate()
@@ -59,20 +57,6 @@ class MainViewModel @Inject constructor(
                 is AuthResult.Error -> LaunchAppResult.ErrorOccurred(result.errorType)
             }
         }.launchIn(viewModelScope)
-    }
-
-    fun navigateTo(navDestination: MainNavDestination) {
-        _navigationEvent.value = navDestination
-
-        /*_navigationEvent.value = when (navDestination) {
-            is MainNavDestination.Home -> navDestination
-            is MainNavDestination.Categories -> navDestination
-            is MainNavDestination.Upload -> navDestination
-            is MainNavDestination.Favorites -> navDestination
-            is MainNavDestination.Profile -> navDestination
-            is MainNavDestination.Filter -> navDestination
-            is MainNavDestination.Search -> navDestination
-        }*/
     }
 
     fun appLaunched() {
