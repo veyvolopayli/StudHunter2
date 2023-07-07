@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {
@@ -19,6 +21,7 @@ class SignUpFragment : Fragment() {
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
 
         if (savedInstanceState == null) {
+            findNavController().navigate(R.id.action_signUpFragment_to_firstSignUpFragment)
         }
 
         binding.backIv.setOnClickListener {

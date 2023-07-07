@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.base.BaseFragment
 import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
@@ -32,6 +33,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
                 is AuthorizationResult.Authorized -> {
                     loadingLayoutVisibility(false, binding.loadingLayout.root)
                     mainVm.launchAppOk()
+                    findNavController().setGraph(R.navigation.nav_graph)
                 }
                 is AuthorizationResult.Error -> {
                     when (signInResult.error) {

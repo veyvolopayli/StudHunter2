@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentFirstSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class FirstSignUpFragment() : Fragment() {
 
     private lateinit var binding: FragmentFirstSignUpBinding
-    private val vm: SIgnUpViewModel by activityViewModels()
+    private val vm: SignUpViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +33,7 @@ class FirstSignUpFragment() : Fragment() {
         binding.username.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                vm.textChanged(SIgnUpViewModel.SignUpTextField.Username(s?.toString() ?: ""))
+                vm.textChanged(SignUpViewModel.SignUpTextField.Username(s?.toString() ?: ""))
             }
             override fun afterTextChanged(s: Editable?) {}
 
@@ -41,7 +42,7 @@ class FirstSignUpFragment() : Fragment() {
         binding.password.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                vm.textChanged(SIgnUpViewModel.SignUpTextField.Password(s?.toString() ?: ""))
+                vm.textChanged(SignUpViewModel.SignUpTextField.Password(s?.toString() ?: ""))
             }
             override fun afterTextChanged(s: Editable?) {}
 
@@ -50,7 +51,7 @@ class FirstSignUpFragment() : Fragment() {
         binding.email.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                vm.textChanged(SIgnUpViewModel.SignUpTextField.Email(s?.toString() ?: ""))
+                vm.textChanged(SignUpViewModel.SignUpTextField.Email(s?.toString() ?: ""))
             }
             override fun afterTextChanged(s: Editable?) {}
 
@@ -61,6 +62,7 @@ class FirstSignUpFragment() : Fragment() {
         }
 
         binding.continueButton.setOnClickListener {
+            findNavController().navigate(R.id.action_firstSignUpFragment_to_secondSignUpFragment)
         }
 
         return binding.root

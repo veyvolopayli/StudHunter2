@@ -6,11 +6,11 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.base.BaseFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSecondSignUpBinding
 import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
-import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +19,7 @@ class SecondSignUpFragment()
     : BaseFragment<FragmentSecondSignUpBinding>(FragmentSecondSignUpBinding::inflate)
 {
     private val mainVm: MainViewModel by activityViewModels()
-    private val vm: SIgnUpViewModel by activityViewModels()
+    private val vm: SignUpViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +35,7 @@ class SecondSignUpFragment()
         binding.name.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                vm.textChanged(SIgnUpViewModel.SignUpTextField.Name(s?.toString() ?: ""))
+                vm.textChanged(SignUpViewModel.SignUpTextField.Name(s?.toString() ?: ""))
             }
             override fun afterTextChanged(s: Editable?) {}
 
@@ -44,7 +44,7 @@ class SecondSignUpFragment()
         binding.surname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                vm.textChanged(SIgnUpViewModel.SignUpTextField.Surname(s?.toString() ?: ""))
+                vm.textChanged(SignUpViewModel.SignUpTextField.Surname(s?.toString() ?: ""))
             }
             override fun afterTextChanged(s: Editable?) {}
         })
@@ -52,7 +52,7 @@ class SecondSignUpFragment()
         binding.university.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                vm.textChanged(SIgnUpViewModel.SignUpTextField.University(s?.toString() ?: ""))
+                vm.textChanged(SignUpViewModel.SignUpTextField.University(s?.toString() ?: ""))
             }
             override fun afterTextChanged(s: Editable?) {}
         })
@@ -61,6 +61,7 @@ class SecondSignUpFragment()
             when (authorizationResult) {
                 is AuthorizationResult.Authorized -> {
                     mainVm.launchAppOk()
+                    findNavController().setGraph(R.navigation.nav_graph)
                 }
                 is AuthorizationResult.WrongData -> {
                     Toast.makeText(requireContext(), "WrongData", Toast.LENGTH_SHORT).show()

@@ -18,7 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var binding: FragmentHomeBinding? = null
     private val viewModel: HomeViewModel by viewModels()
-    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

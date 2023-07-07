@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class SIgnUpViewModel @Inject constructor(
+class SignUpViewModel @Inject constructor(
     private val signUpByEmailUseCase: SignUpByEmailUseCase
 ) : ViewModel() {
 
@@ -24,22 +24,20 @@ class SIgnUpViewModel @Inject constructor(
     private val _signUpState = MutableLiveData(SignUpState())
     val signUpState: LiveData<SignUpState> = _signUpState
 
-    private val _firstDataIsValid = MutableLiveData(false)
-    val firstDataIsValid: LiveData<Boolean> = _firstDataIsValid
-
-    private val _secondDataIsValid = MutableLiveData(false)
-    val secondDataIsValid: LiveData<Boolean> = _secondDataIsValid
-
-    private val _isUsernameUniqueResult = MutableLiveData<Boolean>()
-    val isUsernameUniqueResult: LiveData<Boolean> = _isUsernameUniqueResult
-
-    private val _isEmailUniqueResult = MutableLiveData<Boolean>()
-    val isEmailUniqueResult: LiveData<Boolean> = _isEmailUniqueResult
-
     fun signUp() {
-        if (!_secondDataIsValid.value!!) return
-
         val state = _signUpState.value!!
+
+        if (
+            !state.username.usernameIsValid() ||
+            !state.password.passwordIsValid() ||
+            !state.email.emailIsValid() ||
+            !state.name.nameOrSurnameIsValid() ||
+            state.surname?.nameOrSurnameIsValid() == false ||
+            state.university?.nameOrSurnameIsValid() == false
+        ) {
+            // event to show pretty custom snack bar
+            return
+        }
 
         val signUpRequest = SignUpRequest(
             username = state.username,
@@ -65,52 +63,26 @@ class SIgnUpViewModel @Inject constructor(
             is SignUpTextField.Username -> {
                 _signUpState.value!!.copy(username = signUpTextField.value)
             }
+
             is SignUpTextField.Password -> {
                 _signUpState.value!!.copy(password = signUpTextField.value)
             }
+
             is SignUpTextField.Email -> {
                 _signUpState.value!!.copy(email = signUpTextField.value)
             }
+
             is SignUpTextField.Name -> {
                 _signUpState.value!!.copy(name = signUpTextField.value)
             }
+
             is SignUpTextField.Surname -> {
                 _signUpState.value!!.copy(surname = signUpTextField.value)
             }
+
             is SignUpTextField.University -> {
                 _signUpState.value!!.copy(university = signUpTextField.value)
             }
-        }
-    }
-
-    fun firstPageListener() {
-        val value = _signUpState.value!!
-        if (
-            value.username.usernameIsValid()
-            && value.password.passwordIsValid()
-            && value.email.emailIsValid()
-        ) {
-            if (_firstDataIsValid.value == false) _firstDataIsValid.value = true
-
-        } else {
-            if (_firstDataIsValid.value == true) _firstDataIsValid.value = false
-        }
-    }
-
-    fun secondPageListener() {
-        val value = _signUpState.value!!
-        val name = value.name
-        val surname = value.surname ?: ""
-        val university = value.university ?: ""
-
-        if (
-            name.nameOrSurnameIsValid()
-            && (if (surname.isNotEmpty()) surname.nameOrSurnameIsValid() else true)
-            && (if (university.isNotEmpty()) university.nameOrSurnameIsValid() else true)
-        ) {
-            if (_secondDataIsValid.value == false) _secondDataIsValid.value = true
-        } else {
-            if (_secondDataIsValid.value == true) _secondDataIsValid.value = false
         }
     }
 

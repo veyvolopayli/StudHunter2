@@ -10,4 +10,6 @@
     <include app:graph="@navigation/favorites" />
     <include app:graph="@navigation/profile" />
 
+<!--    <include app:graph="@navigation/auth" />-->
+
 </navigation>

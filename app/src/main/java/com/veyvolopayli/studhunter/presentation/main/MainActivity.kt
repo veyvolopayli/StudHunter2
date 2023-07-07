@@ -8,18 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -57,12 +51,9 @@ class MainActivity : AppCompatActivity() {
                 when (launchAppResult) {
                     is LaunchAppResult.NeedToAuthorize -> {
                         // navigate to authorization screen
-//                        replaceFragment(binding.mainFragmentContainer.id, AuthFragment())
-                        navController?.navigate(R.id.authFragment)
                     }
                     is LaunchAppResult.NeedToUpdate -> {
                         // navigate to update screen
-//                        replaceFragment(binding.mainFragmentContainer.id, UpdateAppFragment())
                     }
                     is LaunchAppResult.ErrorOccurred -> {
                         Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
@@ -83,10 +74,8 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     is LaunchAppResult.Ok -> {
-                        // navigate to home screen
                         vm.showBottomBar()
-//                        replaceFragment(container = binding.mainFragmentContainer.id, newFragment = HomeFragment())
-//                        navController?.navigate(R.id.action_signInFragment_to_homeFragment2)
+                        navController?.setGraph(R.navigation.nav_graph)
                     }
                 }
                 vm.appLaunched()
