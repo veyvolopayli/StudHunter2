@@ -63,6 +63,10 @@
         <item name="boxCornerRadiusBottomStart">12dp</item>
         <item name="boxCornerRadiusTopEnd">12dp</item>
         <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxStrokeErrorColor">@color/primary</item>
+        <item name="errorTextAppearance">@font/gilroy_regular</item>
+        <item name="errorIconTint">@color/primary</item>
+        <item name="errorTextColor">@color/primary</item>
     </style>
 
     <style name="TextInputEdittext" parent="ThemeOverlay.Material3.TextInputEditText">

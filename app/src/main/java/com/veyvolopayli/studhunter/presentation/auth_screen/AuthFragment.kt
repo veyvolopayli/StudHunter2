@@ -21,11 +21,11 @@ class AuthFragment : Fragment() {
         binding = FragmentAuthBinding.inflate(layoutInflater, container, false)
 
         binding.signUpButton.setOnClickListener {
-            findNavController().navigate(R.id.signUpFragment)
+            findNavController().navigate(R.id.action_authFragment_to_signUpFragment)
         }
 
         binding.signInButton.setOnClickListener {
-            findNavController().navigate(R.id.signInFragment)
+            findNavController().navigate(R.id.action_authFragment_to_signInFragment)
         }
 
         return binding.root

@@ -6,8 +6,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
-import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.base.BaseFragment
 import com.veyvolopayli.studhunter.databinding.FragmentSecondSignUpBinding
 import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
@@ -18,19 +16,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class SecondSignUpFragment()
     : BaseFragment<FragmentSecondSignUpBinding>(FragmentSecondSignUpBinding::inflate)
 {
-    private val mainVm: MainViewModel by activityViewModels()
     private val vm: SignUpViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        vm.secondDataIsValid.observe(viewLifecycleOwner) { isValid ->
-            binding.continueButton.isEnabled = isValid
-        }
-
-        vm.signUpState.observe(viewLifecycleOwner) {
-            vm.secondPageListener()
-        }
 
         binding.name.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -60,8 +49,7 @@ class SecondSignUpFragment()
         vm.signUpResult.observe(viewLifecycleOwner) { authorizationResult ->
             when (authorizationResult) {
                 is AuthorizationResult.Authorized -> {
-                    mainVm.launchAppOk()
-                    findNavController().setGraph(R.navigation.nav_graph)
+//                    mainVm.launchAppOk()
                 }
                 is AuthorizationResult.WrongData -> {
                     Toast.makeText(requireContext(), "WrongData", Toast.LENGTH_SHORT).show()

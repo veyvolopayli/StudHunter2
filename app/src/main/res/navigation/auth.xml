@@ -26,23 +26,5 @@
         android:id="@+id/signUpFragment"
         android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" >
-        <action
-            android:id="@+id/action_signUpFragment_to_firstSignUpFragment"
-            app:destination="@id/firstSignUpFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/firstSignUpFragment"
-        android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.FirstSignUpFragment"
-        android:label="fragment_first_sign_up"
-        tools:layout="@layout/fragment_first_sign_up" >
-        <action
-            android:id="@+id/action_firstSignUpFragment_to_secondSignUpFragment"
-            app:destination="@id/secondSignUpFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/secondSignUpFragment"
-        android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.SecondSignUpFragment"
-        android:label="fragment_second_sign_up"
-        tools:layout="@layout/fragment_second_sign_up" />
+        tools:layout="@layout/fragment_sign_up" />
 </navigation>

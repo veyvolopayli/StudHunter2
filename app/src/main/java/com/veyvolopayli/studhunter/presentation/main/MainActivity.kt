@@ -82,35 +82,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        setBottomNavigation(binding)
-
         lifecycleScope.launch {
             vm.isBottomBarVisible.collect { isVisible ->
-                binding.bottomNavBar.root.visibility = if (isVisible) View.VISIBLE else View.GONE
+                binding.bottomNavigationBar.visibility = if (isVisible) View.VISIBLE else View.GONE
             }
-        }
-
-    }
-
-    private fun setBottomNavigation(binding: ActivityMainBinding) {
-        binding.bottomNavBar.home.setOnClickListener {
-
-        }
-
-        binding.bottomNavBar.categories.setOnClickListener {
-
-        }
-
-        binding.bottomNavBar.upload.setOnClickListener {
-
-        }
-
-        binding.bottomNavBar.favourites.setOnClickListener {
-
-        }
-
-        binding.bottomNavBar.profile.setOnClickListener {
-
         }
 
     }

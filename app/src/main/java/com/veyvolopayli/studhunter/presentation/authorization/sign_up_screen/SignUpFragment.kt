@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentSignUpBinding
@@ -17,12 +19,11 @@ class SignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
 
-        if (savedInstanceState == null) {
-            findNavController().navigate(R.id.action_signUpFragment_to_firstSignUpFragment)
-        }
+        val vpAdapter = SignUpVPAdapter(requireActivity())
+        binding.signUpVp.adapter = vpAdapter
+        binding.signUpVp.isUserInputEnabled = false
 
         binding.backIv.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -30,5 +31,4 @@ class SignUpFragment : Fragment() {
 
         return binding.root
     }
-
 }

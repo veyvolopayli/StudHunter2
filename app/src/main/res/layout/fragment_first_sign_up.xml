@@ -19,11 +19,12 @@
             style="@style/GilroyFontTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Укажите данные для регистрации"
+            android:text="@string/indicate_registration_data"
             android:textColor="@color/textColorPrimary"
             android:textSize="@dimen/text_16px" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/username_layout"
             style="@style/TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
                 style="@style/TextInputEdittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Имя пользователя"
+                android:hint="@string/username"
                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
                 android:inputType="text|textFilter"
                 android:textSize="@dimen/text_16px" />
@@ -45,6 +46,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_layout"
             style="@style/TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,13 +67,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email_layout"
             style="@style/TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:errorTextAppearance="@font/gilroy_regular"
+            app:boxStrokeErrorColor="@color/primary"
+            app:errorIconTint="@color/primary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email"
@@ -94,6 +100,7 @@
             style="@style/AppcompatButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:backgroundTint="@color/secondary"
             android:text="@string/_continue" />
 
     </LinearLayout>
