@@ -67,4 +67,14 @@
     <string name="example_mail">example@mail.ru</string>
     <string name="indicate_registration_data">Укажите данные для регистрации</string>
     <string name="registration">Регистрация</string>
+    <string name="tell_about_yourself">Расскажите о себе</string>
+    <string name="imagine_username_and_password">Придумайте имя пользователя и пароль</string>
+    <string name="this_username_is_already_taken">Такое имя пользователя уже занято</string>
+    <string name="this_email_is_already_in_use">Такая почта уже используется</string>
+    <string name="incorrect_username">Некорректное имя пользователя</string>
+    <string name="incorrect_password">Некорректный пароль</string>
+    <string name="incorrect_email">Некорректное мыло</string>
+    <string name="strange_name">Странное имя</string>
+    <string name="strange_surname">Странная фамилия</string>
+    <string name="this_university_does_not_exist">Такого университета не существует</string>
 </resources>

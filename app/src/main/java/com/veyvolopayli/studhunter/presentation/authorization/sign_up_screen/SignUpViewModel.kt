@@ -1,12 +1,14 @@
 package com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen
 
-import androidx.lifecycle.*
-import com.veyvolopayli.studhunter.common.emailIsValid
-import com.veyvolopayli.studhunter.common.nameOrSurnameIsValid
-import com.veyvolopayli.studhunter.common.passwordIsValid
-import com.veyvolopayli.studhunter.common.usernameIsValid
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
+import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
+import com.veyvolopayli.studhunter.domain.usecases.auth.EmailUniquenessUseCase
 import com.veyvolopayli.studhunter.domain.usecases.auth.SignUpByEmailUseCase
+import com.veyvolopayli.studhunter.domain.usecases.auth.UsernameUniquenessUseCase
 import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -15,84 +17,93 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val signUpByEmailUseCase: SignUpByEmailUseCase
+    private val signUpByEmailUseCase: SignUpByEmailUseCase,
+    private val usernameUniquenessUseCase: UsernameUniquenessUseCase,
+    private val emailUniquenessUseCase: EmailUniquenessUseCase
 ) : ViewModel() {
 
-    private val _signUpResult = MutableLiveData<AuthorizationResult<Unit>>()
-    val signUpResult: LiveData<AuthorizationResult<Unit>> = _signUpResult
+    private val _signUpResult = MutableLiveData<AuthorizationResult<AuthResponse>>()
+    val signUpResult: LiveData<AuthorizationResult<AuthResponse>> = _signUpResult
 
-    private val _signUpState = MutableLiveData(SignUpState())
-    val signUpState: LiveData<SignUpState> = _signUpState
+    private val _state = MutableLiveData(SignUpState())
+    val state: LiveData<SignUpState> = _state
+
+    private var signUpRequest: SignUpRequest? = null
 
     fun signUp() {
-        val state = _signUpState.value!!
-
-        if (
-            !state.username.usernameIsValid() ||
-            !state.password.passwordIsValid() ||
-            !state.email.emailIsValid() ||
-            !state.name.nameOrSurnameIsValid() ||
-            state.surname?.nameOrSurnameIsValid() == false ||
-            state.university?.nameOrSurnameIsValid() == false
-        ) {
-            // event to show pretty custom snack bar
-            return
+        signUpRequest?.let { _signUpRequest ->
+            signUpByEmailUseCase(_signUpRequest).onEach { authorizationResult ->
+                _signUpResult.value = authorizationResult
+                if (authorizationResult !is AuthorizationResult.Authorized) {
+                    _state.value?.let {
+                        _state.value = it.copy(isLoading = false)
+                    }
+                }
+            }.launchIn(viewModelScope)
         }
+    }
 
-        val signUpRequest = SignUpRequest(
-            username = state.username,
-            password = state.password,
-            email = state.email,
-            name = state.name,
-            surname = state.surname,
-            university = state.university
+    fun checkUniqueness(
+        username: String, password: String, email: String,
+        name: String, surname: String?, university: String
+    ) {
+        signUpRequest = SignUpRequest(
+            username = username,
+            password = password,
+            email = email,
+            name = name,
+            surname = surname,
+            university = university
         )
+        checkUsernameUniqueness(username)
+        checkEmailUniqueness(email)
+    }
 
-        signUpByEmailUseCase(signUpRequest).onEach { authorizationResult ->
-            _signUpResult.value = when (authorizationResult) {
-                is AuthorizationResult.Authorized -> AuthorizationResult.Authorized()
-                is AuthorizationResult.WrongData -> AuthorizationResult.WrongData()
-                is AuthorizationResult.UnknownError -> AuthorizationResult.UnknownError()
-                is AuthorizationResult.Error -> AuthorizationResult.UnknownError()
+    private fun checkUsernameUniqueness(username: String) {
+        usernameUniquenessUseCase(username = username).onEach { dataUniquenessResult ->
+            when (dataUniquenessResult) {
+                is DataUniquenessResult.Unique -> {
+                    _state.value?.let {
+                        _state.value = it.copy(isUsernameUnique = true, isLoading = true)
+                    }
+                }
+
+                is DataUniquenessResult.NotUnique -> {
+                    _state.value?.let {
+                        _state.value = it.copy(isUsernameUnique = false, isLoading = false)
+                    }
+                }
+
+                is DataUniquenessResult.Error -> {
+                    _state.value?.let {
+                        _state.value = it.copy(isUsernameUnique = null, isLoading = false)
+                    }
+                }
             }
         }.launchIn(viewModelScope)
     }
 
-    fun textChanged(signUpTextField: SignUpTextField) {
-        _signUpState.value = when (signUpTextField) {
-            is SignUpTextField.Username -> {
-                _signUpState.value!!.copy(username = signUpTextField.value)
-            }
+    private fun checkEmailUniqueness(email: String) {
+        emailUniquenessUseCase(email = email).onEach { dataUniquenessResult ->
+            when (dataUniquenessResult) {
+                is DataUniquenessResult.Unique -> {
+                    _state.value?.let {
+                        _state.value = it.copy(isEmailUnique = true)
+                    }
+                }
 
-            is SignUpTextField.Password -> {
-                _signUpState.value!!.copy(password = signUpTextField.value)
-            }
+                is DataUniquenessResult.NotUnique -> {
+                    _state.value?.let {
+                        _state.value = it.copy(isEmailUnique = false, isLoading = false)
+                    }
+                }
 
-            is SignUpTextField.Email -> {
-                _signUpState.value!!.copy(email = signUpTextField.value)
+                is DataUniquenessResult.Error -> {
+                    _state.value?.let {
+                        _state.value = it.copy(isEmailUnique = null, isLoading = false)
+                    }
+                }
             }
-
-            is SignUpTextField.Name -> {
-                _signUpState.value!!.copy(name = signUpTextField.value)
-            }
-
-            is SignUpTextField.Surname -> {
-                _signUpState.value!!.copy(surname = signUpTextField.value)
-            }
-
-            is SignUpTextField.University -> {
-                _signUpState.value!!.copy(university = signUpTextField.value)
-            }
-        }
+        }.launchIn(viewModelScope)
     }
-
-    sealed class SignUpTextField(val value: String) {
-        class Username(value: String) : SignUpTextField(value)
-        class Password(value: String) : SignUpTextField(value)
-        class Email(value: String) : SignUpTextField(value)
-        class Name(value: String) : SignUpTextField(value)
-        class Surname(value: String) : SignUpTextField(value)
-        class University(value: String) : SignUpTextField(value)
-    }
-
 }

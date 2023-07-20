@@ -67,4 +67,7 @@ interface StudHunterApi {
 
     @GET("publication/districts")
     suspend fun getDistricts(): List<String>
+
+    @GET("universities/get")
+    suspend fun getUniversities(): List<String>
 }

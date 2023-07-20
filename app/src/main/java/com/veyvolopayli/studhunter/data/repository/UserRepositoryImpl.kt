@@ -15,4 +15,8 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun getCurrentUserId(token: String): String {
         return api.getCurrentUserId(token)
     }
+
+    override suspend fun getUniversities(): List<String> {
+        return api.getUniversities()
+    }
 }

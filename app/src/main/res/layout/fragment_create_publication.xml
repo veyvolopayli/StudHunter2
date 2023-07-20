@@ -172,8 +172,6 @@
                 style="@style/TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:counterMaxLength="50"
                 android:layout_marginTop="12dp">
 
                 <AutoCompleteTextView
@@ -181,6 +179,8 @@
                     style="@style/TextInputEdittext"
                     android:layout_weight="1"
                     android:inputType="none"
+                    android:focusable="false"
+                    android:clickable="true"
                     android:maxLength="50"
                     android:hint="@string/district"
                     android:layout_width="match_parent"
@@ -228,8 +228,6 @@
                 style="@style/TextInputLayoutDropDown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:counterMaxLength="20"
                 android:layout_marginTop="12dp">
 
                 <AutoCompleteTextView
@@ -257,8 +255,6 @@
                 style="@style/TextInputLayoutDropDown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:counterEnabled="true"
-                app:counterMaxLength="50"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="24dp" >
 

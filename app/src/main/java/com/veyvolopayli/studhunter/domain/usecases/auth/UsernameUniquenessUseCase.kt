@@ -1,20 +1,30 @@
 package com.veyvolopayli.studhunter.domain.usecases.auth
 
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
+import com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.DataUniquenessResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
 import java.lang.Exception
 import javax.inject.Inject
 
 class UsernameUniquenessUseCase @Inject constructor(
-    private val repository: AuthRepository
+    private val authRepository: AuthRepository
 ) {
-    operator fun invoke(username: String): Flow<Boolean> = flow {
+    operator fun invoke(username: String): Flow<DataUniquenessResult> = flow {
         try {
-            repository.isUsernameUnique(username)
-            emit(true)
+            authRepository.isUsernameUnique(username)
+            emit(DataUniquenessResult.NotUnique)
+        } catch (e: HttpException) {
+            if (e.code() == 400) {
+                emit(DataUniquenessResult.Unique)
+            }
+            else {
+                emit(DataUniquenessResult.Error)
+            }
+            return@flow
         } catch (e: Exception) {
-            emit(false)
+            emit(DataUniquenessResult.Error)
         }
     }
 }

@@ -22,12 +22,15 @@ class SignUpByEmailUseCase @Inject constructor(
             emit(AuthorizationResult.Authorized())
         } catch (e: HttpException) {
             if (e.code() == 409) {
+                e.printStackTrace()
                 emit(AuthorizationResult.WrongData())
             }
             else {
+                e.printStackTrace()
                 emit(AuthorizationResult.Error(ErrorType.NetworkError))
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(AuthorizationResult.Error(ErrorType.UnexpectedError))
         }
     }
