@@ -13,7 +13,7 @@
         android:title="@string/add"
         android:icon="@drawable/ic_add_rounded"/>
 
-    <item android:id="@+id/favorites"
+    <item android:id="@+id/chats"
         android:title="@string/favorites"
         android:icon="@drawable/ic_heart"/>
 

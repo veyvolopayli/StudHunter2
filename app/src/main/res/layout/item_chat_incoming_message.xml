@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="6dp"
+    android:paddingStart="12dp"
+    android:paddingEnd="128dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_12px"
+        android:minWidth="100dp"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!--<TextView
+            android:id="@+id/full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="asdfsdfsdfsd sdvsdvsdv" />-->
+
+        <TextView
+            android:id="@+id/message_body"
+            style="@style/GilroyFontTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_14px"
+            android:text="Привет" />
+
+        <TextView
+            android:id="@+id/timestamp"
+            style="@style/GilroyFontTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textSize="@dimen/text_10px"
+            android:text="10:21" />
+
+    </LinearLayout>
+
+</FrameLayout>

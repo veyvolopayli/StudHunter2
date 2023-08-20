@@ -14,6 +14,7 @@
         android:background="@drawable/background_topbar"
         android:gravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -21,7 +22,6 @@
             android:id="@+id/back"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="16dp"
             android:padding="5dp"
             android:src="@drawable/ic_back"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
@@ -47,14 +47,19 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/favorite"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_marginEnd="16dp"
             android:padding="5dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_heart" />
+            android:src="@drawable/ic_heart" />-->
+
+        <com.veyvolopayli.studhunter.presentation.custom_views.HeartView
+            android:id="@+id/add_to_favorite_button"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
 
     </LinearLayout>
 
@@ -238,19 +243,32 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
+            <com.veyvolopayli.studhunter.presentation.custom_views.LgbtqButtonView
                 android:id="@+id/vp_write_button"
-                style="@style/AppcompatButton"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="wrap_content"
+                app:buttonText="@string/write"
+                android:visibility="gone"
                 android:layout_marginTop="46dp"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginBottom="14dp"
-                android:layout_weight="1"
-                android:text="Написать"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:buttonType="primary"/>
+
+<!--            <androidx.appcompat.widget.AppCompatButton-->
+<!--                android:id="@+id/vp_write_button"-->
+<!--                style="@style/AppcompatButton"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="46dp"-->
+<!--                android:layout_marginTop="46dp"-->
+<!--                android:layout_marginHorizontal="18dp"-->
+<!--                android:layout_marginBottom="14dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/write"-->
+<!--                android:backgroundTint="@color/primary"-->
+<!--                android:visibility="gone"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent" />-->
 
         </LinearLayout>
 

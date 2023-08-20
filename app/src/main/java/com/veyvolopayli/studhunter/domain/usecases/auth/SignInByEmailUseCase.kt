@@ -25,10 +25,10 @@ class SignInByEmailUseCase @Inject constructor(
                 emit(AuthorizationResult.WrongData())
             }
             else {
-                emit(AuthorizationResult.Error(ErrorType.NetworkError))
+                emit(AuthorizationResult.Error(ErrorType.NetworkError()))
             }
         } catch (e: Exception) {
-            emit(AuthorizationResult.Error(ErrorType.UnexpectedError))
+            emit(AuthorizationResult.Error(ErrorType.LocalError()))
         }
     }
 }

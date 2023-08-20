@@ -1,5 +1,6 @@
 package com.veyvolopayli.studhunter.presentation.main
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -46,26 +47,48 @@ class MainActivity : AppCompatActivity() {
             binding.bottomNavigationBar.setupWithNavController(it)
         }
 
+        /*binding.bottomNavigationBar.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.home -> {
+
+                }
+                R.id.categories -> {
+
+                }
+                R.id.upload_publication -> {
+
+                }
+                R.id.chats -> {
+
+                }
+                R.id.profile -> {
+
+                }
+            }
+            true
+        }*/
+
         if (savedInstanceState == null) {
             vm.launchAppResult.observe(this) { launchAppResult ->
                 when (launchAppResult) {
-                    is LaunchAppResult.NeedToAuthorize -> {
+                    is LaunchAppResult.NotAuthorized -> {
                         // navigate to authorization screen
+                        vm.showBottomBar()
                     }
-                    is LaunchAppResult.NeedToUpdate -> {
+                    is LaunchAppResult.UpdateAvailable -> {
                         // navigate to update screen
                     }
-                    is LaunchAppResult.ErrorOccurred -> {
+                    is LaunchAppResult.Error -> {
                         Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
                         // navigate to error screen
                         when (launchAppResult.error) {
-                            is ErrorType.NetworkError -> {
+                            is ErrorType.LocalError -> {
 
                             }
                             is ErrorType.ServerError -> {
 
                             }
-                            is ErrorType.UnexpectedError -> {
+                            is ErrorType.NetworkError -> {
 
                             }
                             else -> {
@@ -73,12 +96,12 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    is LaunchAppResult.Ok -> {
+                    is LaunchAppResult.Success -> {
                         vm.showBottomBar()
-                        navController?.setGraph(R.navigation.nav_graph)
                     }
                 }
-                vm.appLaunched()
+                vm.disableSplashScreen()
+                requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_USER
             }
         }
 

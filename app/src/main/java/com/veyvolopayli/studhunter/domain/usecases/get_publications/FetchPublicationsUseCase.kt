@@ -1,5 +1,6 @@
 package com.veyvolopayli.studhunter.domain.usecases.get_publications
 
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.toPublication
 import com.veyvolopayli.studhunter.domain.model.Publication
@@ -19,9 +20,9 @@ class FetchPublicationsUseCase @Inject constructor(
             val publications = publicationRepository.fetchPublications().map { it.toPublication() }
             emit(Resource.Success(publications))
         } catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "Unexpected error occurred"))
+            emit(Resource.Error(ErrorType.NetworkError()))
         } catch (e: IOException) {
-            emit(Resource.Error("Could not reach server. Check your internet connection!"))
+            emit(Resource.Error(ErrorType.LocalError()))
         }
     }
 }

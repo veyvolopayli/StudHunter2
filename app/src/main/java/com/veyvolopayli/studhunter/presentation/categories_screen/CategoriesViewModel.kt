@@ -25,9 +25,6 @@ class CategoriesViewModel @Inject constructor(
     private fun getCategories() {
         getCategoriesUseCase().onEach { resource ->
             when (resource) {
-                is Resource.Loading -> {
-
-                }
                 is Resource.Success -> {
                     _categoriesState.value = resource.data ?: emptyMap()
                 }

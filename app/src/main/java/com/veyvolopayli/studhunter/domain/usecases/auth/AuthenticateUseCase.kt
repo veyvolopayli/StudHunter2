@@ -27,13 +27,13 @@ class AuthenticateUseCase @Inject constructor(
                 emit(AuthResult.Unauthorized())
             }
             else if (e.code() == 409) {
-                emit(AuthResult.Error(ErrorType.ServerError))
+                emit(AuthResult.Error(ErrorType.ServerError()))
             }
             else {
-                emit(AuthResult.Error(ErrorType.NetworkError))
+                emit(AuthResult.Error(ErrorType.NetworkError()))
             }
         } catch (e: Exception) {
-            emit(AuthResult.Error(ErrorType.UnexpectedError))
+            emit(AuthResult.Error(ErrorType.LocalError()))
         }
     }
 }

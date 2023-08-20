@@ -15,7 +15,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.textfield.TextInputEditText
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.common.categoryIsValid
@@ -147,11 +146,8 @@ class CreatePublicationFragment : Fragment() {
         }
 
         viewModel.state.observe(viewLifecycleOwner) { resource ->
+            binding.loadingLayout.root.visibility = View.VISIBLE
             when (resource) {
-                is Resource.Loading -> {
-                    binding.loadingLayout.root.visibility = View.VISIBLE
-                }
-
                 is Resource.Success -> {
                     binding.loadingLayout.root.visibility = View.GONE
                     Toast.makeText(requireContext(), resource.data, Toast.LENGTH_SHORT).show()
@@ -162,7 +158,7 @@ class CreatePublicationFragment : Fragment() {
                     binding.loadingLayout.root.visibility = View.GONE
                     Toast.makeText(
                         requireContext(),
-                        "ERROR: ${resource.message}",
+                        "ERROR: ${resource.error}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

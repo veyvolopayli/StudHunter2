@@ -5,8 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.common.hide
 import com.veyvolopayli.studhunter.common.show
@@ -25,14 +29,15 @@ class ProfileFragment : Fragment() {
         val binding = FragmentProfileBinding.inflate(layoutInflater, container, false)
         this.binding = binding
 
+        var userID: String? = null
+
         viewModel.user.observe(viewLifecycleOwner) { resource ->
             when (resource) {
-                is Resource.Loading -> {
-                    binding.loadingLayout.root.show()
-                }
                 is Resource.Success -> {
                     resource.data?.let { user ->
                         binding.loadingLayout.root.hide()
+
+                        userID = user.id
 
                         val fullName = "${user.name} ${user.surname ?: ""}".trim()
                         val username = user.username
@@ -45,9 +50,29 @@ class ProfileFragment : Fragment() {
 
                 }
                 is Resource.Error -> {
-                    Toast.makeText(requireContext(), "ERROR: ${resource.message}", Toast.LENGTH_SHORT).show()
+                    when(resource.error) {
+                        is ErrorType.LocalError -> {
+
+                        }
+                        is ErrorType.ServerError -> {
+
+                        }
+                        is ErrorType.NetworkError -> {
+
+                        }
+                        is ErrorType.Unauthorized -> {
+                            findNavController().navigate(R.id.action_profileFragment_to_auth)
+                        }
+                        else -> {
+
+                        }
+                    }
                 }
             }
+        }
+
+        binding.myPublicationsTv.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_myPublicationsFragment)
         }
 
         return binding.root

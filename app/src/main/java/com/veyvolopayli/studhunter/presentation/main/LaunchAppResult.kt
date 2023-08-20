@@ -2,9 +2,9 @@ package com.veyvolopayli.studhunter.presentation.main
 
 import com.veyvolopayli.studhunter.common.ErrorType
 
-sealed class LaunchAppResult<T>(val error: ErrorType? = null) {
-    class NeedToAuthorize<T>: LaunchAppResult<T>()
-    class NeedToUpdate<T>: LaunchAppResult<T>()
-    class Ok<T>: LaunchAppResult<T>()
-    class ErrorOccurred<T>(error: ErrorType?): LaunchAppResult<T>(error)
+sealed class LaunchAppResult(val error: ErrorType? = null) {
+    class Success: LaunchAppResult()
+    class NotAuthorized: LaunchAppResult()
+    class UpdateAvailable: LaunchAppResult()
+    class Error(error: ErrorType?): LaunchAppResult(error)
 }

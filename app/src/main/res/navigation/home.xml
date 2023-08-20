@@ -22,5 +22,17 @@
         <argument
             android:name="user_id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_publicationFragment_to_userChatFragment"
+            app:destination="@id/userChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userChatFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.user_chat_screen.UserChatFragment"
+        android:label="fragment_user_chat"
+        tools:layout="@layout/fragment_user_chat" >
+        <argument
+            android:name="pub_id"
+            app:argType="string" />
     </fragment>
 </navigation>

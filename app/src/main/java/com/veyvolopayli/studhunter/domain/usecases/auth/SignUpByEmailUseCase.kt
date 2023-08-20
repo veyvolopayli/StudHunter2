@@ -27,11 +27,11 @@ class SignUpByEmailUseCase @Inject constructor(
             }
             else {
                 e.printStackTrace()
-                emit(AuthorizationResult.Error(ErrorType.NetworkError))
+                emit(AuthorizationResult.Error(ErrorType.NetworkError()))
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            emit(AuthorizationResult.Error(ErrorType.UnexpectedError))
+            emit(AuthorizationResult.Error(ErrorType.LocalError()))
         }
     }
 }

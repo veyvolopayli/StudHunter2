@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LeaveReviewNotificationView">
+        <attr name="leaveReviewCardColor" format="color" />
+        <attr name="leaveReviewCardRadius" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="LgbtqButtonView">
+        <attr name="buttonText" format="string" />
+        <attr name="buttonType" format="string" />
+        <attr name="isActive" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="HeartView">
+        <attr name="isChecked" format="boolean" />
+    </declare-styleable>
+</resources>

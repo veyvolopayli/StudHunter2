@@ -1,10 +1,10 @@
 package com.veyvolopayli.studhunter.presentation.home_screen
 
-import android.os.Parcelable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.domain.usecases.get_publications.FetchPublicationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,13 +39,9 @@ class HomeViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     _state.value = HomeState(
-                        error = result.message ?: "Unexpected error"
+                        error = ""
                     )
                     _event.value = HomeEvent.Error
-                }
-                is Resource.Loading -> {
-                    _state.value = HomeState(isLoading = true)
-                    _event.value = HomeEvent.Loading
                 }
             }
         }.launchIn(viewModelScope)

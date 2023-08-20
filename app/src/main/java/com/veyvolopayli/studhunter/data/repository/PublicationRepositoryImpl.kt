@@ -3,6 +3,7 @@ package com.veyvolopayli.studhunter.data.repository
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
+import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -39,6 +40,24 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
 
     override suspend fun getDistricts(): List<String> {
         return api.getDistricts()
+    }
+
+    override suspend fun addPubToFavorite(
+        token: String,
+        changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest
+    ) {
+        return api.addPubToFavorite(token, changePubFavoriteStatusRequest)
+    }
+
+    override suspend fun removePubFromFavorite(
+        token: String,
+        changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest
+    ) {
+        return api.removePubFromFavorite(token, changePubFavoriteStatusRequest)
+    }
+
+    override suspend fun checkPubFavoriteStatus(token: String, pubID: String): Boolean {
+        return api.checkPubFavoriteStatus(token, pubID)
     }
 
 }

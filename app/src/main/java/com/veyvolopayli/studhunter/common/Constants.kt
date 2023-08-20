@@ -8,4 +8,5 @@ object Constants {
     const val PARAM_PUBLICATION_CATEGORY = "publicationCategory"
     const val PARAM_PUBLICATION_QUERY = "publicationQuery"
     const val JWT = "jwt"
+    const val USER_ID = "user_id"
 }

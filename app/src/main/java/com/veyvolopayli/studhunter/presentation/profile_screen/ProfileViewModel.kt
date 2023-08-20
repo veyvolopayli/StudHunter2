@@ -28,13 +28,11 @@ class ProfileViewModel @Inject constructor(
 
     private fun getCurrentUserId() {
         getCurrentUserIdUseCase().onEach { id ->
-            id?.let {
-                getUserById(it)
-            }
+            getUserById(id)
         }.launchIn(viewModelScope)
     }
 
-    private fun getUserById(userId: String) {
+    private fun getUserById(userId: String?) {
         fetchUserByIdUseCase(userId).onEach { resource ->
             _user.value = resource
         }.launchIn(viewModelScope)

@@ -5,24 +5,32 @@ import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
-import com.veyvolopayli.studhunter.data.repository.PublicationRepositoryImpl
 import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.repository.AuthRepositoryImpl
+import com.veyvolopayli.studhunter.data.repository.ChatsRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.GalleryRepositoryImpl
+import com.veyvolopayli.studhunter.data.repository.PublicationRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.UpdateRepositoryImpl
+import com.veyvolopayli.studhunter.data.repository.UserChatRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.UserRepositoryImpl
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
+import com.veyvolopayli.studhunter.domain.repository.ChatsRepository
 import com.veyvolopayli.studhunter.domain.repository.GalleryRepository
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
 import com.veyvolopayli.studhunter.domain.repository.UpdateRepository
+import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
 import com.veyvolopayli.studhunter.domain.repository.UserRepository
-import com.veyvolopayli.studhunter.domain.usecases.auth.AuthenticateUseCase
-import com.veyvolopayli.studhunter.domain.usecases.auth.SignInByEmailUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -84,6 +92,29 @@ object AppModule {
     @Singleton
     fun providesUpdateRepository(api: StudHunterApi): UpdateRepository {
         return UpdateRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun providesKtorHttpClient(): HttpClient {
+        return HttpClient(CIO) {
+            install(WebSockets) {
+                contentConverter = KotlinxWebsocketSerializationConverter(Json)
+            }
+            install(Logging)
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun providesUserChatRepository(client: HttpClient, prefs: SharedPreferences): UserChatRepository {
+        return UserChatRepositoryImpl(client, prefs)
+    }
+
+    @Provides
+    @Singleton
+    fun providesChatsRepository(api: StudHunterApi, prefs: SharedPreferences): ChatsRepository {
+        return ChatsRepositoryImpl(api, prefs)
     }
 
 }

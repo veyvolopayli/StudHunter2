@@ -1,8 +1,11 @@
 package com.veyvolopayli.studhunter.data.remote
 
+import com.veyvolopayli.studhunter.data.remote.dto.Chat
+import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.User
+import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
@@ -70,4 +73,22 @@ interface StudHunterApi {
 
     @GET("universities/get")
     suspend fun getUniversities(): List<String>
+
+    @GET("chats/get")
+    suspend fun getChats(@Header("Authorization") token: String): List<Chat>
+
+    @GET("favorites/publication/{id}/check")
+    suspend fun checkPubFavoriteStatus(@Header("Authorization") token: String, @Path("id") pubID: String): Boolean
+
+    @POST("favorites/publication/add")
+    suspend fun addPubToFavorite(@Header("Authorization") token: String, @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest)
+
+    @POST("favorites/publication/remove-single")
+    suspend fun removePubFromFavorite(@Header("Authorization") token: String, @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest)
+
+    @GET("user/{id}/publications")
+    suspend fun getUserPublications(@Path("id") userID: String): List<PublicationDto>
+
+    @GET("my-publications")
+    suspend fun getMyPublications(@Header("Authorization") token: String): List<MyPublicationDTO>
 }

@@ -5,9 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.hide
 import com.veyvolopayli.studhunter.common.show
 import com.veyvolopayli.studhunter.databinding.FragmentPublicationBinding
@@ -15,9 +19,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PublicationFragment() : Fragment() {
-
     private var binding: FragmentPublicationBinding? = null
     private val viewModel: PublicationViewModel by viewModels()
+
+    private var thisPubID: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +32,9 @@ class PublicationFragment() : Fragment() {
         this.binding = binding
 
         val id = arguments?.getString("id", "") ?: ""
+        thisPubID = id
+
+        viewModel.checkFavorite(id)
 
         binding.apply {
             shimmerImage.startShimmer()
@@ -81,6 +89,25 @@ class PublicationFragment() : Fragment() {
                 username.text = user.username
                 userRating.text = user.rating.toString()
             }
+        }
+
+        viewModel.userIsOwnerState.observe(viewLifecycleOwner) { isOwner ->
+            binding.vpWriteButton.visibility = if (isOwner) View.GONE else View.VISIBLE
+        }
+
+        viewModel.favorite.observe(viewLifecycleOwner) {
+            binding.addToFavoriteButton.setChecked(it)
+        }
+
+        binding.addToFavoriteButton.setOnClickListener {
+            viewModel.onFavoriteClick(id)
+        }
+
+        binding.vpWriteButton.setOnClickListener {
+            val bundle = bundleOf()
+            bundle.putString("pub_id", id)
+
+            findNavController().navigate(R.id.action_publicationFragment_to_userChatFragment, bundle)
         }
 
         return binding.root

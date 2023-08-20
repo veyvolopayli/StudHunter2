@@ -58,7 +58,7 @@ private fun String.millsToDateTime(): String? {
     return format.format(date)
 }
 
-fun Long.millsToDateTime(): String? {
+fun Long.millsToDateTime(): String {
     val date = Date(this)
     val format = SimpleDateFormat("dd.MM.yy, HH:mm", Locale.getDefault())
     return format.format(date)

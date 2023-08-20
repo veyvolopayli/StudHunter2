@@ -19,8 +19,13 @@ class GetCurrentUserIdUseCase @Inject constructor(
                 emit(null)
                 return@flow
             }
-            val userId = userRepository.getCurrentUserId(token)
-            emit(userId)
+            val currentUserId = prefs.getString(Constants.USER_ID, null) ?: run {
+                val userId = userRepository.getCurrentUserId(token)
+                prefs.edit().putString(Constants.USER_ID, userId).apply()
+                emit(userId)
+                return@flow
+            }
+            emit(currentUserId)
         } catch (e: Exception) {
             emit(null)
         }

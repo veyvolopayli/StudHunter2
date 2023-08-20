@@ -9,6 +9,21 @@
         android:id="@+id/profileFragment"
         android:name="com.veyvolopayli.studhunter.presentation.profile_screen.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_auth"
+            app:popUpTo="@id/profile"
+            app:popUpToInclusive="true"
+            app:destination="@id/auth" />
+        <action
+            android:id="@+id/action_profileFragment_to_myPublicationsFragment"
+            app:destination="@id/myPublicationsFragment" />
+    </fragment>
+    <include app:graph="@navigation/auth" />
+    <fragment
+        android:id="@+id/myPublicationsFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.my_publications_screen.MyPublicationsFragment"
+        android:label="fragment_my_publications"
+        tools:layout="@layout/fragment_my_publications" />
 
 </navigation>

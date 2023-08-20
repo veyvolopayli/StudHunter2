@@ -13,7 +13,6 @@ import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResul
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.databinding.FragmentSignInBinding
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
-import com.veyvolopayli.studhunter.presentation.home_screen.HomeFragment
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,10 +39,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
                         is ErrorType.ServerError -> {
 
                         }
-                        is ErrorType.NetworkError -> {
+                        is ErrorType.LocalError -> {
 
                         }
-                        is ErrorType.UnexpectedError -> {
+                        is ErrorType.NetworkError -> {
                             toast(getString(R.string.unknown_error))
                         }
                         else -> {

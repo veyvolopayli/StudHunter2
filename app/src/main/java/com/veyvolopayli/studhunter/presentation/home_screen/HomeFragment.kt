@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentHomeBinding
+import com.veyvolopayli.studhunter.presentation.custom_views.LeaveReviewNotificationView
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +26,11 @@ class HomeFragment : Fragment() {
     ): View {
         val binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
         this.binding = binding
+
+//        val leaveReviewNotificationView = LeaveReviewNotificationView(requireContext())
+//        leaveReviewNotificationView.startAnim()
+
+        binding.leaveReviewView.startAnim()
 
         binding.rvHome.layoutManager = GridLayoutManager(requireContext(), 2)
 

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.domain.usecases.auth.AuthenticateUseCase
 import com.veyvolopayli.studhunter.domain.usecases.update.CheckUpdateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +25,8 @@ class MainViewModel @Inject constructor(
     private val _isBottomBarVisible = MutableStateFlow(false)
     val isBottomBarVisible = _isBottomBarVisible.asStateFlow()
 
-    private val _launchAppResult = MutableLiveData<LaunchAppResult<ErrorType>>()
-    val launchAppResult: LiveData<LaunchAppResult<ErrorType>> = _launchAppResult
+    private val _launchAppResult = MutableLiveData<LaunchAppResult>()
+    val launchAppResult: LiveData<LaunchAppResult> = _launchAppResult
 
     init {
         checkUpdate()
@@ -37,10 +36,10 @@ class MainViewModel @Inject constructor(
         checkUpdateUseCase().onEach { result ->
             when (result) {
                 is CheckUpdateResult.UpdateAvailable -> {
-                    _launchAppResult.value = LaunchAppResult.NeedToUpdate()
+                    _launchAppResult.value = LaunchAppResult.UpdateAvailable()
                 }
                 is CheckUpdateResult.Error -> {
-                    _launchAppResult.value = LaunchAppResult.ErrorOccurred(result.error)
+                    _launchAppResult.value = LaunchAppResult.Error(result.error)
                 }
                 is CheckUpdateResult.LastVersionInstalled -> {
                     authenticate()
@@ -52,14 +51,14 @@ class MainViewModel @Inject constructor(
     private fun authenticate() {
         authenticateUseCase().onEach { result ->
             _launchAppResult.value = when (result) {
-                is AuthResult.Authorized -> LaunchAppResult.Ok()
-                is AuthResult.Unauthorized -> LaunchAppResult.NeedToAuthorize()
-                is AuthResult.Error -> LaunchAppResult.ErrorOccurred(result.errorType)
+                is AuthResult.Authorized -> LaunchAppResult.Success()
+                is AuthResult.Unauthorized -> LaunchAppResult.NotAuthorized()
+                is AuthResult.Error -> LaunchAppResult.Error(result.errorType)
             }
         }.launchIn(viewModelScope)
     }
 
-    fun appLaunched() {
+    fun disableSplashScreen() {
         _isLoading.value = false
     }
 
@@ -72,7 +71,7 @@ class MainViewModel @Inject constructor(
     }
 
     fun launchAppOk() {
-        _launchAppResult.value = LaunchAppResult.Ok()
+        _launchAppResult.value = LaunchAppResult.Success()
     }
 
 

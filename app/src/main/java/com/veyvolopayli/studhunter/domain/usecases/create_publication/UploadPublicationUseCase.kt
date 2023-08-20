@@ -3,6 +3,7 @@ package com.veyvolopayli.studhunter.domain.usecases.create_publication
 import android.content.SharedPreferences
 import android.net.Uri
 import com.veyvolopayli.studhunter.common.Constants
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
@@ -22,8 +23,6 @@ class UploadPublicationUseCase @Inject constructor(
 ) {
     operator fun invoke(images: List<String>, publicationToUpload: PublicationToUpload): Flow<Resource<String>> = flow {
         try {
-            emit(Resource.Loading())
-
             val parts = images.map { imageUri ->
                 val imageFile = File(imageUri)
                 val requestBody = imageFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
@@ -32,18 +31,18 @@ class UploadPublicationUseCase @Inject constructor(
             }
 
             val token = prefs.getString(Constants.JWT, null) ?: run {
-                emit(Resource.Error("Unauthorized"))
+                emit(Resource.Error(ErrorType.Unauthorized()))
                 return@flow
             }
 
             val publicationId = publicationRepository.uploadPublication(parts, publicationToUpload, token)
             emit(Resource.Success(publicationId))
         } catch (e: HttpException) {
-            emit(Resource.Error("Some internet exception"))
+            emit(Resource.Error(ErrorType.NetworkError()))
             return@flow
         } catch (e: Exception) {
             e.printStackTrace()
-            emit(Resource.Error("Unexpected exception"))
+            emit(Resource.Error(ErrorType.LocalError()))
         }
     }
 }

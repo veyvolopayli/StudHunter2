@@ -1,5 +1,6 @@
 package com.veyvolopayli.studhunter.domain.usecases.categories
 
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,13 +14,12 @@ class GetCategoriesUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<Resource<Map<Int, String>>> = flow {
         try {
-            emit(Resource.Loading())
             val categories = repository.getCategories()
             emit(Resource.Success(categories))
         } catch (e: HttpException) {
-            emit(Resource.Error("Network error"))
+            emit(Resource.Error(ErrorType.ServerError()))
         } catch (e: Exception) {
-            emit(Resource.Error("Some unexpected error occurred"))
+            emit(Resource.Error(ErrorType.LocalError()))
         }
     }
 }

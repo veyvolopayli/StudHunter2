@@ -26,13 +26,13 @@ class CheckUpdateUseCase @Inject constructor(
 
         } catch (e: HttpException) {
             if (e.code() == 409) {
-                emit(CheckUpdateResult.Error(error = ErrorType.ServerError))
+                emit(CheckUpdateResult.Error(error = ErrorType.ServerError()))
             }
             else {
-                emit(CheckUpdateResult.Error(error = ErrorType.NetworkError))
+                emit(CheckUpdateResult.Error(error = ErrorType.NetworkError()))
             }
         } catch (e: Exception) {
-            emit(CheckUpdateResult.Error(error = ErrorType.UnexpectedError))
+            emit(CheckUpdateResult.Error(error = ErrorType.NetworkError()))
         }
     }
 
