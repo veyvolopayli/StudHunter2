@@ -18,6 +18,12 @@
         <action
             android:id="@+id/action_profileFragment_to_myPublicationsFragment"
             app:destination="@id/myPublicationsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_uploadProfileImageFragment"
+            app:destination="@id/uploadProfileImageFragment" />
     </fragment>
     <include app:graph="@navigation/auth" />
     <fragment
@@ -25,5 +31,15 @@
         android:name="com.veyvolopayli.studhunter.presentation.my_publications_screen.MyPublicationsFragment"
         android:label="fragment_my_publications"
         tools:layout="@layout/fragment_my_publications" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.edit_profile_screen.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/uploadProfileImageFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.upload_profile_image_screen.UploadProfileImageFragment"
+        android:label="fragment_upload_profile_image"
+        tools:layout="@layout/fragment_upload_profile_image" />
 
 </navigation>

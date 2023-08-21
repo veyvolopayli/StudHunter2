@@ -80,4 +80,6 @@
     <string name="write">Написать</string>
     <string name="enter_message">Введите сообщение</string>
     <string name="review">Отзыв</string>
+    <string name="change">Изменить</string>
+    <string name="change_of_profile">Изменение профиля</string>
 </resources>

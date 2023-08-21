@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.presentation.user_chat_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -48,21 +49,21 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
 
             if (messageBody.isNotBlank()) {
                 viewModel.sendMessage(messageBody = messageBody, type = type)
-                binding.textField.text?.apply {
-                    clear()
-                    clearSpans()
-                }
+                binding.textField.text?.clear()
             }
         }
 
         viewModel.chatMessagesState.observe(viewLifecycleOwner) { messages ->
             messagesAdapter?.newMessage(messages)
             binding.chatRv.smoothScrollToPosition(0)
+            Log.e("TAG", "called")
         }
 
         viewModel.toastEvent.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
+
+        Log.e("ААААААААААААААААА", "ахахаахахахахахахХАХААХАХАХАХАХАХАХАХ")
     }
 
     override fun onDestroyView() {

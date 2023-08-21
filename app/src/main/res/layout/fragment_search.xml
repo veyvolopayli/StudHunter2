@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".presentation.home_screen.HomeFragment">
+    android:background="@color/mat_white"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".presentation.search_screen.SearchFragment">
 
     <LinearLayout
-        android:id="@+id/home_fragment_toolbar_ll"
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout7"
+        android:layout_width="0dp"
         android:layout_height="64dp"
         android:background="@drawable/background_topbar"
         android:gravity="center"
@@ -20,64 +22,56 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/home_search_tv"
+        <ImageView
+            android:id="@+id/main_fragment_search_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="@color/grey" />
+
+        <EditText
+            android:id="@+id/main_fragment_search_et"
             style="@style/GilroyFontTheme"
+            android:layout_marginHorizontal="16dp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginEnd="16dp"
             android:layout_weight="1"
             android:background="@drawable/background_search_outlined"
             android:drawablePadding="8dp"
-            android:gravity="center_vertical"
-            android:hint="Напишите что-нибудь"
+            android:drawableTint="@color/tertiary"
+            android:hint="Сисечки писечки :3"
             android:maxLines="1"
-            android:padding="8dp"
+            android:paddingHorizontal="12dp"
             android:paddingVertical="1dp"
             android:singleLine="true"
+            android:imeOptions="actionDone"
             android:textColorHint="@color/tertiary"
             android:textCursorDrawable="@drawable/cursor_drawable"
-            android:textSize="@dimen/text_12px"
-            app:drawableStartCompat="@drawable/ic_search"
-            app:drawableTint="@color/tertiary"
+            android:textSize="@dimen/text_14px"
             tools:ignore="TouchTargetSizeCheck" />
 
         <ImageView
-            android:id="@+id/home_toolbar_filter_iv"
+            android:id="@+id/main_fragment_search_search"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_filter"
-            app:tint="@color/tertiary" />
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_search"
+            app:tint="@color/grey" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_home"
+        android:id="@+id/main_fragment_search_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:paddingHorizontal="8dp"
-        android:paddingVertical="16dp"
+        android:paddingVertical="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll"
-        tools:listitem="@layout/item_publication_home" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
 
-    <com.veyvolopayli.studhunter.presentation.custom_views.LeaveReviewNotificationView
-        android:id="@+id/leave_review_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:leaveReviewCardColor="@color/secondary"
-        app:leaveReviewCardRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
-    <include
-        android:id="@+id/loading_layout"
-        layout="@layout/transparent_loading_layout"
-        android:visibility="gone" />
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

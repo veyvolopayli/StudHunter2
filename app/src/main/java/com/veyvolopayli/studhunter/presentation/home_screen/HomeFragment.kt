@@ -63,6 +63,10 @@ class HomeFragment : Fragment() {
             }
         }
 
+        binding.homeSearchTv.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+
         return binding.root
     }
 

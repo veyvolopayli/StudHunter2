@@ -1,10 +1,18 @@
 package com.veyvolopayli.studhunter.presentation.profile_screen
 
+import android.util.Log
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.common.Constants
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
+import com.veyvolopayli.studhunter.common.hide
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.usecases.user.FetchUserByIdUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
@@ -19,8 +27,14 @@ class ProfileViewModel @Inject constructor(
     private val fetchUserByIdUseCase: FetchUserByIdUseCase
 ) : ViewModel() {
 
-    private val _user = MutableLiveData<Resource<User>>()
-    val user: LiveData<Resource<User>> = _user
+    private val _user = MutableLiveData<User>()
+    val user: LiveData<User> = _user
+
+    private val _loading = MutableLiveData<Boolean>(true)
+    val loading: LiveData<Boolean> = _loading
+
+    private val _authorized = MutableLiveData<Boolean>()
+    val authorized: LiveData<Boolean> = _authorized
 
     init {
         getCurrentUserId()
@@ -34,7 +48,41 @@ class ProfileViewModel @Inject constructor(
 
     private fun getUserById(userId: String?) {
         fetchUserByIdUseCase(userId).onEach { resource ->
-            _user.value = resource
+            when (resource) {
+                is Resource.Success -> {
+                    resource.data?.let { user ->
+                        _user.value = user
+                    }
+                }
+
+                is Resource.Error -> {
+                    when (resource.error) {
+                        is ErrorType.LocalError -> {
+
+                        }
+
+                        is ErrorType.ServerError -> {
+
+                        }
+
+                        is ErrorType.NetworkError -> {
+
+                        }
+
+                        is ErrorType.Unauthorized -> {
+                            _authorized.value = false
+                        }
+
+                        else -> {
+
+                        }
+                    }
+                }
+            }
         }.launchIn(viewModelScope)
+    }
+
+    fun updateUser(name: String, surname: String, university: String) {
+        _user.value = user.value?.copy(name = name, surname = surname, university = university)
     }
 }

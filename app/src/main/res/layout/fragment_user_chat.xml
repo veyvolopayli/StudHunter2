@@ -27,22 +27,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
+        android:id="@+id/text_field"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        style="@style/Widget.Material3.TextInputLayout.FilledBox"
+        android:hint="@string/write"
+        android:textAppearance="@style/GilroyFontTheme"
+        android:fontFamily="@font/gilroy_regular"
+        android:textSize="@dimen/text_18px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_rv" >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/text_field"
-            style="@style/Widget.Material3.TextInputEditText.FilledBox"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/enter_message"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/chat_rv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

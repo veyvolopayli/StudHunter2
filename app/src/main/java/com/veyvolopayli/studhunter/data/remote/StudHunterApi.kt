@@ -6,6 +6,7 @@ import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
+import com.veyvolopayli.studhunter.domain.model.requests.EditProfileRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
@@ -91,4 +92,11 @@ interface StudHunterApi {
 
     @GET("my-publications")
     suspend fun getMyPublications(@Header("Authorization") token: String): List<MyPublicationDTO>
+
+    @Multipart
+    @POST("avatar/upload")
+    suspend fun uploadAvatar(@Header("Authorization") token: String, @Part avatar: MultipartBody.Part): String
+
+    @POST("profile/edit")
+    suspend fun editProfile(@Header("Authorization") token: String, @Body editProfileRequest: EditProfileRequest): Boolean
 }
