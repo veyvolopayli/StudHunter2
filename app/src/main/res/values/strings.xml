@@ -82,4 +82,5 @@
     <string name="review">Отзыв</string>
     <string name="change">Изменить</string>
     <string name="change_of_profile">Изменение профиля</string>
+    <string name="by_search">По поиску</string>
 </resources>

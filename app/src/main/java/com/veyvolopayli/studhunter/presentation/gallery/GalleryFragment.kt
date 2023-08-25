@@ -18,7 +18,7 @@ import com.veyvolopayli.studhunter.databinding.FragmentGalleryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GalleryFragment : BottomSheetDialogFragment() {
+class GalleryFragment() : BottomSheetDialogFragment() {
     private var binding: FragmentGalleryBinding? = null
     private val viewModel: GalleryViewModel by viewModels()
     private var images: List<String>? = null
@@ -89,6 +89,10 @@ class GalleryFragment : BottomSheetDialogFragment() {
             }
 
         }
+
+    }
+
+    fun setGallerySelectMode(gallerySelectMode: GallerySelectMode) {
 
     }
 

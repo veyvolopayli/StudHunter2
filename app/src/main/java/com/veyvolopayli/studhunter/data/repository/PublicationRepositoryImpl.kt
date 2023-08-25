@@ -60,4 +60,8 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
         return api.checkPubFavoriteStatus(token, pubID)
     }
 
+    override suspend fun searchPublications(query: String): List<PublicationDto> {
+        return api.searchPublications(query)
+    }
+
 }

@@ -14,6 +14,7 @@ import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentUploadProfileImageBinding
 import com.veyvolopayli.studhunter.presentation.create_publication_screen.CreatePublicationFragment
 import com.veyvolopayli.studhunter.presentation.gallery.GalleryFragment
+import com.veyvolopayli.studhunter.presentation.gallery.GallerySelectMode
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

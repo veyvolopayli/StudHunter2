@@ -27,6 +27,7 @@ import com.veyvolopayli.studhunter.databinding.FragmentCreatePublicationBinding
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.presentation.districts.DistrictsFragment
 import com.veyvolopayli.studhunter.presentation.gallery.GalleryFragment
+import com.veyvolopayli.studhunter.presentation.gallery.GallerySelectMode
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,7 +53,7 @@ class CreatePublicationFragment : Fragment() {
             userId = it
         }
 
-        val galleryBottomSheet = GalleryFragment()
+        val galleryBottomSheet = GalleryFragment().also { it.setGallerySelectMode(GallerySelectMode.Multiple) }
         val districtsFragment = DistrictsFragment()
 
         val imagesAdapter = CreatePublicationImagesAdapter()

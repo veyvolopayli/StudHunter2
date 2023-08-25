@@ -42,5 +42,14 @@
         android:id="@+id/searchFragment"
         android:name="com.veyvolopayli.studhunter.presentation.search_screen.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_searchedPublicationsFragment"
+            app:destination="@id/searchedPublicationsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchedPublicationsFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.searched_publications_screen.SearchedPublicationsFragment"
+        android:label="fragment_searched_publications"
+        tools:layout="@layout/fragment_searched_publications" />
 </navigation>

@@ -34,4 +34,6 @@ interface PublicationRepository {
     suspend fun removePubFromFavorite(token: String, changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest)
 
     suspend fun checkPubFavoriteStatus(token: String, pubID: String): Boolean
+
+    suspend fun searchPublications(query: String): List<PublicationDto>
 }

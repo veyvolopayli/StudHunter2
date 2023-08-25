@@ -12,7 +12,7 @@ import com.veyvolopayli.studhunter.common.hide
 import com.veyvolopayli.studhunter.common.show
 import com.veyvolopayli.studhunter.databinding.ItemGalleryImageBinding
 
-class ImageGalleryAdapter : RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder>(),
+class ImageGalleryAdapter(private val gallerySelectMode: GallerySelectMode = GallerySelectMode.Multiple) : RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder>(),
     View.OnClickListener {
 
     var onItemClick: ((String) -> Unit)? = null
@@ -31,37 +31,68 @@ class ImageGalleryAdapter : RecyclerView.Adapter<ImageGalleryAdapter.ViewHolder>
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = images[position]
 
-        with(holder.binding) {
-            Glide.with(image.context).load(currentItem)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.background_24px)
-                .into(image)
+        when(gallerySelectMode) {
+            is GallerySelectMode.Multiple -> {
+                with(holder.binding) {
+                    Glide.with(image.context).load(currentItem)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.background_24px)
+                        .into(image)
 
-            image.setOnClickListener {
-                _selectedImages.apply {
-                    if (currentItem in this) {
-                        remove(currentItem)
+                    image.setOnClickListener {
+                        _selectedImages.apply {
+                            if (currentItem in this) {
+                                remove(currentItem)
+                                filledView.hide()
+                            }
+                            else {
+                                add(currentItem)
+                                filledView.text = (_selectedImages.indexOf(currentItem) + 1).toString()
+                                filledView.show()
+                            }
+                        }
+
+                        onItemClick?.invoke(currentItem)
+                    }
+
+                    filledView.text = (_selectedImages.indexOf(currentItem) + 1).toString()
+
+                    if (currentItem in _selectedImages) {
+                        filledView.show()
+                    } else {
                         filledView.hide()
                     }
-                    else {
-                        add(currentItem)
-                        filledView.text = (_selectedImages.indexOf(currentItem) + 1).toString()
+                    Log.e("SHIT", "CALLED")
+
+                }
+            }
+            is GallerySelectMode.Single -> {
+                with(holder.binding) {
+                    Glide.with(image).load(currentItem)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.background_24px)
+                        .into(image)
+                    image.setOnClickListener {
+                        _selectedImages.apply {
+                            if (currentItem in this) {
+                                remove(currentItem)
+                                filledView.hide()
+                            } else {
+                                if (isEmpty()) add(0, currentItem)
+                                else this[0] = currentItem
+                                filledView.show()
+                            }
+                        }
+                        onItemClick?.invoke(currentItem)
+                        notifyDataSetChanged()
+                    }
+                    if (currentItem in _selectedImages) {
                         filledView.show()
+                    } else {
+                        filledView.hide()
                     }
                 }
-
-                onItemClick?.invoke(currentItem)
             }
-
-            filledView.text = (_selectedImages.indexOf(currentItem) + 1).toString()
-
-            if (currentItem in _selectedImages) {
-                filledView.show()
-            } else {
-                filledView.hide()
-            }
-            Log.e("SHIT", "CALLED")
-
         }
 
     }

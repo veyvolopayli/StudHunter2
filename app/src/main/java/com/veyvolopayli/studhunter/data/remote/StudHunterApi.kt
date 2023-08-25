@@ -99,4 +99,7 @@ interface StudHunterApi {
 
     @POST("profile/edit")
     suspend fun editProfile(@Header("Authorization") token: String, @Body editProfileRequest: EditProfileRequest): Boolean
+
+    @GET("publications/query/{query}")
+    suspend fun searchPublications(@Path("query") query: String): List<PublicationDto>
 }
