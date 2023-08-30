@@ -1,5 +1,6 @@
 package com.veyvolopayli.studhunter.presentation.profile_screen
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
-    private val fetchUserByIdUseCase: FetchUserByIdUseCase
+    private val fetchUserByIdUseCase: FetchUserByIdUseCase,
+    private val prefs: SharedPreferences
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User>()
@@ -80,6 +82,11 @@ class ProfileViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun logout() {
+        prefs.edit().clear().apply()
+//        _authorized.value = false
     }
 
     fun updateUser(name: String, surname: String, university: String) {

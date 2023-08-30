@@ -39,7 +39,7 @@ class ProfileFragment : Fragment() {
         this.binding = binding
 
         viewModel.user.observe(viewLifecycleOwner) { user ->
-            Glide.with(this).load("${Constants.BASE_URL}user/${user.id}/avatar")
+            Glide.with(this).load("${Constants.CLOUD_USER_PROFILE_IMAGES_PATH}${user.id}")
                 .placeholder(
                     ResourcesCompat.getDrawable(
                         resources,
@@ -111,7 +111,11 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
-        Log.e("ААААААААААААААААА2222222222222222222222", "ахахаахахахахахахХАХААХАХАХАХАХАХАХАХ")
+
+        binding.exitAppTv.setOnClickListener {
+            viewModel.logout()
+            findNavController().setGraph(R.navigation.nav_graph)
+        }
 
         return binding.root
     }

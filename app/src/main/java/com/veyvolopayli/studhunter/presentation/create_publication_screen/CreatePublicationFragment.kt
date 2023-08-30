@@ -14,14 +14,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.common.categoryIsValid
 import com.veyvolopayli.studhunter.common.descriptionIsValid
 import com.veyvolopayli.studhunter.common.districtIsValid
+import com.veyvolopayli.studhunter.common.hide
 import com.veyvolopayli.studhunter.common.priceIsValid
 import com.veyvolopayli.studhunter.common.priceTypeIsValid
+import com.veyvolopayli.studhunter.common.show
 import com.veyvolopayli.studhunter.common.titleIsValid
 import com.veyvolopayli.studhunter.databinding.FragmentCreatePublicationBinding
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
@@ -146,22 +148,17 @@ class CreatePublicationFragment : Fragment() {
             imagesAdapter.setData(images)
         }
 
-        viewModel.state.observe(viewLifecycleOwner) { resource ->
-            binding.loadingLayout.root.visibility = View.VISIBLE
-            when (resource) {
-                is Resource.Success -> {
-                    binding.loadingLayout.root.visibility = View.GONE
-                    Toast.makeText(requireContext(), resource.data, Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.popBackStack()
+        viewModel.event.observe(viewLifecycleOwner) { event ->
+            when(event) {
+                is CreatePublicationEvent.Uploading -> {
+                    binding.loadingLayout.root.show()
                 }
-
-                is Resource.Error -> {
-                    binding.loadingLayout.root.visibility = View.GONE
-                    Toast.makeText(
-                        requireContext(),
-                        "ERROR: ${resource.error}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                is CreatePublicationEvent.Uploaded -> {
+                    findNavController().popBackStack()
+                }
+                is CreatePublicationEvent.Error -> {
+                    binding.loadingLayout.root.hide()
+                    Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
                 }
             }
         }

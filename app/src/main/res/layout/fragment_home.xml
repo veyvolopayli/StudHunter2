@@ -52,18 +52,25 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_home"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingHorizontal="8dp"
-        android:paddingVertical="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll"
-        tools:listitem="@layout/item_publication_home" />
+        app:layout_constraintTop_toBottomOf="@+id/home_fragment_toolbar_ll">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="16dp"
+            tools:listitem="@layout/item_publication_home" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.veyvolopayli.studhunter.presentation.custom_views.LeaveReviewNotificationView
         android:id="@+id/leave_review_view"

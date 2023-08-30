@@ -9,4 +9,6 @@ object Constants {
     const val PARAM_PUBLICATION_QUERY = "publicationQuery"
     const val JWT = "jwt"
     const val USER_ID = "user_id"
+    const val CLOUD_PUB_IMAGES_PATH = "https://storage.yandexcloud.net/stud-hunter-bucket/publications/images/"
+    const val CLOUD_USER_PROFILE_IMAGES_PATH = "https://storage.yandexcloud.net/stud-hunter-bucket/users/avatars/"
 }

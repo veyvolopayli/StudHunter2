@@ -29,8 +29,8 @@ class CreatePublicationViewModel @Inject constructor(
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> = _userId
 
-    private val _state = MutableLiveData<Resource<String>>()
-    val state: LiveData<Resource<String>> = _state
+    private val _event = MutableLiveData<CreatePublicationEvent>()
+    val event: LiveData<CreatePublicationEvent> = _event
 
     private val _selectedImages = MutableLiveData<List<String>>()
     val selectedImages: LiveData<List<String>> = _selectedImages
@@ -73,8 +73,29 @@ class CreatePublicationViewModel @Inject constructor(
     }
 
     fun uploadPublication(images: List<String>, publicationToUpload: PublicationToUpload) {
+        _event.value = CreatePublicationEvent.Uploading
         uploadPublicationUseCase(images, publicationToUpload).onEach { resource ->
-            _state.value = resource
+            when(resource) {
+                is Resource.Success -> {
+                    _event.value = CreatePublicationEvent.Uploaded
+                }
+                is Resource.Error -> {
+                    _event.value = CreatePublicationEvent.Error
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun uploadPublication2(images: List<String>, publicationToUpload: PublicationToUpload) {
+        uploadPublicationUseCase(images, publicationToUpload).onEach { resource ->
+            when(resource) {
+                is Resource.Success -> {
+
+                }
+                is Resource.Error -> {
+
+                }
+            }
         }.launchIn(viewModelScope)
     }
 

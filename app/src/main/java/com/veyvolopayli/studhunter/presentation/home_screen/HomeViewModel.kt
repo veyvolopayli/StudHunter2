@@ -30,7 +30,7 @@ class HomeViewModel @Inject constructor(
         fetchPublications()
     }
 
-    private fun fetchPublications() {
+    fun fetchPublications() {
         fetchPublicationsUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {

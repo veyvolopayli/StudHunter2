@@ -16,6 +16,7 @@ import com.veyvolopayli.studhunter.domain.usecases.publication.ImageUrlValidityU
 import com.veyvolopayli.studhunter.domain.usecases.publication.RemoveFromFavoriteUserCase
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn

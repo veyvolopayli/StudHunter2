@@ -1,32 +1,30 @@
 package com.veyvolopayli.studhunter.domain.usecases.publication
 
 import com.veyvolopayli.studhunter.common.Constants
-import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
-import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.lang.Exception
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
 import javax.inject.Inject
 
-class ImageUrlValidityUseCase @Inject constructor(
-    private val repository: PublicationRepository
-) {
+class ImageUrlValidityUseCase @Inject constructor() {
     operator fun invoke(publicationId: String): Flow<Resource<List<String>>> = flow {
         val validImages = mutableListOf<String>()
-        repeat(10) { n ->
+        repeat(3) { n ->
+            val imageURL = "${Constants.CLOUD_PUB_IMAGES_PATH}$publicationId/$n"
             try {
-                repository.checkImageValidity(publicationId, n)
-                validImages.add("${Constants.BASE_URL}image/$publicationId/image_$n")
-            }
-            catch (e: HttpException) {
-                emit(Resource.Error(ErrorType.NetworkError()))
-                return@repeat
-            }
-            catch (e: Exception) {
-                emit(Resource.Error(ErrorType.LocalError()))
-                return@flow
+                val isImageValid = withContext(Dispatchers.IO) {
+                    HttpURLConnection.setFollowRedirects(false)
+                    val httpURLConnection = URL(imageURL).openConnection() as HttpURLConnection
+                    httpURLConnection.requestMethod = "HEAD"
+                    httpURLConnection.responseCode == HttpURLConnection.HTTP_OK
+                }
+                if (isImageValid) validImages.add(imageURL)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
         emit(Resource.Success(validImages))

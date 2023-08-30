@@ -45,6 +45,8 @@ class HomeFragment : Fragment() {
 
                 findNavController().navigate(R.id.action_homeFragment_to_publicationFragment, bundle)
             }
+
+            binding.refreshLayout.isRefreshing = false
         }
 
         viewModel.event.observe(viewLifecycleOwner) { homeEvent ->
@@ -65,6 +67,10 @@ class HomeFragment : Fragment() {
 
         binding.homeSearchTv.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+        }
+
+        binding.refreshLayout.setOnRefreshListener {
+            viewModel.fetchPublications()
         }
 
         return binding.root
