@@ -6,17 +6,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
+import com.veyvolopayli.studhunter.domain.model.OfferRequest
+import com.veyvolopayli.studhunter.domain.model.OfferResponse
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.OutgoingMessageDTO
 import com.veyvolopayli.studhunter.domain.model.Message
+import com.veyvolopayli.studhunter.domain.model.TextFrameType
 import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,6 +34,12 @@ class UserChatViewModel @Inject constructor(
 
     private val _currentUserID = MutableLiveData<String>()
     val currentUserID: LiveData<String> = _currentUserID
+
+    private val _offerRequestState = MutableLiveData<OfferRequest>()
+    val offerRequestState: LiveData<OfferRequest> = _offerRequestState
+
+    private val _offerResponseState = MutableLiveData<OfferResponse>()
+    val offerResponseState: LiveData<OfferResponse> = _offerResponseState
 
     init {
         getCurrentUserID()
@@ -56,10 +63,36 @@ class UserChatViewModel @Inject constructor(
         viewModelScope.launch {
             when (repository.initSessionForNew(pubID = publicationID)) {
                 is Resource.Success -> {
-                    repository.observeMessages().onEach { message: Message ->
-                        _chatMessagesState.value = chatMessagesState.value?.toMutableList()?.apply { add(0, message) }
+                    repository.observeMessages().onEach { textFrameType ->
+
+                        when(textFrameType) {
+                            is TextFrameType.TMessage -> {
+                                val message = textFrameType.data as? Message
+                                if (message != null) {
+                                    _chatMessagesState.value = chatMessagesState.value?.toMutableList()?.apply { add(0, message) }
+                                }
+                            }
+                            is TextFrameType.TOfferRequest -> {
+                                val offerRequest = textFrameType.data as? OfferRequest
+                                if (offerRequest != null) {
+                                    _toastEvent.value = offerRequest.toString()
+                                    _offerRequestState.value = offerRequest!!
+                                }
+                            }
+                            is TextFrameType.TOfferResponse -> {
+                                val offerResponse = textFrameType.data as? OfferResponse
+                                if (offerResponse != null) {
+                                    _toastEvent.value = offerResponse.toString()
+                                    _offerResponseState.value = offerResponse!!
+                                }
+                            }
+                            is TextFrameType.TOther -> {
+                                _toastEvent.value = "error"
+                            }
+                        }
+
 //                        toastEvent(message.messageBody)
-                        Log.e("MESSAGE", message.messageBody)
+//                        Log.e("MESSAGE", message.messageBody)
                     }.launchIn(viewModelScope)
                 }
                 is Resource.Error -> {
@@ -74,17 +107,62 @@ class UserChatViewModel @Inject constructor(
         viewModelScope.launch {
             when (repository.initSession(chatID = chatID)) {
                 is Resource.Success -> {
-                    repository.observeMessages().onEach { message: Message ->
+                    /*repository.observeMessages().onEach { message: Message ->
                         _chatMessagesState.value = chatMessagesState.value?.toMutableList()?.apply { add(0, message) }
 //                        toastEvent(message.messageBody)
                         Log.e("MESSAGE", message.messageBody)
+                    }.launchIn(viewModelScope)*/
+
+                    repository.observeMessages().onEach { textFrameType ->
+
+                        when(textFrameType) {
+                            is TextFrameType.TMessage -> {
+                                val message = textFrameType.data as? Message
+                                if (message != null) {
+                                    _chatMessagesState.value = chatMessagesState.value?.toMutableList()?.apply { add(0, message) }
+                                }
+                            }
+                            is TextFrameType.TOfferRequest -> {
+                                val offerRequest = textFrameType.data as? OfferRequest
+                                if (offerRequest != null) {
+                                    _toastEvent.value = offerRequest.toString()
+                                    _offerRequestState.value = offerRequest!!
+                                }
+                            }
+                            is TextFrameType.TOfferResponse -> {
+                                val offerResponse = textFrameType.data as? OfferResponse
+                                if (offerResponse != null) {
+                                    _toastEvent.value = offerResponse.toString()
+                                    _offerResponseState.value = offerResponse!!
+                                }
+                            }
+                            is TextFrameType.TOther -> {
+                                _toastEvent.value = "error"
+                            }
+                        }
+
+//                        toastEvent(message.messageBody)
+//                        Log.e("MESSAGE", message.messageBody)
                     }.launchIn(viewModelScope)
+
                 }
                 is Resource.Error -> {
                     Log.e("MESSAGE", "ERROR")
                     toastEvent("ERROR")
                 }
             }
+        }
+    }
+
+    fun sendOfferResponse(accepted: Boolean) {
+        viewModelScope.launch {
+            repository.sendOfferResponse(accepted)
+        }
+    }
+
+    fun sendOfferRequest(jobDeadline: Long) {
+        viewModelScope.launch {
+            repository.sendOfferRequest(jobDeadline = jobDeadline)
         }
     }
 

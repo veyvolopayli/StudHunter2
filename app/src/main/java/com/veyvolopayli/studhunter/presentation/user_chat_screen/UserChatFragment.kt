@@ -43,6 +43,25 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
             binding.chatRv.adapter = messagesAdapter
         }
 
+        binding.sendOfferLayout.visibility = View.VISIBLE
+
+        viewModel.offerRequestState.observe(viewLifecycleOwner) { offerRequest ->
+            with(binding) {
+                sendOfferLayout.visibility = View.GONE
+                sendOfferResponseLayout.apply {
+                    visibility = View.VISIBLE
+                    acceptOfferButton.setOnClickListener {
+                        viewModel.sendOfferResponse(accepted = true)
+                        sentTv.visibility = View.VISIBLE
+                        acceptOfferButton.visibility = View.GONE
+                    }
+                    rejectOfferButton.setOnClickListener {
+                        viewModel.sendOfferResponse(accepted = false)
+                    }
+                }
+            }
+        }
+
         binding.sendButton.setOnClickListener {
             val messageBody = binding.textField.text.toString().trim()
             val type = "text"
@@ -56,14 +75,12 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
         viewModel.chatMessagesState.observe(viewLifecycleOwner) { messages ->
             messagesAdapter?.newMessage(messages)
             binding.chatRv.smoothScrollToPosition(0)
-            Log.e("TAG", "called")
         }
 
         viewModel.toastEvent.observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
 
-        Log.e("ААААААААААААААААА", "ахахаахахахахахахХАХААХАХАХАХАХАХАХАХ")
     }
 
     override fun onDestroyView() {

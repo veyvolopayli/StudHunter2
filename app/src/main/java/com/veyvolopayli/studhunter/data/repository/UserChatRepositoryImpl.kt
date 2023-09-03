@@ -1,11 +1,15 @@
 package com.veyvolopayli.studhunter.data.repository
 
 import android.content.SharedPreferences
+import com.veyvolopayli.studhunter.domain.model.OfferRequest
+import com.veyvolopayli.studhunter.domain.model.OfferResponse
 import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
-import com.veyvolopayli.studhunter.domain.model.Message
+import com.veyvolopayli.studhunter.domain.model.OfferRequestDTO
+import com.veyvolopayli.studhunter.domain.model.OfferResponseDTO
+import com.veyvolopayli.studhunter.domain.model.TextFrameType
 import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.webSocketSession
@@ -15,15 +19,14 @@ import io.ktor.websocket.Frame
 import io.ktor.websocket.WebSocketSession
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
-import io.ktor.websocket.send
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.lang.Exception
 import javax.inject.Inject
 
 class UserChatRepositoryImpl @Inject constructor(
@@ -77,6 +80,26 @@ class UserChatRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun sendOfferRequest(jobDeadline: Long) {
+        try {
+            val offerRequest = OfferRequest(jobDeadline = jobDeadline)
+            val offerRequestString = Json.encodeToString(offerRequest)
+            session?.send(frame = Frame.Text(offerRequestString))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    override suspend fun sendOfferResponse(accepted: Boolean) {
+        try {
+            val offerResponse = OfferResponse(accepted = accepted)
+            val offerRequestString = Json.encodeToString(offerResponse)
+            session?.send(frame = Frame.Text(offerRequestString))
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     override suspend fun disconnect() {
         try {
             session?.close()
@@ -85,8 +108,34 @@ class UserChatRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun observeMessages(): Flow<Message> {
-        return try {
+    override fun observeMessages(): Flow<TextFrameType> {
+        try {
+            val flow = session?.incoming?.receiveAsFlow()?.filter { it is Frame.Text }?.map { frame ->
+                val messageDTO = Json.decodeFromString<MessageDTO>((frame as? Frame.Text)?.readText() ?: "")
+                TextFrameType.TMessage(messageDTO.toMessage())
+            }
+            return flow ?: flow {}
+        } catch (_: Exception) { }
+
+        try {
+            val flow = session?.incoming?.receiveAsFlow()?.filter { it is Frame.Text }?.map { frame ->
+                val offerRequest = Json.decodeFromString<OfferRequestDTO>((frame as? Frame.Text)?.readText() ?: "")
+                TextFrameType.TOfferRequest(offerRequest)
+            }
+            return flow ?: flow {}
+        } catch (_: Exception) { }
+
+        try {
+            val flow = session?.incoming?.receiveAsFlow()?.filter { it is Frame.Text }?.map { frame ->
+                val offerResponse = Json.decodeFromString<OfferResponseDTO>((frame as? Frame.Text)?.readText() ?: "")
+                TextFrameType.TOfferResponse(offerResponse)
+            }
+            return flow ?: flow {}
+        } catch (_: Exception) { }
+
+
+        return flow {  }
+        /*return try {
             session?.incoming?.receiveAsFlow()?.filter { it is Frame.Text }?.map { frame ->
                 val jsonString = (frame as? Frame.Text)?.readText() ?: ""
                 val messageDTO = Json.decodeFromString<MessageDTO>(jsonString)
@@ -94,6 +143,6 @@ class UserChatRepositoryImpl @Inject constructor(
             } ?: flow {  }
         } catch (e: Exception) {
             flow {  }
-        }
+        }*/
     }
 }
