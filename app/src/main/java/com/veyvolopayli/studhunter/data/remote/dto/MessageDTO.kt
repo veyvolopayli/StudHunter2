@@ -8,9 +8,9 @@ import java.util.UUID
 
 @Serializable
 data class MessageDTO(
-    val id: String = UUID.randomUUID().toString(),
+    val id: String,
     val fromId: String,
-    val timestamp: Long = getTimeMillis(),
+    val timestamp: Long,
     val messageBody: String,
     val chatId: String,
     val type: String

@@ -9,7 +9,7 @@ import com.veyvolopayli.studhunter.databinding.ItemChatBinding
 
 class ChatsAdapter() : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
     private var chats = listOf<Chat>()
-    var onItemClick : ((String) -> Unit)? = null
+    var onItemClick : ((Chat) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsAdapter.ChatViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -24,7 +24,7 @@ class ChatsAdapter() : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
         holder.lastMessage.text = chat.lastMessage
         holder.date.text = chat.timestamp.millsToDate()
         holder.binding.chatLayout.setOnClickListener {
-            onItemClick?.invoke(chat.id)
+            onItemClick?.invoke(chat)
         }
     }
 

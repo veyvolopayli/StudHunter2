@@ -32,8 +32,8 @@ class ChatsFragment : Fragment() {
 
         val chatsAdapter = ChatsAdapter()
 
-        chatsAdapter.onItemClick = { chatID ->
-            val bundle = bundleOf().also { it.putString("chat_id", chatID) }
+        chatsAdapter.onItemClick = { chat ->
+            val bundle = bundleOf("chat_id" to chat.id, "seller_id" to chat.sellerId)
             findNavController().navigate(R.id.action_chatsFragment_to_userChatFragment2, bundle)
             mainVm.hideBottomBar()
         }

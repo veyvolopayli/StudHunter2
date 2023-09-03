@@ -3,6 +3,7 @@ package com.veyvolopayli.studhunter.domain.repository
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.domain.model.Message
 import com.veyvolopayli.studhunter.domain.model.TextFrameType
+import com.veyvolopayli.studhunter.domain.model.chat.IncomingTextFrame
 import kotlinx.coroutines.flow.Flow
 
 interface UserChatRepository {
@@ -10,7 +11,7 @@ interface UserChatRepository {
     suspend fun initSession(chatID: String): Resource<Unit>
     suspend fun sendMessage(message: String)
     suspend fun disconnect()
-    fun observeMessages(): Flow<TextFrameType>
+    fun observeMessages(): Flow<IncomingTextFrame>
     suspend fun sendOfferRequest(jobDeadline: Long)
     suspend fun sendOfferResponse(accepted: Boolean)
 }

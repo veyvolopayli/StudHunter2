@@ -1,7 +1,6 @@
 package com.veyvolopayli.studhunter.presentation.user_chat_screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -25,6 +24,7 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
 
         val pubID = arguments?.getString("pub_id")
         val chatID = arguments?.getString("chat_id")
+        val sellerID = arguments?.getString("seller_id")
 
         var messagesAdapter: UserChatAdapter? = null
 
@@ -45,19 +45,40 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
 
         binding.sendOfferLayout.visibility = View.VISIBLE
 
-        viewModel.offerRequestState.observe(viewLifecycleOwner) { offerRequest ->
-            with(binding) {
-                sendOfferLayout.visibility = View.GONE
-                sendOfferResponseLayout.apply {
-                    visibility = View.VISIBLE
-                    acceptOfferButton.setOnClickListener {
-                        viewModel.sendOfferResponse(accepted = true)
-                        sentTv.visibility = View.VISIBLE
-                        acceptOfferButton.visibility = View.GONE
+        viewModel.currentUserID.observe(viewLifecycleOwner) { userID ->
+            if (userID == sellerID) {
+                binding.sendOfferLayout.visibility = View.GONE
+            } else {
+                with(binding) {
+                    sendOfferLayout.visibility = View.GONE
+                    sendOfferButton.setOnClickListener {
+                        viewModel.sendOfferRequest(86400000)
                     }
-                    rejectOfferButton.setOnClickListener {
-                        viewModel.sendOfferResponse(accepted = false)
-                    }
+                    sentTv.visibility = View.VISIBLE
+                    sendOfferButton.visibility = View.GONE
+                }
+            }
+        }
+
+        viewModel.dealResponseState.observe(viewLifecycleOwner) { dealResponse ->
+            Toast.makeText(requireContext(), "Response: ${ dealResponse.accepted }", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.dealRequestState.observe(viewLifecycleOwner) { dealRequest ->
+            binding.apply {
+                sendOfferResponseLayout.visibility = View.VISIBLE
+                acceptOfferButton.setOnClickListener {
+                    viewModel.sendOfferResponse(true)
+                    responseSentTv.visibility = View.VISIBLE
+                    it.visibility = View.GONE
+                    rejectOfferButton.visibility = View.GONE
+                }
+                rejectOfferButton.setOnClickListener {
+                    viewModel.sendOfferResponse(false)
+                    responseSentTv.visibility = View.VISIBLE
+                    responseSentTv.visibility = View.VISIBLE
+                    acceptOfferButton.visibility = View.GONE
+                    it.visibility = View.GONE
                 }
             }
         }

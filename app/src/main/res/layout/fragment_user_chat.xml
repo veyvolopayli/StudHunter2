@@ -84,13 +84,13 @@
         android:id="@+id/chat_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/send_button"
-        app:reverseLayout="true"
-        android:paddingVertical="6dp"
         android:clipToPadding="false"
+        android:paddingVertical="6dp"
+        app:layout_constraintBottom_toTopOf="@+id/send_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:reverseLayout="true" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/send_button"
