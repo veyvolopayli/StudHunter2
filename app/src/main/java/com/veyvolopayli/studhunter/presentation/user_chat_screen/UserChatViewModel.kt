@@ -5,23 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
-import com.veyvolopayli.studhunter.domain.model.OfferRequest
-import com.veyvolopayli.studhunter.domain.model.OfferResponse
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
-import com.veyvolopayli.studhunter.data.remote.dto.OutgoingMessageDTO
 import com.veyvolopayli.studhunter.domain.model.Message
 import com.veyvolopayli.studhunter.domain.model.OfferRequestDTO
 import com.veyvolopayli.studhunter.domain.model.OfferResponseDTO
-import com.veyvolopayli.studhunter.domain.model.TextFrameType
+import com.veyvolopayli.studhunter.domain.model.chat.OutgoingMessage
 import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -58,9 +53,8 @@ class UserChatViewModel @Inject constructor(
 
     fun sendMessage(messageBody: String, type: String) {
         viewModelScope.launch {
-            val message = OutgoingMessageDTO(messageBody = messageBody, type = type)
-            val jsonMessage = Gson().toJson(message)
-            repository.sendMessage(jsonMessage)
+            val message = OutgoingMessage(messageBody = messageBody, messageType = type)
+            repository.sendMessage(message)
         }
     }
 
@@ -72,7 +66,7 @@ class UserChatViewModel @Inject constructor(
                         when(incomingTextFrame.type) {
                             INCOMING_TYPE_MESSAGE -> {
                                 try {
-                                    val messageDTO = Json.decodeFromString<MessageDTO>(incomingTextFrame.jsonStringObj)
+                                    val messageDTO = incomingTextFrame.data as? MessageDTO ?: throw Exception("Frame is not MessageDTO")
                                     _chatMessagesState.value = chatMessagesState.value?.toMutableList()?.apply { add(0, messageDTO.toMessage()) }
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -81,7 +75,8 @@ class UserChatViewModel @Inject constructor(
                             }
                             INCOMING_TYPE_DEAL_REQUEST -> {
                                 try {
-                                    val dealRequestDTO = Json.decodeFromString<OfferRequestDTO>(incomingTextFrame.jsonStringObj)
+                                    val dealRequestDTO = incomingTextFrame.data as? OfferRequestDTO ?: throw Exception("Frame is not OfferRequestDTO")
+                                    Log.e("DEAL_REQUEST", dealRequestDTO.toString())
                                     _dealRequestState.value = dealRequestDTO
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -90,7 +85,7 @@ class UserChatViewModel @Inject constructor(
                             }
                             INCOMING_TYPE_DEAL_RESPONSE -> {
                                 try {
-                                    val dealResponseDTO = Json.decodeFromString<OfferResponseDTO>(incomingTextFrame.jsonStringObj)
+                                    val dealResponseDTO = incomingTextFrame.data as? OfferResponseDTO ?: throw Exception("Frame is not OfferResponseDTO")
                                     _dealResponseState.value = dealResponseDTO
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -122,7 +117,7 @@ class UserChatViewModel @Inject constructor(
                         when(incomingTextFrame.type) {
                             INCOMING_TYPE_MESSAGE -> {
                                 try {
-                                    val messageDTO = Json.decodeFromString<MessageDTO>(incomingTextFrame.jsonStringObj)
+                                    val messageDTO = incomingTextFrame.data as? MessageDTO ?: throw Exception("Frame is not MessageDTO")
                                     _chatMessagesState.value = chatMessagesState.value?.toMutableList()?.apply { add(0, messageDTO.toMessage()) }
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -131,7 +126,7 @@ class UserChatViewModel @Inject constructor(
                             }
                             INCOMING_TYPE_DEAL_REQUEST -> {
                                 try {
-                                    val dealRequestDTO = Json.decodeFromString<OfferRequestDTO>(incomingTextFrame.jsonStringObj)
+                                    val dealRequestDTO = incomingTextFrame.data as? OfferRequestDTO ?: throw Exception("Frame is not OfferRequestDTO")
                                     _dealRequestState.value = dealRequestDTO
                                 } catch (e: Exception) {
                                     e.printStackTrace()
@@ -140,7 +135,7 @@ class UserChatViewModel @Inject constructor(
                             }
                             INCOMING_TYPE_DEAL_RESPONSE -> {
                                 try {
-                                    val dealResponseDTO = Json.decodeFromString<OfferResponseDTO>(incomingTextFrame.jsonStringObj)
+                                    val dealResponseDTO = incomingTextFrame.data as? OfferResponseDTO ?: throw Exception("Frame is not OfferResponseDTO")
                                     _dealResponseState.value = dealResponseDTO
                                 } catch (e: Exception) {
                                     e.printStackTrace()

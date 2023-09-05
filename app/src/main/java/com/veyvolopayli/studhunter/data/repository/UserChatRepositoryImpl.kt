@@ -2,16 +2,15 @@ package com.veyvolopayli.studhunter.data.repository
 
 import android.content.SharedPreferences
 import android.util.Log
-import com.veyvolopayli.studhunter.domain.model.OfferRequest
-import com.veyvolopayli.studhunter.domain.model.OfferResponse
+import com.veyvolopayli.studhunter.domain.model.chat.OfferRequest
+import com.veyvolopayli.studhunter.domain.model.chat.OfferResponse
 import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
-import com.veyvolopayli.studhunter.domain.model.Message
 import com.veyvolopayli.studhunter.domain.model.OfferRequestDTO
 import com.veyvolopayli.studhunter.domain.model.OfferResponseDTO
-import com.veyvolopayli.studhunter.domain.model.TextFrameType
+import com.veyvolopayli.studhunter.domain.model.chat.DataTransfer
 import com.veyvolopayli.studhunter.domain.model.chat.IncomingTextFrame
 import com.veyvolopayli.studhunter.domain.model.chat.OutgoingMessage
 import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
@@ -24,13 +23,15 @@ import io.ktor.websocket.WebSocketSession
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.isActive
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
 import javax.inject.Inject
 
 class UserChatRepositoryImpl @Inject constructor(
@@ -40,12 +41,26 @@ class UserChatRepositoryImpl @Inject constructor(
 
     private var session: WebSocketSession? = null
 
+    private val json = Json {
+        serializersModule = SerializersModule {
+            polymorphic(DataTransfer::class) {
+                subclass(OfferRequestDTO::class)
+                subclass(OfferRequest::class)
+                subclass(OfferResponse::class)
+                subclass(OfferResponseDTO::class)
+                subclass(MessageDTO::class)
+                subclass(OutgoingMessage::class)
+            }
+        }
+    }
+
     override suspend fun initSessionForNew(pubID: String): Resource<Unit> {
         val token = prefs.getString(Constants.JWT, null) ?: return Resource.Error(ErrorType.Unauthorized())
         return try {
             session = client.webSocketSession {
                 header("Authorization", token)
-                url("ws://192.168.1.71:8080/chat?pubID=$pubID")
+                url("${Constants.BASE_URL}chat?pubID=$pubID")
+//                url("ws://5.181.255.253/chat?pubID=$$pubID")
             }
             if (session?.isActive == true) {
                 Resource.Success(Unit)
@@ -63,7 +78,8 @@ class UserChatRepositoryImpl @Inject constructor(
             val token = prefs.getString(Constants.JWT, null) ?: return Resource.Error(ErrorType.Unauthorized())
             session = client.webSocketSession {
                 header("Authorization", token)
-                url("ws://192.168.1.71:8080/chat?chatID=$chatID")
+                url("${Constants.BASE_URL}chat?chatID=$chatID")
+//                url("ws://5.181.255.253/chat?chatID=$chatID")
             }
             if (session?.isActive == true) {
                 Resource.Success(Unit)
@@ -76,13 +92,11 @@ class UserChatRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun sendMessage(message: String) {
+    override suspend fun sendMessage(message: OutgoingMessage) {
         try {
-            val outgoingMessage = OutgoingMessage(messageBody = message, type = "text")
-            val outgoingMessageString = Json.encodeToString(outgoingMessage).toString()
-            val incomingTextFrame = IncomingTextFrame(type = "message", jsonStringObj = outgoingMessageString)
-            Log.e("MESSAGE", Json.encodeToString(incomingTextFrame))
-            session?.send(frame = Frame.Text(Json.encodeToString(incomingTextFrame)))
+            val incomingTextFrame = IncomingTextFrame(type = "message", data = message)
+            Log.e("MESSAGE", json.encodeToString(incomingTextFrame))
+            session?.send(frame = Frame.Text(json.encodeToString(incomingTextFrame)))
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -91,8 +105,10 @@ class UserChatRepositoryImpl @Inject constructor(
     override suspend fun sendOfferRequest(jobDeadline: Long) {
         try {
             val offerRequest = OfferRequest(jobDeadline = jobDeadline)
-            val offerRequestString = Json.encodeToString(offerRequest)
-            session?.send(frame = Frame.Text(offerRequestString))
+            val textFrame = IncomingTextFrame(type = "deal_request", data = offerRequest)
+            val textFrameString = json.encodeToString(textFrame)
+            Log.e("VM_SEND_REQ", "CALLED")
+            session?.send(frame = Frame.Text(textFrameString)) ?: Log.e("VM_SEND_REQ", "SESSION IS NULL")
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -101,8 +117,9 @@ class UserChatRepositoryImpl @Inject constructor(
     override suspend fun sendOfferResponse(accepted: Boolean) {
         try {
             val offerResponse = OfferResponse(accepted = accepted)
-            val offerRequestString = Json.encodeToString(offerResponse)
-            session?.send(frame = Frame.Text(offerRequestString))
+            val incomingTextFrame = IncomingTextFrame(type = "deal_response", offerResponse)
+            val incomingTextFrameString = json.encodeToString(incomingTextFrame)
+            session?.send(frame = Frame.Text(incomingTextFrameString))
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -119,7 +136,9 @@ class UserChatRepositoryImpl @Inject constructor(
     override fun observeMessages(): Flow<IncomingTextFrame> {
         return try {
             val flow = session?.incoming?.receiveAsFlow()?.map { frame ->
-                Json.decodeFromString<IncomingTextFrame>((frame as? Frame.Text)?.readText() ?: "")
+                Log.e("AHAHAH", (frame as? Frame.Text)?.readText() ?: "")
+                println(json.decodeFromString<IncomingTextFrame>((frame as? Frame.Text)?.readText() ?: ""))
+                json.decodeFromString<IncomingTextFrame>((frame as? Frame.Text)?.readText() ?: "")
             } ?: flow { }
             flow
         } catch (e: Exception) {

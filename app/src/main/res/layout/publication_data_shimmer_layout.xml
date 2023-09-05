@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_margin="18dp"
     android:layout_height="wrap_content"
-    android:layout_margin="18dp">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
+        style="@style/GilroyFontThemeMedium"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:foreground="@drawable/shimmer_template"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/text_18px" />
+
+    <TextView
+        style="@style/GilroyFontThemeMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="10dp"
+        android:foreground="@drawable/shimmer_template"
+        android:text=""
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/text_18px" />
 
-        <TextView
-            style="@style/GilroyFontThemeMedium"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:foreground="@drawable/shimmer_template"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/text_18px" />
+    <TextView
+        style="@style/GilroyFontTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:foreground="@drawable/shimmer_template"
+        android:text=""
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/text_16px" />
 
-        <TextView
-            style="@style/GilroyFontThemeMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:foreground="@drawable/shimmer_template"
-            android:text=""
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/text_18px" />
-
-        <TextView
-            style="@style/GilroyFontTheme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:foreground="@drawable/shimmer_template"
-            android:text=""
-            android:textColor="@color/textColorPrimary"
-            android:textSize="@dimen/text_16px" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

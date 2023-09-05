@@ -1,15 +1,11 @@
 package com.veyvolopayli.studhunter.domain.model
 
+import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class DetailedPublication(
-    val category: String,
-    val description: String,
-    val district: String,
-    val id: String,
-    val imageUrl: String,
-    val price: Int?,
-    val priceType: String,
-    val socials: String,
-    val timestamp: Long,
-    val title: String,
-    val userId: String
+    val publication: PublicationDto,
+    val user: User,
+    val userIsOwner: Boolean
 )

@@ -3,6 +3,7 @@ package com.veyvolopayli.studhunter.data.remote
 import com.veyvolopayli.studhunter.data.remote.dto.Chat
 import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
@@ -44,7 +45,7 @@ interface StudHunterApi {
     suspend fun isEmailUnique(@Query("email") email:String)
 
     @GET("publications/id/{id}")
-    suspend fun fetchPublication(@Header("Authorization") token: String, @Path("id") id: String): Response<PublicationDto>
+    suspend fun fetchPublication(@Header("Authorization") token: String, @Path("id") id: String): DetailedPublication
 
     @GET("image/{publicationId}/image_{n}")
     suspend fun checkImageValidity(@Path("publicationId") publicationId: String, @Path("n") n: Int)

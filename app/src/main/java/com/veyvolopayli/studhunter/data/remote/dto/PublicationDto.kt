@@ -1,26 +1,25 @@
 package com.veyvolopayli.studhunter.data.remote.dto
 
-import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.Publication
-import okhttp3.internal.toLongOrDefault
-import java.lang.Exception
+import kotlinx.serialization.Serializable
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@Serializable
 data class PublicationDto(
-    val approved: Boolean,
-    val category: String,
-    val description: String,
-    val district: String,
     val id: String,
     val imageUrl: String,
+    val title: String,
+    val description: String,
     val price: Int?,
     val priceType: String,
-    val socials: String,
+    val district: String?,
     val timestamp: Long,
-    val title: String,
-    val userId: String
+    val category: String,
+    val userId: String,
+    val socials: String,
+    val approved: Boolean?
 )
 
 fun PublicationDto.toPublication(): Publication {
@@ -32,22 +31,6 @@ fun PublicationDto.toPublication(): Publication {
         priceType = priceType,
         timestamp = timestamp.millsToDateTime() ?: "Ошибка",
         imageUrl = imageUrl
-    )
-}
-
-fun PublicationDto.toDetailedPublication(): DetailedPublication {
-    return DetailedPublication(
-        category = category,
-        description = description,
-        district = district,
-        id = id,
-        imageUrl = imageUrl,
-        price = price,
-        priceType = priceType,
-        socials = socials,
-        timestamp = timestamp,
-        title = title,
-        userId = userId
     )
 }
 

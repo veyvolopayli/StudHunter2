@@ -7,78 +7,88 @@
     android:background="@color/background"
     tools:context=".presentation.user_chat_screen.UserChatFragment">
 
-    <LinearLayout
-        android:id="@+id/send_offer_layout"
+    <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/sent_tv"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/send_offer_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="end"
             android:visibility="gone"
-            android:text="Отправлено"/>
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ProgressBar
-            android:id="@+id/send_offer_progress_bar"
+            <TextView
+                android:id="@+id/sent_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отправлено"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/send_offer_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/send_offer_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Предложить заключить сделку"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/send_offer_response_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal"
             android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/send_offer_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:text="Предложить заключить сделку" />
+            <TextView
+                android:id="@+id/response_sent_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ответ отправлен"
+                android:visibility="gone" />
 
-    </LinearLayout>
+            <ProgressBar
+                android:id="@+id/send_offer_response_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/send_offer_response_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            <Button
+                android:id="@+id/accept_offer_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Принять"
+                android:textSize="10sp" />
 
-        <TextView
-            android:id="@+id/response_sent_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="Ответ отправлен"/>
+            <Button
+                android:id="@+id/reject_offer_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отклонить"
+                android:textSize="10sp" />
 
-        <ProgressBar
-            android:id="@+id/send_offer_response_progress_bar"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/accept_offer_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:text="Принять" />
-
-        <Button
-            android:id="@+id/reject_offer_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:text="Отклонить" />
-
-    </LinearLayout>
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_rv"
@@ -89,7 +99,7 @@
         app:layout_constraintBottom_toTopOf="@+id/send_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
         app:reverseLayout="true" />
 
     <androidx.appcompat.widget.AppCompatImageButton

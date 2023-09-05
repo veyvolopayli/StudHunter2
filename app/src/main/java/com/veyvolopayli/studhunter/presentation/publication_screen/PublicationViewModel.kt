@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.millsToDateTime
+import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.usecases.publication.AddToFavoriteUseCase
 import com.veyvolopayli.studhunter.domain.usecases.publication.CheckFavoriteStatusUseCase
@@ -16,27 +17,68 @@ import com.veyvolopayli.studhunter.domain.usecases.publication.ImageUrlValidityU
 import com.veyvolopayli.studhunter.domain.usecases.publication.RemoveFromFavoriteUserCase
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class PublicationViewModel @Inject constructor(
     private val fetchPublicationUseCase: FetchPublicationUseCase,
     private val imageUrlValidityUseCase: ImageUrlValidityUseCase,
-    private val fetchUserByIdUseCase: FetchUserByIdUseCase,
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
     private val addToFavoriteUseCase: AddToFavoriteUseCase,
     private val removeFromFavoriteUserCase: RemoveFromFavoriteUserCase,
     private val checkFavoriteStatusUseCase: CheckFavoriteStatusUseCase
 ) : ViewModel() {
 
-    private val _dataState = MutableLiveData<PublicationState>()
-    val dataState: LiveData<PublicationState> = _dataState
+    private val _state = MutableLiveData<PublicationScreenState>()
+    val state: LiveData<PublicationScreenState> = _state
+
+    private val _imagesState = MutableLiveData<List<String>>()
+    val imagesState: LiveData<List<String>> = _imagesState
+
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> = _isFavorite
+
+    fun getData(pubID: String) {
+        fetchPublicationUseCase(pubID).onEach { resource: Resource<DetailedPublication> ->
+            if (resource is Resource.Success) {
+                resource.data?.let { detailedPublication ->
+                    val publication = detailedPublication.publication
+                    val user = detailedPublication.user
+
+                    _state.value = PublicationScreenState(
+                        publicationID = publication.id,
+                        price = publication.price,
+                        priceType = publication.priceType,
+                        title = publication.title,
+                        description = publication.description,
+                        userId = user.id,
+                        userFullName = "${ user.name } ${ user.surname }",
+                        userRating = user.rating,
+                        username = user.username,
+                        isLoading = false,
+                        isUserOwner = detailedPublication.userIsOwner,
+                        date = publication.timestamp.millsToDateTime()
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
+
+        imageUrlValidityUseCase(pubID).onEach { resource ->
+            if (resource is Resource.Success) {
+                val images = resource.data ?: emptyList()
+                _imagesState.value = images
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    /*private val _dataState = MutableLiveData<PublicationScreenState>()
+    val dataState: LiveData<PublicationScreenState> = _dataState
 
     private val _imagesState = MutableLiveData<List<String>>()
     val imagesState: LiveData<List<String>> = _imagesState
@@ -56,15 +98,15 @@ class PublicationViewModel @Inject constructor(
         fetchPublicationUseCase(id).onEach { resource ->
             if (resource is Resource.Success) {
                 resource.data?.body()?.let { publication ->
-                    _dataState.value = PublicationState(
+                    _dataState.value = PublicationScreenState(
                         category = publication.category,
                         district = publication.district,
                         description = publication.description,
-                        id = publication.id,
+                        publicationID = publication.id,
                         price = publication.price,
                         priceType = publication.priceType,
                         socials = publication.socials,
-                        timestamp = publication.timestamp.millsToDateTime(),
+                        date = publication.timestamp.millsToDateTime(),
                         title = publication.title,
                         userId = publication.userId
                     )
@@ -157,5 +199,5 @@ class PublicationViewModel @Inject constructor(
                 addToFavorite(pubID = pubID)
             }
         }
-    }
+    }*/
 }

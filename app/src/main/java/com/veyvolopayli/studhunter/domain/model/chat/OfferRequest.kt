@@ -4,8 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@SerialName("OutgoingMessage")
-data class OutgoingMessage(
-    val messageBody: String,
-    val messageType: String
+@SerialName("OutgoingDealRequest")
+data class OfferRequest(
+    val jobDeadline: Long
 ) : DataTransfer

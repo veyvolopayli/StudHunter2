@@ -63,12 +63,27 @@
 
     </LinearLayout>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_loading_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <include layout="@layout/publication_screen_loading_layout" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:paddingBottom="100dp"
         android:clipToPadding="false"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,36 +98,14 @@
                 android:id="@+id/images_vp"
                 android:layout_width="match_parent"
                 android:layout_height="264dp"
-                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_image"
-                android:layout_width="match_parent"
-                android:layout_height="264dp" >
-
-                <include
-                    layout="@layout/item_image_publication" />
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <include
-                    layout="@layout/publication_data_shimmer_layout" />
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <LinearLayout
                 android:id="@+id/publication_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:padding="18dp"
                 android:orientation="vertical">
 
@@ -162,22 +155,11 @@
 
             </LinearLayout>
 
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <include
-                    layout="@layout/publication_user_shimmer_layout" />
-
-            </com.facebook.shimmer.ShimmerFrameLayout>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/user_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:visibility="gone"
                 android:layout_marginHorizontal="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -188,7 +170,6 @@
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_user_avatar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

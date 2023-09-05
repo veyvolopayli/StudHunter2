@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.common.hide
 import com.veyvolopayli.studhunter.common.show
 import com.veyvolopayli.studhunter.databinding.FragmentPublicationBinding
@@ -22,8 +25,6 @@ class PublicationFragment() : Fragment() {
     private var binding: FragmentPublicationBinding? = null
     private val viewModel: PublicationViewModel by viewModels()
 
-    private var thisPubID: String? = null
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,81 +32,49 @@ class PublicationFragment() : Fragment() {
         val binding = FragmentPublicationBinding.inflate(layoutInflater, container, false)
         this.binding = binding
 
-        val id = arguments?.getString("id", "") ?: ""
-        thisPubID = id
+        val publicationID = arguments?.getString("id", "") ?: ""
 
-        viewModel.checkFavorite(id)
+        binding.shimmerLoadingLayout.startShimmer()
+        viewModel.getData(publicationID)
 
-        binding.apply {
-            shimmerImage.startShimmer()
-            shimmerData.startShimmer()
-            shimmerUser.startShimmer()
-        }
-
-        viewModel.apply {
-            fetchPublication(id)
-            fetchImages(id)
-        }
-
-        viewModel.imagesState.observe(viewLifecycleOwner) { urls ->
-            binding.shimmerImage.apply {
-                stopShimmer()
-                hide()
-            }
-
+        viewModel.imagesState.observe(viewLifecycleOwner) { images ->
             val imagesAdapter = ImagesAdapter()
-            imagesAdapter.setImages(urls)
+            imagesAdapter.setImages(images)
             binding.imagesVp.adapter = imagesAdapter
-            binding.imagesVp.show()
         }
 
-        viewModel.dataState.observe(viewLifecycleOwner) { state ->
-            binding.shimmerData.apply {
-                stopShimmer()
-                hide()
-            }
-            binding.apply {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            with(binding) {
                 state.price?.let {
-                    price.text = it.toString()
-                    price.show()
+                    price.apply {
+                        visibility = View.VISIBLE
+                        text = it.toString()
+                    }
                 }
-
+                priceType.text = state.priceType
                 title.text = state.title
                 description.text = state.description
-                priceType.text = state.priceType
-                publicationData.show()
+                userFullName.text = state.userFullName
+                userRating.text = state.userRating.toString()
+                username.text = state.username
+                vpWriteButton.visibility = if (state.isUserOwner) View.GONE else View.VISIBLE
+                Glide.with(this@PublicationFragment).load(Constants.getUserAvatarUrl(state.userId)).placeholder(ResourcesCompat.getDrawable(resources, R.drawable.ic_user_avatar, requireContext().theme)).circleCrop().into(avatar)
+
+                if (state.isLoading) {
+                    binding.shimmerLoadingLayout.startShimmer()
+                    binding.shimmerLoadingLayout.visibility = View.VISIBLE
+                    binding.nestedScrollView2.visibility = View.GONE
+                } else {
+                    binding.shimmerLoadingLayout.stopShimmer()
+                    binding.shimmerLoadingLayout.visibility = View.GONE
+                    binding.nestedScrollView2.visibility = View.VISIBLE
+                }
             }
-        }
-
-        viewModel.userState.observe(viewLifecycleOwner) { user ->
-            binding.shimmerUser.apply {
-                stopShimmer()
-                hide()
-            }
-            binding.apply {
-                userLayout.show()
-                Log.e("User", user.toString())
-                userFullName.text = "${user.name} ${user.surname}" ?: ""
-                username.text = user.username
-                userRating.text = user.rating.toString()
-            }
-        }
-
-        viewModel.userIsOwnerState.observe(viewLifecycleOwner) { isOwner ->
-            binding.vpWriteButton.visibility = if (isOwner) View.GONE else View.VISIBLE
-        }
-
-        viewModel.favorite.observe(viewLifecycleOwner) {
-            binding.addToFavoriteButton.setChecked(it)
-        }
-
-        binding.addToFavoriteButton.setOnClickListener {
-            viewModel.onFavoriteClick(id)
         }
 
         binding.vpWriteButton.setOnClickListener {
             val bundle = bundleOf()
-            bundle.putString("pub_id", id)
+            bundle.putString("pub_id", publicationID)
 
             findNavController().navigate(R.id.action_publicationFragment_to_userChatFragment, bundle)
         }

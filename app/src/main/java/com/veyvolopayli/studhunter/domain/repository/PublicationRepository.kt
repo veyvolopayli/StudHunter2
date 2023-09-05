@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.domain.repository
 
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.Publication
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
@@ -13,7 +14,7 @@ interface PublicationRepository {
 
     suspend fun fetchPublications(): List<PublicationDto>
 
-    suspend fun fetchPublication(token: String, id: String): Response<PublicationDto>
+    suspend fun fetchPublication(token: String, id: String): DetailedPublication
 
     suspend fun checkImageValidity(publicationId: String, num: Int)
 

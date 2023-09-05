@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.presentation.user_chat_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -41,24 +42,25 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
             binding.chatRv.layoutManager =
                 LinearLayoutManager(requireContext()).also { it.reverseLayout = true }
             binding.chatRv.adapter = messagesAdapter
-        }
 
-        binding.sendOfferLayout.visibility = View.VISIBLE
-
-        viewModel.currentUserID.observe(viewLifecycleOwner) { userID ->
-            if (userID == sellerID) {
+            if (currentUserID == sellerID) {
                 binding.sendOfferLayout.visibility = View.GONE
             } else {
                 with(binding) {
-                    sendOfferLayout.visibility = View.GONE
+                    sendOfferLayout.visibility = View.VISIBLE
                     sendOfferButton.setOnClickListener {
+                        Toast.makeText(requireContext(), "CLICKED", Toast.LENGTH_SHORT).show()
                         viewModel.sendOfferRequest(86400000)
+                        Toast.makeText(requireContext(), "SENT", Toast.LENGTH_SHORT).show()
+                        sentTv.visibility = View.VISIBLE
+                        sendOfferButton.visibility = View.GONE
                     }
-                    sentTv.visibility = View.VISIBLE
-                    sendOfferButton.visibility = View.GONE
+
                 }
             }
         }
+
+        binding.sendOfferLayout.visibility = View.VISIBLE
 
         viewModel.dealResponseState.observe(viewLifecycleOwner) { dealResponse ->
             Toast.makeText(requireContext(), "Response: ${ dealResponse.accepted }", Toast.LENGTH_SHORT).show()

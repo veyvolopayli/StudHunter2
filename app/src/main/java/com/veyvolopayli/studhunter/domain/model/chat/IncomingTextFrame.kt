@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class IncomingTextFrame(
     val type: String,
-    val jsonStringObj: String
+    val data: DataTransfer
 )

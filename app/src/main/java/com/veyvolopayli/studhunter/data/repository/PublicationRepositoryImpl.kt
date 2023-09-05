@@ -2,6 +2,7 @@ package com.veyvolopayli.studhunter.data.repository
 
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
@@ -14,7 +15,7 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
         return api.fetchPublications()
     }
 
-    override suspend fun fetchPublication(token: String, id: String): Response<PublicationDto> {
+    override suspend fun fetchPublication(token: String, id: String): DetailedPublication {
         return api.fetchPublication(token, id)
     }
 

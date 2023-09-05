@@ -57,7 +57,7 @@ object AppModule {
     fun provideStudHunterApi(): StudHunterApi {
         return Retrofit
             .Builder()
-            .baseUrl(Constants.LOCALHOST)
+            .baseUrl(Constants.BASE_URL)
             .client(OkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .build()
