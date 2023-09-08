@@ -43,25 +43,23 @@ class PublicationViewModel @Inject constructor(
     private val _imagesState = MutableLiveData<List<String>>()
     val imagesState: LiveData<List<String>> = _imagesState
 
-    private val _isFavorite = MutableLiveData<Boolean>(false)
+    private val _isFavorite = MutableLiveData<Boolean>()
     val isFavorite: LiveData<Boolean> = _isFavorite
 
-    init {
-        /*CoroutineScope(Dispatchers.IO).launch {
-            delay(1000)
-            checkIsInFavorite()
-        }*/
-    }
-
-    private fun checkIsInFavorite() {
-        checkFavoriteStatusUseCase(_state.value?.publicationID ?: "").onEach {
+    private fun checkIsInFavorite(pubID: String) {
+        checkFavoriteStatusUseCase(pubID).onEach {
             if (it is Resource.Success) {
                 _isFavorite.value = it.data ?: false
             }
         }.launchIn(viewModelScope)
     }
 
-    fun getData(pubID: String) {
+    fun fetchAllData(pubID: String) {
+        checkIsInFavorite(pubID)
+        getData(pubID)
+    }
+
+    private fun getData(pubID: String) {
         fetchPublicationUseCase(pubID).onEach { resource: Resource<DetailedPublication> ->
             if (resource is Resource.Success) {
                 resource.data?.let { detailedPublication ->
@@ -83,7 +81,6 @@ class PublicationViewModel @Inject constructor(
                         date = publication.timestamp.millsToDateTime()
                     )
 
-                    checkIsInFavorite()
                 }
             }
         }.launchIn(viewModelScope)

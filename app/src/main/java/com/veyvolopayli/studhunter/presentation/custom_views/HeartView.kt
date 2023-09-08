@@ -41,9 +41,12 @@ class HeartView @JvmOverloads constructor(
         typedArray.recycle()
     }
 
+    fun jump() {
+        binding.heart.startAnimation(anim)
+    }
+
     fun setChecked(isChecked: Boolean) {
         binding.heart.apply {
-            startAnimation(anim)
             setColorFilter(
                 if (isChecked) ContextCompat.getColor(context, R.color.red)
                 else ContextCompat.getColor(context, R.color.black)
