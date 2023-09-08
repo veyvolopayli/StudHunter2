@@ -17,6 +17,8 @@ import com.veyvolopayli.studhunter.domain.usecases.publication.ImageUrlValidityU
 import com.veyvolopayli.studhunter.domain.usecases.publication.RemoveFromFavoriteUserCase
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
@@ -41,8 +43,23 @@ class PublicationViewModel @Inject constructor(
     private val _imagesState = MutableLiveData<List<String>>()
     val imagesState: LiveData<List<String>> = _imagesState
 
-    private val _isFavorite = MutableLiveData<Boolean>()
+    private val _isFavorite = MutableLiveData<Boolean>(false)
     val isFavorite: LiveData<Boolean> = _isFavorite
+
+    init {
+        /*CoroutineScope(Dispatchers.IO).launch {
+            delay(1000)
+            checkIsInFavorite()
+        }*/
+    }
+
+    private fun checkIsInFavorite() {
+        checkFavoriteStatusUseCase(_state.value?.publicationID ?: "").onEach {
+            if (it is Resource.Success) {
+                _isFavorite.value = it.data ?: false
+            }
+        }.launchIn(viewModelScope)
+    }
 
     fun getData(pubID: String) {
         fetchPublicationUseCase(pubID).onEach { resource: Resource<DetailedPublication> ->
@@ -65,6 +82,8 @@ class PublicationViewModel @Inject constructor(
                         isUserOwner = detailedPublication.userIsOwner,
                         date = publication.timestamp.millsToDateTime()
                     )
+
+                    checkIsInFavorite()
                 }
             }
         }.launchIn(viewModelScope)
@@ -75,6 +94,24 @@ class PublicationViewModel @Inject constructor(
                 _imagesState.value = images
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun changeFavorite() {
+        _isFavorite.value?.let { favorite ->
+            if (favorite) {
+                removeFromFavoriteUserCase(_state.value?.publicationID ?: "").onEach {
+                    if (it == true) {
+                        _isFavorite.value = false
+                    }
+                }.launchIn(viewModelScope)
+            } else {
+                addToFavoriteUseCase(_state.value?.publicationID ?: "").onEach {
+                    if (it == true) {
+                        _isFavorite.value = true
+                    }
+                }.launchIn(viewModelScope)
+            }
+        }
     }
 
     /*private val _dataState = MutableLiveData<PublicationScreenState>()

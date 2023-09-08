@@ -72,6 +72,14 @@ class PublicationFragment() : Fragment() {
             }
         }
 
+        viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
+            binding.addToFavoriteButton.setChecked(isFavorite)
+        }
+
+        binding.addToFavoriteButton.setOnClickListener {
+            viewModel.changeFavorite()
+        }
+
         binding.vpWriteButton.setOnClickListener {
             val bundle = bundleOf()
             bundle.putString("pub_id", publicationID)

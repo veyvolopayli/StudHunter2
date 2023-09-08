@@ -83,10 +83,10 @@ interface StudHunterApi {
     suspend fun checkPubFavoriteStatus(@Header("Authorization") token: String, @Path("id") pubID: String): Boolean
 
     @POST("favorites/publication/add")
-    suspend fun addPubToFavorite(@Header("Authorization") token: String, @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest)
+    suspend fun addPubToFavorite(@Header("Authorization") token: String, @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest): Boolean
 
     @POST("favorites/publication/remove-single")
-    suspend fun removePubFromFavorite(@Header("Authorization") token: String, @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest)
+    suspend fun removePubFromFavorite(@Header("Authorization") token: String, @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest): Boolean
 
     @GET("user/{id}/publications")
     suspend fun getUserPublications(@Path("id") userID: String): List<PublicationDto>

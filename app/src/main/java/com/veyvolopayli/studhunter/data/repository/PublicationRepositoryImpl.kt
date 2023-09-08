@@ -46,14 +46,14 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
     override suspend fun addPubToFavorite(
         token: String,
         changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest
-    ) {
+    ): Boolean {
         return api.addPubToFavorite(token, changePubFavoriteStatusRequest)
     }
 
     override suspend fun removePubFromFavorite(
         token: String,
         changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest
-    ) {
+    ): Boolean {
         return api.removePubFromFavorite(token, changePubFavoriteStatusRequest)
     }
 

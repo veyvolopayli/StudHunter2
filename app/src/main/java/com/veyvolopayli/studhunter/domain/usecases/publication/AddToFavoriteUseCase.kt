@@ -15,14 +15,15 @@ class AddToFavoriteUseCase @Inject constructor(
     private val publicationRepository: PublicationRepository,
     private val prefs: SharedPreferences
 ) {
-    operator fun invoke(pubID: String) = flow {
+    operator fun invoke(pubID: String) = flow<Boolean?> {
         try {
             val token = prefs.getString(Constants.JWT, null) ?: run {
-                emit(Unit)
+                emit(null)
                 return@flow
             }
             val changePubFavoriteStatusRequest = ChangePubFavoriteStatusRequest(publicationId = pubID)
-            publicationRepository.addPubToFavorite(token, changePubFavoriteStatusRequest)
+            val isSuccessful = publicationRepository.addPubToFavorite(token, changePubFavoriteStatusRequest)
+            emit(isSuccessful)
         } catch (e: Exception) {
             emit(null)
         }

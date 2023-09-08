@@ -30,9 +30,9 @@ interface PublicationRepository {
 
     suspend fun getDistricts(): List<String>
 
-    suspend fun addPubToFavorite(token: String, changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest)
+    suspend fun addPubToFavorite(token: String, changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest): Boolean
 
-    suspend fun removePubFromFavorite(token: String, changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest)
+    suspend fun removePubFromFavorite(token: String, changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest): Boolean
 
     suspend fun checkPubFavoriteStatus(token: String, pubID: String): Boolean
 
