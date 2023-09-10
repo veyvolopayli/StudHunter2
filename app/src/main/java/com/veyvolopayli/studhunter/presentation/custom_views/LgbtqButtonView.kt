@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.LgbtqButtonViewBinding
+import com.veyvolopayli.studhunter.presentation.custom_views.compose.ComposeGradientButtonDefault
 import jp.wasabeef.blurry.Blurry
 
 class LgbtqButtonView @JvmOverloads constructor(
@@ -17,6 +18,8 @@ class LgbtqButtonView @JvmOverloads constructor(
 ): FrameLayout(context, attrs) {
 
     private val binding: LgbtqButtonViewBinding
+
+    var onClick: (() -> Unit)? = null
 
     init {
         val inflater = LayoutInflater.from(context)
@@ -33,20 +36,30 @@ class LgbtqButtonView @JvmOverloads constructor(
 
     private fun initButton(typedArray: TypedArray) {
         with(binding) {
+
             val type = typedArray.getText(R.styleable.LgbtqButtonView_buttonType)
 
             val text = typedArray.getText(R.styleable.LgbtqButtonView_buttonText)
-            buttonText.text = text
+
+//            buttonText.text = text
 
             when(type) {
                 PRIMARY -> {
                     val isActive = typedArray.getBoolean(R.styleable.LgbtqButtonView_isActive, true)
                     if (isActive) {
                         isClickable = true
-                        background = ResourcesCompat.getDrawable(resources, R.drawable.primary_button_background, context.theme)
+                        button.setContent {
+                            ComposeGradientButtonDefault(text = text.toString(), isClickable = isClickable) {
+                                onClick?.invoke()
+                            }
+                        }
                     } else {
                         isClickable = false
-                        background = ResourcesCompat.getDrawable(resources, R.drawable.primary_button_background_disabled, context.theme)
+                        button.setContent {
+                            ComposeGradientButtonDefault(text = text.toString(), isClickable = isClickable) {
+                                onClick?.invoke()
+                            }
+                        }
                     }
                 }
                 SECONDARY -> {

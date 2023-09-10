@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/button"
     android:layout_width="match_parent"
-    android:layout_height="52dp"
-    tools:parentTag="android.widget.FrameLayout"
-    android:elevation="8dp"
-    android:background="@drawable/primary_button_background">
+    android:layout_height="100dp"
+    tools:parentTag="android.widget.FrameLayout">
 
-    <TextView
-        style="@style/GilroyFontThemeMedium"
-        android:id="@+id/button_text"
-        android:layout_width="wrap_content"
-        android:layout_height="52dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_16px" />
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
 
 </merge>

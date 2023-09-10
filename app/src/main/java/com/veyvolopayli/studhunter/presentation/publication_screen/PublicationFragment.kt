@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.presentation.publication_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +54,7 @@ class PublicationFragment() : Fragment() {
                 userRating.text = state.userRating.toString()
                 username.text = state.username
                 vpWriteButton.visibility = if (state.isUserOwner) View.GONE else View.VISIBLE
-                Glide.with(this@PublicationFragment).load(Constants.getUserAvatarUrl(state.userId)).placeholder(ResourcesCompat.getDrawable(resources, R.drawable.ic_user_avatar, requireContext().theme)).circleCrop().into(avatar)
+                Glide.with(this@PublicationFragment).load(Constants.getUserAvatarUrl(state.userId)).placeholder(ResourcesCompat.getDrawable(resources, R.drawable.ic_user_avatar, requireContext().theme)).circleCrop().into(userAvatar)
 
                 if (state.isLoading) {
                     binding.shimmerLoadingLayout.startShimmer()
@@ -76,12 +77,19 @@ class PublicationFragment() : Fragment() {
             viewModel.changeFavorite()
         }
 
-        binding.vpWriteButton.setOnClickListener {
+        binding.vpWriteButton.onClick = {
             val bundle = bundleOf()
             bundle.putString("pub_id", publicationID)
 
             findNavController().navigate(R.id.action_publicationFragment_to_userChatFragment, bundle)
         }
+
+        /*binding.vpWriteButton.setOnClickListener {
+            val bundle = bundleOf()
+            bundle.putString("pub_id", publicationID)
+
+            findNavController().navigate(R.id.action_publicationFragment_to_userChatFragment, bundle)
+        }*/
 
         return binding.root
     }
