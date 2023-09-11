@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,7 @@ import com.veyvolopayli.studhunter.common.parcelable
 import com.veyvolopayli.studhunter.databinding.FragmentProfileBinding
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.presentation.edit_profile_screen.EditProfileState
+import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.ktor.util.date.getTimeMillis
 import java.security.Signature
@@ -28,6 +30,7 @@ import java.security.Signature
 class ProfileFragment : Fragment() {
     private var binding: FragmentProfileBinding? = null
     private val viewModel: ProfileViewModel by viewModels()
+    private val mainVm: MainViewModel by activityViewModels()
     private var user: User? = null
 
     override fun onCreateView(
@@ -118,6 +121,11 @@ class ProfileFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainVm.showBottomBar()
     }
 
     override fun onDestroyView() {

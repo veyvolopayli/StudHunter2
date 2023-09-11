@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -22,6 +23,7 @@ import com.veyvolopayli.studhunter.common.show
 import com.veyvolopayli.studhunter.common.usernameIsValid
 import com.veyvolopayli.studhunter.databinding.FragmentSignUpBinding
 import com.veyvolopayli.studhunter.presentation.authorization.AuthorizationResult
+import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import com.veyvolopayli.studhunter.presentation.universities.UniversitiesFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +32,7 @@ class SignUpFragment : Fragment() {
 
     private var binding: FragmentSignUpBinding? = null
     private val vm: SignUpViewModel by viewModels()
+    private val mainVm: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,8 @@ class SignUpFragment : Fragment() {
     ): View {
         val binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
         this.binding = binding
+
+        mainVm.hideBottomBar()
 
         binding.username.addTextChangedListener(signUpTextWatcher)
         binding.password.addTextChangedListener(signUpTextWatcher)

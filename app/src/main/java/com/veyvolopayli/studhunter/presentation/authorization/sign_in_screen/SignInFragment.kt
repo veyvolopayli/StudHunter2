@@ -27,6 +27,8 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mainVm.hideBottomBar()
+
         vm.signInResult.observe(viewLifecycleOwner) { signInResult ->
             when (signInResult) {
                 is AuthorizationResult.Authorized -> {
@@ -61,7 +63,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
             }
         }
 
-        binding.button.setOnClickListener {
+        binding.button.onClick = {
             val signInRequest = SignInRequest(
                 username = binding.username.text.toString().trim(),
                 password = binding.password.text.toString().trim()

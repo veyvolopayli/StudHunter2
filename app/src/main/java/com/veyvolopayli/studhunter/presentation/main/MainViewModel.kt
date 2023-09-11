@@ -63,11 +63,15 @@ class MainViewModel @Inject constructor(
     }
 
     fun showBottomBar() {
-        _isBottomBarVisible.value = true
+        if (!_isBottomBarVisible.value) {
+            _isBottomBarVisible.value = true
+        }
     }
 
     fun hideBottomBar() {
-        _isBottomBarVisible.value = false
+        if (_isBottomBarVisible.value) {
+            _isBottomBarVisible.value = false
+        }
     }
 
     fun launchAppOk() {

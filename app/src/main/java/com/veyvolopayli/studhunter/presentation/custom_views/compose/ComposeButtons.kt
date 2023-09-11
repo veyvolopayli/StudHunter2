@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.presentation.custom_views.compose
 
 import android.util.Log
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,7 @@ import com.veyvolopayli.studhunter.R
 
 @Composable
 fun ComposeGradientButtonDefault(text: String, isClickable: Boolean, onClick: () -> Unit) {
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,7 +42,11 @@ fun ComposeGradientButtonDefault(text: String, isClickable: Boolean, onClick: ()
                 .fillMaxSize()
                 .blur(16.dp)
                 .padding(16.dp)
-                .clickable { if (isClickable) { onClick() } },
+                .clickable {
+                    if (isClickable) {
+                        onClick()
+                    }
+                },
             contentAlignment = Alignment.Center
         ) {
             Box(
