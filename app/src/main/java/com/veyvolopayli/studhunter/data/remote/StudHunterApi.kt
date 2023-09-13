@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.data.remote
 
 import com.veyvolopayli.studhunter.data.remote.dto.Chat
+import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
 import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
 import com.veyvolopayli.studhunter.domain.model.DetailedPublication
@@ -103,4 +104,10 @@ interface StudHunterApi {
 
     @GET("publications/query/{query}")
     suspend fun searchPublications(@Path("query") query: String): List<PublicationDto>
+
+    @GET("chat/by-chat_id/{chatID}/messages")
+    suspend fun getMessagesByChatId(@Header("Authorization") token: String, @Path("chatID") chatId: String): List<MessageDTO>
+
+    @GET("chat/by-publication_id/{pubID}/messages")
+    suspend fun getMessagesByPublicationId(@Header("Authorization") token: String, @Path("pubID") pubId: String): List<MessageDTO>
 }

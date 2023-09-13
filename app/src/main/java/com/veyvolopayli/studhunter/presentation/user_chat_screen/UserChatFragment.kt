@@ -29,6 +29,16 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
 
         var messagesAdapter: UserChatAdapter? = null
 
+        if (savedInstanceState == null) {
+            pubID?.let {
+                viewModel.getMessagesByPublicationId(publicationId = it)
+            }
+
+            chatID?.let {
+                viewModel.getMessagesByChatId(chatId = it)
+            }
+        }
+
         pubID?.let {
             viewModel.observeMessagesFromNewChat(publicationID = it)
         }

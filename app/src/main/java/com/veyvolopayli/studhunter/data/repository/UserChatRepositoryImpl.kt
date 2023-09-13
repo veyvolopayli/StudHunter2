@@ -7,6 +7,7 @@ import com.veyvolopayli.studhunter.domain.model.chat.OfferResponse
 import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
+import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
 import com.veyvolopayli.studhunter.domain.model.OfferRequestDTO
 import com.veyvolopayli.studhunter.domain.model.OfferResponseDTO
@@ -36,7 +37,8 @@ import javax.inject.Inject
 
 class UserChatRepositoryImpl @Inject constructor(
     private val client: HttpClient,
-    private val prefs: SharedPreferences
+    private val prefs: SharedPreferences,
+    private val api: StudHunterApi
 ) : UserChatRepository {
 
     private var session: WebSocketSession? = null
@@ -59,7 +61,7 @@ class UserChatRepositoryImpl @Inject constructor(
         return try {
             session = client.webSocketSession {
                 header("Authorization", token)
-                url("${Constants.BASE_URL}chat?pubID=$pubID")
+                url("${Constants.WEBSOCKET_BASE_URL}chat?pubID=$pubID")
 //                url("ws://5.181.255.253/chat?pubID=$$pubID")
             }
             if (session?.isActive == true) {
@@ -78,7 +80,7 @@ class UserChatRepositoryImpl @Inject constructor(
             val token = prefs.getString(Constants.JWT, null) ?: return Resource.Error(ErrorType.Unauthorized())
             session = client.webSocketSession {
                 header("Authorization", token)
-                url("${Constants.BASE_URL}chat?chatID=$chatID")
+                url("${Constants.WEBSOCKET_BASE_URL}chat?chatID=$chatID")
 //                url("ws://5.181.255.253/chat?chatID=$chatID")
             }
             if (session?.isActive == true) {
@@ -95,7 +97,6 @@ class UserChatRepositoryImpl @Inject constructor(
     override suspend fun sendMessage(message: OutgoingMessage) {
         try {
             val incomingTextFrame = IncomingTextFrame(type = "message", data = message)
-            Log.e("MESSAGE", json.encodeToString(incomingTextFrame))
             session?.send(frame = Frame.Text(json.encodeToString(incomingTextFrame)))
         } catch (e: Exception) {
             e.printStackTrace()
@@ -107,7 +108,6 @@ class UserChatRepositoryImpl @Inject constructor(
             val offerRequest = OfferRequest(jobDeadline = jobDeadline)
             val textFrame = IncomingTextFrame(type = "deal_request", data = offerRequest)
             val textFrameString = json.encodeToString(textFrame)
-            Log.e("VM_SEND_REQ", "CALLED")
             session?.send(frame = Frame.Text(textFrameString)) ?: Log.e("VM_SEND_REQ", "SESSION IS NULL")
         } catch (e: Exception) {
             e.printStackTrace()
@@ -125,6 +125,17 @@ class UserChatRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getMessagesByChatId(token: String, chatId: String): List<MessageDTO> {
+        return api.getMessagesByChatId(token = token, chatId = chatId)
+    }
+
+    override suspend fun getMessagesByPublicationId(
+        token: String,
+        pubId: String
+    ): List<MessageDTO> {
+        return api.getMessagesByPublicationId(token = token, pubId = pubId)
+    }
+
     override suspend fun disconnect() {
         try {
             session?.close()
@@ -136,7 +147,6 @@ class UserChatRepositoryImpl @Inject constructor(
     override fun observeMessages(): Flow<IncomingTextFrame> {
         return try {
             val flow = session?.incoming?.receiveAsFlow()?.map { frame ->
-                Log.e("AHAHAH", (frame as? Frame.Text)?.readText() ?: "")
                 println(json.decodeFromString<IncomingTextFrame>((frame as? Frame.Text)?.readText() ?: ""))
                 json.decodeFromString<IncomingTextFrame>((frame as? Frame.Text)?.readText() ?: "")
             } ?: flow { }

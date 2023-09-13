@@ -107,8 +107,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesUserChatRepository(client: HttpClient, prefs: SharedPreferences): UserChatRepository {
-        return UserChatRepositoryImpl(client, prefs)
+    fun providesUserChatRepository(client: HttpClient, prefs: SharedPreferences, api: StudHunterApi): UserChatRepository {
+        return UserChatRepositoryImpl(client, prefs, api)
     }
 
     @Provides

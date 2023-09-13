@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
 import com.veyvolopayli.studhunter.domain.model.Message
@@ -13,6 +14,8 @@ import com.veyvolopayli.studhunter.domain.model.OfferResponseDTO
 import com.veyvolopayli.studhunter.domain.model.chat.OutgoingMessage
 import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
+import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetMessagesByChatIdUseCase
+import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetMessagesByPublicationIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,7 +26,9 @@ import javax.inject.Inject
 @HiltViewModel
 class UserChatViewModel @Inject constructor(
     private val repository: UserChatRepository,
-    private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase
+    private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
+    private val getMessagesByChatIdUseCase: GetMessagesByChatIdUseCase,
+    private val getMessagesByPublicationIdUseCase: GetMessagesByPublicationIdUseCase
 ) : ViewModel() {
 
     private val _chatMessagesState = MutableLiveData(listOf<Message>())
@@ -56,6 +61,62 @@ class UserChatViewModel @Inject constructor(
             val message = OutgoingMessage(messageBody = messageBody, messageType = type)
             repository.sendMessage(message)
         }
+    }
+
+    fun getMessagesByChatId(chatId: String) {
+        getMessagesByChatIdUseCase(chatId = chatId).onEach { resource ->
+            when(resource) {
+                is Resource.Success -> {
+                    resource.data?.let { messages ->
+                        _chatMessagesState.value = messages
+                    }
+                }
+                is Resource.Error -> {
+                    when(resource.error ?: ErrorType.LocalError()) {
+                        is ErrorType.LocalError -> {
+                            toastEvent("Error")
+                        }
+                        is ErrorType.ServerError -> {
+                            toastEvent("Error")
+                        }
+                        is ErrorType.NetworkError -> {
+                            toastEvent("Error")
+                        }
+                        is ErrorType.Unauthorized -> {
+                            toastEvent("Error")
+                        }
+                    }
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getMessagesByPublicationId(publicationId: String) {
+        getMessagesByPublicationIdUseCase(pubId = publicationId).onEach { resource ->
+            when(resource) {
+                is Resource.Success -> {
+                    resource.data?.let { messages ->
+                        _chatMessagesState.value = messages
+                    }
+                }
+                is Resource.Error -> {
+                    when(resource.error ?: ErrorType.LocalError()) {
+                        is ErrorType.LocalError -> {
+                            toastEvent("Error")
+                        }
+                        is ErrorType.ServerError -> {
+                            toastEvent("Error")
+                        }
+                        is ErrorType.NetworkError -> {
+                            toastEvent("Error")
+                        }
+                        is ErrorType.Unauthorized -> {
+                            toastEvent("Error")
+                        }
+                    }
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
     fun observeMessagesFromNewChat(publicationID: String) {
