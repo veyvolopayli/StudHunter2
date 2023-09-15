@@ -13,6 +13,7 @@ import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentHomeBinding
 import com.veyvolopayli.studhunter.presentation.custom_views.LeaveReviewNotificationView
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
+import com.veyvolopayli.studhunter.presentation.publications_filter_screen.PublicationsFilterDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,6 +34,11 @@ class HomeFragment : Fragment() {
         binding.leaveReviewView.startAnim()
 
         binding.rvHome.layoutManager = GridLayoutManager(requireContext(), 2)
+
+        binding.homeToolbarFilterIv.setOnClickListener {
+            val filterDialog = PublicationsFilterDialogFragment()
+            filterDialog.show(parentFragmentManager, "")
+        }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
             val publicationsAdapter = HomeRvAdapter()

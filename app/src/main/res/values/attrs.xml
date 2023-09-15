@@ -12,4 +12,8 @@
     <declare-styleable name="HeartView">
         <attr name="isChecked" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="FilterCategoryView">
+        <attr name="categoryIsChosen" format="boolean" />
+        <attr name="categoryName" format="string" />
+    </declare-styleable>
 </resources>
