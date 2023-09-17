@@ -83,4 +83,9 @@
     <string name="change">Изменить</string>
     <string name="change_of_profile">Изменение профиля</string>
     <string name="by_search">По поиску</string>
+    <string name="ot">От</string>
+    <string name="price_do">До</string>
+    <string name="executor_rating">Рейтинг исполнителя</string>
+    <string name="any">Любой</string>
+    <string name="search">Поиск</string>
 </resources>

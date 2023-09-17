@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
+import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import com.veyvolopayli.studhunter.domain.usecases.get_publications.FetchPublicationsUseCase
+import com.veyvolopayli.studhunter.domain.usecases.get_publications.GetFilteredPublicationsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -14,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val fetchPublicationsUseCase: FetchPublicationsUseCase
+    private val fetchPublicationsUseCase: FetchPublicationsUseCase,
+    private val getFilteredPublicationsUseCase: GetFilteredPublicationsUseCase
 ): ViewModel() {
 
     private val _state = MutableLiveData(HomeState())
@@ -47,7 +50,20 @@ class HomeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    /*fun saveRecyclerState(state: Parcelable?) {
-        _recyclerState = state
-    }*/
+    fun getFilteredPublications(filterRequest: FilterRequest) {
+        getFilteredPublicationsUseCase(filterRequest).onEach { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    _state.value = HomeState(publications = resource.data ?: emptyList())
+                    _event.value = HomeEvent.Success
+                }
+                is Resource.Error -> {
+                    _state.value = HomeState(
+                        error = ""
+                    )
+                    _event.value = HomeEvent.Error
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
 }

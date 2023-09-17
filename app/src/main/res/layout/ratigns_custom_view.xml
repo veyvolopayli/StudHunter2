@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:flexWrap="wrap"
+    app:dividerDrawableHorizontal="@drawable/flexbox_horizontal_divider"
+    app:dividerDrawableVertical="@drawable/flexbox_vertical_divider"
+    app:showDivider="middle"
+    tools:parentTag="com.google.android.flexbox.FlexboxLayout"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.veyvolopayli.studhunter.presentation.custom_views.BubbleTextCellView
+        android:id="@+id/rating_any"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cellText="@string/any"
+        app:cellIsActive="false"/>
+
+    <com.veyvolopayli.studhunter.presentation.custom_views.BubbleTextCellView
+        android:id="@+id/rating_five_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cellText="Только 5"
+        app:cellIsActive="false"/>
+
+    <com.veyvolopayli.studhunter.presentation.custom_views.BubbleTextCellView
+        android:id="@+id/rating_four_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cellText="4 и выше"
+        app:cellIsActive="false"/>
+
+    <com.veyvolopayli.studhunter.presentation.custom_views.BubbleTextCellView
+        android:id="@+id/rating_three_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cellText="3 и выше"
+        app:cellIsActive="false"/>
+
+    <com.veyvolopayli.studhunter.presentation.custom_views.BubbleTextCellView
+        android:id="@+id/rating_two_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cellText="2 и выше"
+        app:cellIsActive="false"/>
+
+    <com.veyvolopayli.studhunter.presentation.custom_views.BubbleTextCellView
+        android:id="@+id/rating_one_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cellText="1 и выше"
+        app:cellIsActive="false"/>
+</merge>

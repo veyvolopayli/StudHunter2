@@ -1,16 +1,20 @@
 package com.veyvolopayli.studhunter.presentation.home_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.veyvolopayli.studhunter.R
+import com.veyvolopayli.studhunter.common.parcelable
 import com.veyvolopayli.studhunter.databinding.FragmentHomeBinding
+import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import com.veyvolopayli.studhunter.presentation.custom_views.LeaveReviewNotificationView
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import com.veyvolopayli.studhunter.presentation.publications_filter_screen.PublicationsFilterDialogFragment
@@ -37,7 +41,7 @@ class HomeFragment : Fragment() {
 
         binding.homeToolbarFilterIv.setOnClickListener {
             val filterDialog = PublicationsFilterDialogFragment()
-            filterDialog.show(parentFragmentManager, "")
+            filterDialog.show(parentFragmentManager, "tag")
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
@@ -77,6 +81,14 @@ class HomeFragment : Fragment() {
 
         binding.refreshLayout.setOnRefreshListener {
             viewModel.fetchPublications()
+        }
+
+        setFragmentResultListener("FILTER") { _, bundle ->
+            val filterRequest = bundle.parcelable<FilterRequest>("filterRequest")
+            if (filterRequest != null) {
+                Log.e("TAG", filterRequest.toString())
+                viewModel.getFilteredPublications(filterRequest)
+            }
         }
 
         return binding.root

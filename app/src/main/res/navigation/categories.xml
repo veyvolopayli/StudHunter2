@@ -9,6 +9,16 @@
         android:id="@+id/categoriesFragment"
         android:name="com.veyvolopayli.studhunter.presentation.categories_screen.CategoriesFragment"
         android:label="fragment_categories"
-        tools:layout="@layout/fragment_categories" />
+        tools:layout="@layout/fragment_categories" >
+        <action
+            android:id="@+id/action_categoriesFragment_to_searchedPublicationsFragment2"
+            app:enterAnim="@anim/enter_from_right_anim"
+            app:popExitAnim="@anim/exit_to_right_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchedPublicationsFragment2"
+        android:name="com.veyvolopayli.studhunter.presentation.searched_publications_screen.SearchedPublicationsFragment"
+        android:label="fragment_searched_publications"
+        tools:layout="@layout/fragment_searched_publications" />
 
 </navigation>

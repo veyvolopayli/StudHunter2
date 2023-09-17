@@ -52,7 +52,7 @@
         <item name="android:letterSpacing">0.02</item>
     </style>
 
-    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="android:gravity">center</item>
         <item name="boxBackgroundColor">@color/on_background</item>
         <item name="hintTextAppearance">@style/GilroyFontTheme</item>
@@ -69,7 +69,7 @@
         <item name="errorTextColor">@color/primary</item>
     </style>
 
-    <style name="TextInputEdittext" parent="ThemeOverlay.MaterialComponents.TextInputEditText">
+    <style name="TextInputEdittext" parent="ThemeOverlay.Material3.TextInputEditText">
         <item name="fontFamily">@font/gilroy_regular</item>
         <item name="android:fontFamily">@font/gilroy_regular</item>
         <item name="backgroundTint">@color/on_background</item>

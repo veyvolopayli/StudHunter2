@@ -155,40 +155,5 @@ class UserChatRepositoryImpl @Inject constructor(
             e.printStackTrace()
             flow { }
         }
-
-
-//        try {
-//            val flow = session?.incoming?.receiveAsFlow()?.filter { it is Frame.Text }?.map { frame ->
-//                val messageDTO = Json.decodeFromString<MessageDTO>((frame as? Frame.Text)?.readText() ?: "")
-//                TextFrameType.TMessage(messageDTO.toMessage())
-//            }
-//            return flow ?: flow {}
-//        } catch (_: Exception) { }
-//
-//        try {
-//            val flow = session?.incoming?.receiveAsFlow()?.filter { it is Frame.Text }?.map { frame ->
-//                val offerRequest = Json.decodeFromString<OfferRequestDTO>((frame as? Frame.Text)?.readText() ?: "")
-//                TextFrameType.TOfferRequest(offerRequest)
-//            }
-//            return flow ?: flow {}
-//        } catch (_: Exception) { }
-//
-//        try {
-//            val flow = session?.incoming?.receiveAsFlow()?.filter { it is Frame.Text }?.map { frame ->
-//                val offerResponse = Json.decodeFromString<OfferResponseDTO>((frame as? Frame.Text)?.readText() ?: "")
-//                TextFrameType.TOfferResponse(offerResponse)
-//            }
-//            return flow ?: flow {}
-//        } catch (_: Exception) { }
-
-        /*return try {
-            session?.incoming?.receiveAsFlow()?.filter { it is Frame.Text }?.map { frame ->
-                val jsonString = (frame as? Frame.Text)?.readText() ?: ""
-                val messageDTO = Json.decodeFromString<MessageDTO>(jsonString)
-                messageDTO.toMessage()
-            } ?: flow {  }
-        } catch (e: Exception) {
-            flow {  }
-        }*/
     }
 }

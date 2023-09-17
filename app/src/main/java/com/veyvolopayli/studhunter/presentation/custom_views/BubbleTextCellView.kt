@@ -7,14 +7,14 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.databinding.FilterCategoryViewBinding
+import com.veyvolopayli.studhunter.databinding.BubbleTextCellViewBinding
 
-class FilterCategoryView @JvmOverloads constructor(
+class BubbleTextCellView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
-    private val binding: FilterCategoryViewBinding
+    private val binding: BubbleTextCellViewBinding
     private var _isChosen = false
     val isChosen = _isChosen
 
@@ -26,8 +26,8 @@ class FilterCategoryView @JvmOverloads constructor(
 
     init {
         val inflater = LayoutInflater.from(context)
-        inflater.inflate(R.layout.filter_category_view, this, true)
-        binding = FilterCategoryViewBinding.bind(this)
+        inflater.inflate(R.layout.bubble_text_cell_view, this, true)
+        binding = BubbleTextCellViewBinding.bind(this)
 
         primaryColor = ResourcesCompat.getColor(resources, R.color.primary, context.theme)
         tertiaryColor = ResourcesCompat.getColor(resources, R.color.tertiary, context.theme)
@@ -48,16 +48,16 @@ class FilterCategoryView @JvmOverloads constructor(
     private fun initAttrs(attrs: AttributeSet?) {
         attrs ?: return
 
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.FilterCategoryView)
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BubbleTextCellView)
 
-        val categoryName = typedArray.getString(R.styleable.FilterCategoryView_categoryName)
+        val cellText = typedArray.getString(R.styleable.BubbleTextCellView_cellText)
 
-        binding.nameCategory.text = categoryName
+        binding.nameCategory.text = cellText
 
-        val categoryIsChosen =
-            typedArray.getBoolean(R.styleable.FilterCategoryView_categoryIsChosen, false)
+        val cellIsActive =
+            typedArray.getBoolean(R.styleable.BubbleTextCellView_cellIsActive, false)
 
-        if (categoryIsChosen) {
+        if (cellIsActive) {
             background = enabledBackground
             binding.nameCategory.setTextColor(primaryColor)
         } else {
@@ -82,8 +82,8 @@ class FilterCategoryView @JvmOverloads constructor(
         return _isChosen
     }
 
-    fun setCategoryText(category: String) {
-        binding.nameCategory.text = category
+    fun setCellText(text: String) {
+        binding.nameCategory.text = text
     }
 
 }

@@ -30,7 +30,14 @@ class PublicationsFilterViewModel @Inject constructor(
         getCategoriesUseCase().onEach { resource ->
             when(resource) {
                 is Resource.Success -> {
-                    _categories.value = resource.data?.values?.toList() ?: emptyList()
+                    val categories = resource.data?.values?.toList()?.sortedBy {
+                        it.length }?.toMutableList() ?: mutableListOf()
+                    if (categories.isNotEmpty()) {
+                        val preLastElement = categories[categories.size - 2]
+                        categories.remove(preLastElement)
+                        categories.add(preLastElement)
+                    }
+                    _categories.value =  categories
                 }
                 is Resource.Error -> {
                     _toast.value = "ERROR"

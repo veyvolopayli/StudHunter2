@@ -55,6 +55,7 @@ class MainViewModel @Inject constructor(
                 is AuthResult.Unauthorized -> LaunchAppResult.NotAuthorized()
                 is AuthResult.Error -> LaunchAppResult.Error(result.errorType)
             }
+            _isLoading.value = false
         }.launchIn(viewModelScope)
     }
 

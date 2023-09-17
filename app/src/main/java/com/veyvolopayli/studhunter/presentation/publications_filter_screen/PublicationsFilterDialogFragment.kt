@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import com.github.javafaker.Faker
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentPublicationsFilterDialogBinding
+import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,11 +40,31 @@ class PublicationsFilterDialogFragment : BottomSheetDialogFragment(R.layout.frag
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
 
-    }
+        binding.applyButton.onClick = {
+            Log.e("G", "CLICKED")
+            val minPriceText = binding.minPrice.text
+            val maxPriceText = binding.maxPrice.text
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        Log.e("CATEGORIES", categoriesListAdapter.chosenCategories.toString())
+            val minPrice = if (minPriceText.isNullOrEmpty()) null else minPriceText.toString().toInt()
+            val maxPrice = if (maxPriceText.isNullOrEmpty()) null else maxPriceText.toString().toInt()
+            val minUserRating = binding.ratingLayout.chosenRating
+            val districts = null
+            val categories = categoriesListAdapter.chosenCategories
+            val priceTypes = null
+
+            val filterRequest = FilterRequest(
+                minPrice = minPrice,
+                maxPrice = maxPrice,
+                minUserRating = minUserRating,
+                districts = districts,
+                categories = categories,
+                priceTypes = priceTypes
+            )
+
+            setFragmentResult("FILTER", bundleOf("filterRequest" to filterRequest))
+            dismiss()
+        }
+
     }
 
     override fun onDestroyView() {

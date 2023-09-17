@@ -26,7 +26,7 @@ class CategoriesListAdapter : RecyclerView.Adapter<CategoriesListAdapter.ViewHol
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val category = categories[position]
-        holder.categoryView.setCategoryText(category)
+        holder.categoryView.setCellText(category)
 
         holder.root.setOnClickListener {
             onClick?.invoke(category)

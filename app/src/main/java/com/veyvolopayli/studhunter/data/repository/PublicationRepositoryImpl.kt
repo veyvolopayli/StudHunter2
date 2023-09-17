@@ -2,7 +2,10 @@ package com.veyvolopayli.studhunter.data.repository
 
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.data.remote.dto.toPublication
 import com.veyvolopayli.studhunter.domain.model.DetailedPublication
+import com.veyvolopayli.studhunter.domain.model.FilterRequest
+import com.veyvolopayli.studhunter.domain.model.Publication
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
@@ -65,4 +68,7 @@ class PublicationRepositoryImpl(private val api: StudHunterApi): PublicationRepo
         return api.searchPublications(query)
     }
 
+    override suspend fun getFilteredPublications(filterRequest: FilterRequest): List<Publication> {
+        return api.getFilteredPublications(filterRequest).map { it.toPublication() }
+    }
 }

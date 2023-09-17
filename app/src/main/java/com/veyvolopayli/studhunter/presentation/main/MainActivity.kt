@@ -100,7 +100,6 @@ class MainActivity : AppCompatActivity() {
                         vm.showBottomBar()
                     }
                 }
-                vm.disableSplashScreen()
                 requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_USER
             }
         }

@@ -2,6 +2,7 @@ package com.veyvolopayli.studhunter.domain.repository
 
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
 import com.veyvolopayli.studhunter.domain.model.DetailedPublication
+import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import com.veyvolopayli.studhunter.domain.model.Publication
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
@@ -37,4 +38,6 @@ interface PublicationRepository {
     suspend fun checkPubFavoriteStatus(token: String, pubID: String): Boolean
 
     suspend fun searchPublications(query: String): List<PublicationDto>
+
+    suspend fun getFilteredPublications(filterRequest: FilterRequest): List<Publication>
 }

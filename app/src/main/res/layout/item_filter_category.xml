@@ -4,12 +4,12 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.veyvolopayli.studhunter.presentation.custom_views.FilterCategoryView
+    <com.veyvolopayli.studhunter.presentation.custom_views.BubbleTextCellView
         android:id="@+id/category_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
-        app:categoryName="@string/category"/>
+        android:layout_marginVertical="4dp"
+        android:layout_marginHorizontal="6dp"
+        app:cellText="@string/category"/>
 
 </FrameLayout>

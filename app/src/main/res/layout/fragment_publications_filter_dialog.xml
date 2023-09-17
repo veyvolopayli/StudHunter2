@@ -4,14 +4,157 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_bottom_navigation"
+    android:backgroundTint="@color/background"
     tools:context=".presentation.publications_filter_screen.PublicationsFilterDialogFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categories_rv"
-        android:layout_width="0dp"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/GilroyFontThemeMedium"
+                android:textSize="@dimen/text_22px"
+                android:layout_marginBottom="8dp"
+                android:text="@string/category"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="20dp"
+                android:paddingHorizontal="-6dp"
+                android:paddingVertical="-4dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/GilroyFontThemeMedium"
+                android:textSize="@dimen/text_22px"
+                android:layout_marginBottom="8dp"
+                android:text="@string/price"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputEdittext"
+                        android:id="@+id/min_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="number"
+                        android:maxLength="9"
+                        android:hint="@string/ot" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <View
+                    android:layout_width="12dp"
+                    android:layout_height="match_parent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/TextInputLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/TextInputEdittext"
+                        android:id="@+id/max_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="number"
+                        android:maxLength="9"
+                        android:hint="@string/price_do" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/GilroyFontThemeMedium"
+                android:textSize="@dimen/text_22px"
+                android:layout_marginBottom="8dp"
+                android:text="@string/district"/>
+
+            <TextView
+                android:id="@+id/search_district_tv"
+                style="@style/GilroyFontTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/outlined_background_tertiary_color"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="Строгино"
+                android:padding="8dp"
+                android:textColor="@color/tertiary"
+                android:textColorHint="@color/tertiary"
+                android:textCursorDrawable="@drawable/cursor_drawable"
+                android:textSize="@dimen/text_12px"
+                app:drawableStartCompat="@drawable/ic_search"
+                android:layout_marginBottom="20dp"
+                app:drawableTint="@color/tertiary"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/GilroyFontThemeMedium"
+                android:textSize="@dimen/text_22px"
+                android:layout_marginBottom="8dp"
+                android:text="@string/executor_rating"/>
+
+            <com.veyvolopayli.studhunter.presentation.custom_views.RatingsCustomView
+                android:id="@+id/rating_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:flexWrap="wrap"
+                app:activeRatingCell="any"
+                app:dividerDrawableHorizontal="@drawable/flexbox_horizontal_divider"
+                app:dividerDrawableVertical="@drawable/flexbox_vertical_divider"
+                app:showDivider="middle"
+                android:layout_marginBottom="100dp"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.veyvolopayli.studhunter.presentation.custom_views.LgbtqButtonView
+        android:id="@+id/apply_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="@string/search"
+        app:buttonType="primary"
+        app:isActive="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,8 +12,18 @@
     <declare-styleable name="HeartView">
         <attr name="isChecked" format="boolean" />
     </declare-styleable>
-    <declare-styleable name="FilterCategoryView">
-        <attr name="categoryIsChosen" format="boolean" />
-        <attr name="categoryName" format="string" />
+    <declare-styleable name="BubbleTextCellView">
+        <attr name="cellIsActive" format="boolean" />
+        <attr name="cellText" format="string" />
+    </declare-styleable>
+    <declare-styleable name="RatingsCustomView">
+        <attr name="activeRatingCell" format="enum">
+            <enum name="any" value="0" />
+            <enum name="one" value="1" />
+            <enum name="two" value="2" />
+            <enum name="three" value="3" />
+            <enum name="four" value="4" />
+            <enum name="five" value="5" />
+        </attr>
     </declare-styleable>
 </resources>

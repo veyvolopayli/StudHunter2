@@ -5,6 +5,7 @@ import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
 import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
 import com.veyvolopayli.studhunter.domain.model.DetailedPublication
+import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
@@ -110,4 +111,7 @@ interface StudHunterApi {
 
     @GET("chat/by-publication_id/{pubID}/messages")
     suspend fun getMessagesByPublicationId(@Header("Authorization") token: String, @Path("pubID") pubId: String): List<MessageDTO>
+
+    @POST("publications/filtered")
+    suspend fun getFilteredPublications(@Body filterRequest: FilterRequest): List<PublicationDto>
 }
