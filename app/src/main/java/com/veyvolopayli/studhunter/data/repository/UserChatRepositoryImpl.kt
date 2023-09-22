@@ -2,18 +2,16 @@ package com.veyvolopayli.studhunter.data.repository
 
 import android.content.SharedPreferences
 import android.util.Log
-import com.veyvolopayli.studhunter.domain.model.chat.OfferRequest
-import com.veyvolopayli.studhunter.domain.model.chat.OfferResponse
+import com.veyvolopayli.studhunter.domain.model.chat.DealRequest
 import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
-import com.veyvolopayli.studhunter.domain.model.OfferRequestDTO
-import com.veyvolopayli.studhunter.domain.model.OfferResponseDTO
 import com.veyvolopayli.studhunter.domain.model.chat.DataTransfer
 import com.veyvolopayli.studhunter.domain.model.chat.IncomingTextFrame
 import com.veyvolopayli.studhunter.domain.model.chat.OutgoingMessage
+import com.veyvolopayli.studhunter.domain.model.chat.Task
 import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.websocket.webSocketSession
@@ -46,12 +44,10 @@ class UserChatRepositoryImpl @Inject constructor(
     private val json = Json {
         serializersModule = SerializersModule {
             polymorphic(DataTransfer::class) {
-                subclass(OfferRequestDTO::class)
-                subclass(OfferRequest::class)
-                subclass(OfferResponse::class)
-                subclass(OfferResponseDTO::class)
                 subclass(MessageDTO::class)
                 subclass(OutgoingMessage::class)
+                subclass(Task::class)
+                subclass(DealRequest::class)
             }
         }
     }
@@ -105,8 +101,8 @@ class UserChatRepositoryImpl @Inject constructor(
 
     override suspend fun sendOfferRequest(jobDeadline: Long) {
         try {
-            val offerRequest = OfferRequest(jobDeadline = jobDeadline)
-            val textFrame = IncomingTextFrame(type = "deal_request", data = offerRequest)
+            val dealRequest = DealRequest(jobDeadline)
+            val textFrame = IncomingTextFrame(type = "deal_request", data = dealRequest)
             val textFrameString = json.encodeToString(textFrame)
             session?.send(frame = Frame.Text(textFrameString)) ?: Log.e("VM_SEND_REQ", "SESSION IS NULL")
         } catch (e: Exception) {
@@ -114,10 +110,9 @@ class UserChatRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun sendOfferResponse(accepted: Boolean) {
+    override suspend fun sendOfferResponse(task: Task) {
         try {
-            val offerResponse = OfferResponse(accepted = accepted)
-            val incomingTextFrame = IncomingTextFrame(type = "deal_response", offerResponse)
+            val incomingTextFrame = IncomingTextFrame(type = "task", task)
             val incomingTextFrameString = json.encodeToString(incomingTextFrame)
             session?.send(frame = Frame.Text(incomingTextFrameString))
         } catch (e: Exception) {

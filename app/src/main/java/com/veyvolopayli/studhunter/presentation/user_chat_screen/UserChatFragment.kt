@@ -72,8 +72,8 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
 
         binding.sendOfferLayout.visibility = View.VISIBLE
 
-        viewModel.dealResponseState.observe(viewLifecycleOwner) { dealResponse ->
-            Toast.makeText(requireContext(), "Response: ${ dealResponse.accepted }", Toast.LENGTH_SHORT).show()
+        viewModel.task.observe(viewLifecycleOwner) { task ->
+
         }
 
         viewModel.dealRequestState.observe(viewLifecycleOwner) { dealRequest ->

@@ -9,9 +9,9 @@ import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
 import com.veyvolopayli.studhunter.domain.model.Message
-import com.veyvolopayli.studhunter.domain.model.OfferRequestDTO
-import com.veyvolopayli.studhunter.domain.model.OfferResponseDTO
+import com.veyvolopayli.studhunter.domain.model.chat.DealRequest
 import com.veyvolopayli.studhunter.domain.model.chat.OutgoingMessage
+import com.veyvolopayli.studhunter.domain.model.chat.Task
 import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetMessagesByChatIdUseCase
@@ -20,7 +20,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,11 +39,11 @@ class UserChatViewModel @Inject constructor(
     private val _currentUserID = MutableLiveData<String>()
     val currentUserID: LiveData<String> = _currentUserID
 
-    private val _dealRequestState = MutableLiveData<OfferRequestDTO>()
-    val dealRequestState: LiveData<OfferRequestDTO> = _dealRequestState
+    private val _dealRequestState = MutableLiveData<DealRequest>()
+    val dealRequestState: LiveData<DealRequest> = _dealRequestState
 
-    private val _dealResponseState = MutableLiveData<OfferResponseDTO>()
-    val dealResponseState: LiveData<OfferResponseDTO> = _dealResponseState
+    private val _task = MutableLiveData<Task>()
+    val task: LiveData<Task> = _task
 
     init {
         getCurrentUserID()
@@ -65,23 +64,27 @@ class UserChatViewModel @Inject constructor(
 
     fun getMessagesByChatId(chatId: String) {
         getMessagesByChatIdUseCase(chatId = chatId).onEach { resource ->
-            when(resource) {
+            when (resource) {
                 is Resource.Success -> {
                     resource.data?.let { messages ->
                         _chatMessagesState.value = messages
                     }
                 }
+
                 is Resource.Error -> {
-                    when(resource.error ?: ErrorType.LocalError()) {
+                    when (resource.error ?: ErrorType.LocalError()) {
                         is ErrorType.LocalError -> {
                             toastEvent("Error")
                         }
+
                         is ErrorType.ServerError -> {
                             toastEvent("Error")
                         }
+
                         is ErrorType.NetworkError -> {
                             toastEvent("Error")
                         }
+
                         is ErrorType.Unauthorized -> {
                             toastEvent("Error")
                         }
@@ -93,23 +96,27 @@ class UserChatViewModel @Inject constructor(
 
     fun getMessagesByPublicationId(publicationId: String) {
         getMessagesByPublicationIdUseCase(pubId = publicationId).onEach { resource ->
-            when(resource) {
+            when (resource) {
                 is Resource.Success -> {
                     resource.data?.let { messages ->
                         _chatMessagesState.value = messages
                     }
                 }
+
                 is Resource.Error -> {
-                    when(resource.error ?: ErrorType.LocalError()) {
+                    when (resource.error ?: ErrorType.LocalError()) {
                         is ErrorType.LocalError -> {
                             toastEvent("Error")
                         }
+
                         is ErrorType.ServerError -> {
                             toastEvent("Error")
                         }
+
                         is ErrorType.NetworkError -> {
                             toastEvent("Error")
                         }
+
                         is ErrorType.Unauthorized -> {
                             toastEvent("Error")
                         }
@@ -124,30 +131,36 @@ class UserChatViewModel @Inject constructor(
             when (repository.initSessionForNew(pubID = publicationID)) {
                 is Resource.Success -> {
                     repository.observeMessages().onEach { incomingTextFrame ->
-                        when(incomingTextFrame.type) {
-                            INCOMING_TYPE_MESSAGE -> {
+                        when (incomingTextFrame.type) {
+                            TRANSFERRING_TYPE_MESSAGE -> {
                                 try {
-                                    val messageDTO = incomingTextFrame.data as? MessageDTO ?: throw Exception("Frame is not MessageDTO")
-                                    _chatMessagesState.value = chatMessagesState.value?.toMutableList()?.apply { add(0, messageDTO.toMessage()) }
+                                    val messageDTO = incomingTextFrame.data as? MessageDTO
+                                        ?: throw Exception("Frame is not MessageDTO")
+                                    _chatMessagesState.value =
+                                        chatMessagesState.value?.toMutableList()
+                                            ?.apply { add(0, messageDTO.toMessage()) }
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     _toastEvent.value = "ERROR"
                                 }
                             }
-                            INCOMING_TYPE_DEAL_REQUEST -> {
+
+                            TRANSFERRING_TYPE_DEAL_REQUEST -> {
                                 try {
-                                    val dealRequestDTO = incomingTextFrame.data as? OfferRequestDTO ?: throw Exception("Frame is not OfferRequestDTO")
-                                    Log.e("DEAL_REQUEST", dealRequestDTO.toString())
-                                    _dealRequestState.value = dealRequestDTO
+                                    val dealRequest = incomingTextFrame.data as? DealRequest
+                                        ?: throw Exception("Frame is not OfferRequestDTO")
+                                    _dealRequestState.value = dealRequest
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     _toastEvent.value = "ERROR"
                                 }
                             }
-                            INCOMING_TYPE_DEAL_RESPONSE -> {
+
+                            TRANSFERRING_TYPE_TASK -> {
                                 try {
-                                    val dealResponseDTO = incomingTextFrame.data as? OfferResponseDTO ?: throw Exception("Frame is not OfferResponseDTO")
-                                    _dealResponseState.value = dealResponseDTO
+                                    val task = incomingTextFrame.data as? Task
+                                        ?: throw Exception("Frame is not OfferResponseDTO")
+                                    _task.value = task
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     _toastEvent.value = "ERROR"
@@ -156,6 +169,7 @@ class UserChatViewModel @Inject constructor(
                         }
                     }.launchIn(viewModelScope)
                 }
+
                 is Resource.Error -> {
                     toastEvent("ERROR")
                     Log.e("MESSAGE", "ERROR")
@@ -175,29 +189,36 @@ class UserChatViewModel @Inject constructor(
                     }.launchIn(viewModelScope)*/
 
                     repository.observeMessages().onEach { incomingTextFrame ->
-                        when(incomingTextFrame.type) {
-                            INCOMING_TYPE_MESSAGE -> {
+                        when (incomingTextFrame.type) {
+                            TRANSFERRING_TYPE_MESSAGE -> {
                                 try {
-                                    val messageDTO = incomingTextFrame.data as? MessageDTO ?: throw Exception("Frame is not MessageDTO")
-                                    _chatMessagesState.value = chatMessagesState.value?.toMutableList()?.apply { add(0, messageDTO.toMessage()) }
+                                    val messageDTO = incomingTextFrame.data as? MessageDTO
+                                        ?: throw Exception("Frame is not MessageDTO")
+                                    _chatMessagesState.value =
+                                        chatMessagesState.value?.toMutableList()
+                                            ?.apply { add(0, messageDTO.toMessage()) }
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     _toastEvent.value = "ERROR"
                                 }
                             }
-                            INCOMING_TYPE_DEAL_REQUEST -> {
+
+                            TRANSFERRING_TYPE_DEAL_REQUEST -> {
                                 try {
-                                    val dealRequestDTO = incomingTextFrame.data as? OfferRequestDTO ?: throw Exception("Frame is not OfferRequestDTO")
-                                    _dealRequestState.value = dealRequestDTO
+                                    val dealRequest = incomingTextFrame.data as? DealRequest
+                                        ?: throw Exception("Frame is not OfferRequestDTO")
+                                    _dealRequestState.value = dealRequest
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     _toastEvent.value = "ERROR"
                                 }
                             }
-                            INCOMING_TYPE_DEAL_RESPONSE -> {
+
+                            TRANSFERRING_TYPE_TASK -> {
                                 try {
-                                    val dealResponseDTO = incomingTextFrame.data as? OfferResponseDTO ?: throw Exception("Frame is not OfferResponseDTO")
-                                    _dealResponseState.value = dealResponseDTO
+                                    val task = incomingTextFrame.data as? Task
+                                            ?: throw Exception("Frame is not OfferResponseDTO")
+                                    _task.value = task
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                     _toastEvent.value = "ERROR"
@@ -235,6 +256,7 @@ class UserChatViewModel @Inject constructor(
                     }.launchIn(viewModelScope)
 
                 }
+
                 is Resource.Error -> {
                     Log.e("MESSAGE", "ERROR")
                     toastEvent("ERROR")
@@ -243,9 +265,12 @@ class UserChatViewModel @Inject constructor(
         }
     }
 
-    fun sendOfferResponse(accepted: Boolean) {
-        viewModelScope.launch {
-            repository.sendOfferResponse(accepted)
+    fun sendOfferResponse(isAccepted: Boolean) {
+        _task.value?.let {
+            viewModelScope.launch {
+                val outgoingTask = it.copy(status = if (isAccepted) "accepted" else "declined")
+                repository.sendOfferResponse(outgoingTask)
+            }
         }
     }
 
@@ -270,9 +295,9 @@ class UserChatViewModel @Inject constructor(
     }
 
     private companion object {
-        private const val INCOMING_TYPE_MESSAGE = "message"
-        private const val INCOMING_TYPE_DEAL_REQUEST = "deal_request"
-        private const val INCOMING_TYPE_DEAL_RESPONSE = "deal_response"
+        private const val TRANSFERRING_TYPE_MESSAGE = "message"
+        private const val TRANSFERRING_TYPE_DEAL_REQUEST = "deal_request"
+        private const val TRANSFERRING_TYPE_TASK = "task"
     }
 
 }
