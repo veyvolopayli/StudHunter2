@@ -1,7 +1,6 @@
 package com.veyvolopayli.studhunter.presentation.user_chat_screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -27,6 +26,8 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
         val chatID = arguments?.getString("chat_id")
         val sellerID = arguments?.getString("seller_id")
 
+        var currentUserId: String? = null
+
         var messagesAdapter: UserChatAdapter? = null
 
         if (savedInstanceState == null) {
@@ -48,6 +49,7 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
         }
 
         viewModel.currentUserID.observe(viewLifecycleOwner) { currentUserID ->
+            currentUserId = currentUserID
             messagesAdapter = UserChatAdapter(currentUserID = currentUserID)
             binding.chatRv.layoutManager =
                 LinearLayoutManager(requireContext()).also { it.reverseLayout = true }
@@ -59,11 +61,8 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
                 with(binding) {
                     sendOfferLayout.visibility = View.VISIBLE
                     sendOfferButton.setOnClickListener {
-                        Toast.makeText(requireContext(), "CLICKED", Toast.LENGTH_SHORT).show()
                         viewModel.sendOfferRequest(86400000)
-                        Toast.makeText(requireContext(), "SENT", Toast.LENGTH_SHORT).show()
-                        sentTv.visibility = View.VISIBLE
-                        sendOfferButton.visibility = View.GONE
+                        sendOfferButton.isClickable = false
                     }
 
                 }
@@ -73,6 +72,40 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
         binding.sendOfferLayout.visibility = View.VISIBLE
 
         viewModel.task.observe(viewLifecycleOwner) { task ->
+            currentUserId?.let { userId ->
+                if (userId == task.executorId) {
+                    if (task.status.isEmpty()) {
+                        with(binding) {
+                            sendOfferResponseLayout.visibility = View.VISIBLE
+                            acceptOfferButton.setOnClickListener {
+                                viewModel.sendOfferResponse(true)
+                            }
+                            rejectOfferButton.setOnClickListener {
+                                viewModel.sendOfferResponse(false)
+                            }
+                        }
+                    } else if (task.status.isNotEmpty()) {
+                        with(binding) {
+                            responseSentTv.visibility = View.VISIBLE
+                            acceptOfferButton.visibility = View.GONE
+                            rejectOfferButton.visibility = View.GONE
+                        }
+                    }
+                }
+
+                if (userId == task.customerId) {
+                    if (task.status.isEmpty()) {
+                        with(binding) {
+                            sentTv.visibility = View.VISIBLE
+                            sendOfferButton.visibility = View.GONE
+                        }
+                    } else if (task.status == "accepted") {
+                        binding.sentTv.text = "Принято"
+                    } else if (task.status == "declined") {
+                        binding.sentTv.text = "Отклонено"
+                    }
+                }
+            }
 
         }
 
@@ -81,16 +114,9 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
                 sendOfferResponseLayout.visibility = View.VISIBLE
                 acceptOfferButton.setOnClickListener {
                     viewModel.sendOfferResponse(true)
-                    responseSentTv.visibility = View.VISIBLE
-                    it.visibility = View.GONE
-                    rejectOfferButton.visibility = View.GONE
                 }
                 rejectOfferButton.setOnClickListener {
                     viewModel.sendOfferResponse(false)
-                    responseSentTv.visibility = View.VISIBLE
-                    responseSentTv.visibility = View.VISIBLE
-                    acceptOfferButton.visibility = View.GONE
-                    it.visibility = View.GONE
                 }
             }
         }

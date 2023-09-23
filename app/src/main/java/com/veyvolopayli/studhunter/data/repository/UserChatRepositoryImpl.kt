@@ -142,7 +142,7 @@ class UserChatRepositoryImpl @Inject constructor(
     override fun observeMessages(): Flow<IncomingTextFrame> {
         return try {
             val flow = session?.incoming?.receiveAsFlow()?.map { frame ->
-                println(json.decodeFromString<IncomingTextFrame>((frame as? Frame.Text)?.readText() ?: ""))
+                Log.e("TAG", (frame as? Frame.Text)?.readText() ?: "")
                 json.decodeFromString<IncomingTextFrame>((frame as? Frame.Text)?.readText() ?: "")
             } ?: flow { }
             flow
