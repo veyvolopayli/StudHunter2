@@ -2,9 +2,9 @@ package com.veyvolopayli.studhunter.common
 
 object Constants {
     const val BASE_URL = "http://5.181.255.253/"
-    const val LOCALHOST = "http://192.168.1.71:8080/"
+    const val LOCALHOST = "http://192.168.1.71:8081/"
     const val WEBSOCKET_BASE_URL = "ws://5.181.255.253/"
-    const val WEBSOCKET_LOCALHOST = "ws://192.168.1.71:8080/"
+    const val WEBSOCKET_LOCALHOST = "ws://192.168.1.71:8081/"
 //    const val BASE_URL = LOCALHOST
     const val PARAM_PUBLICATION_ID = "publicationId"
     const val PARAM_PUBLICATION_CATEGORY = "publicationCategory"

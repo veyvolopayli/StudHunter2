@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    tools:parentTag="android.widget.FrameLayout"
+    android:background="@drawable/background_topbar"
+    android:paddingHorizontal="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/customer_type_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone" >
+
+        <TextView
+            style="@style/GilroyFontTheme"
+            android:id="@+id/customer_send_deal_request_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_blue_pink_16dp"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="@string/lets_go"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_12px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/awaiting_answer_tv"
+            style="@style/GilroyFontThemeMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ожидание ответа"
+            android:visibility="gone"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/text_14px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/customer_send_deal_request_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/seller_type_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/new_task_tv"
+            style="@style/GilroyFontThemeSemibold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Новая задача"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_16px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/GilroyFontTheme"
+            android:id="@+id/seller_accept_task_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_blue_pink_16dp"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:layout_marginEnd="4dp"
+            android:text=" Принять "
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_12px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/seller_decline_task_button"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/GilroyFontTheme"
+            android:id="@+id/seller_decline_task_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/outlined_background_tertiary_color"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="Отклонить"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_12px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/after_response_type_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/task_status_tv"
+            style="@style/GilroyFontThemeMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Принято"
+            android:visibility="visible"
+            android:textColor="@color/green"
+            android:textSize="@dimen/text_14px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</merge>

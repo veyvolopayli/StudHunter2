@@ -113,7 +113,7 @@ class SignUpFragment : Fragment() {
                 val emailIsValid = email.emailIsValid()
                 val nameIsValid = name.nameOrSurnameIsValid()
                 val surnameIsValid = surname.nameOrSurnameIsValid()
-                val universityIsValid = university.nameOrSurnameIsValid()
+                val universityIsValid = university.isNotEmpty()
 
                 if (usernameIsValid) {
                     bind.usernameLayout.isErrorEnabled = false
@@ -139,7 +139,7 @@ class SignUpFragment : Fragment() {
                     && nameIsValid && surnameIsValid && universityIsValid) {
                     bind.signUpButton.apply {
                         backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary))
-                        setOnClickListener {
+                        onClick = {
                             vm.checkUniqueness(
                                 username = username,
                                 password = password,
@@ -152,7 +152,7 @@ class SignUpFragment : Fragment() {
                 } else {
                     bind.signUpButton.apply {
                         backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.secondary))
-                        setOnClickListener {
+                        onClick = {
                             if (!usernameIsValid) {
                                 bind.usernameLayout.error = context.getString(R.string.incorrect_username)
                             }

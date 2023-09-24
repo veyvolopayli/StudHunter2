@@ -1,6 +1,7 @@
 package com.veyvolopayli.studhunter.presentation.user_chat_screen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentUserChatBinding
+import com.veyvolopayli.studhunter.presentation.custom_views.ChatTaskPanelCustomView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +39,7 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
 
             chatID?.let {
                 viewModel.getMessagesByChatId(chatId = it)
+                viewModel.getTask(chatId = chatID)
             }
         }
 
@@ -56,53 +59,54 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
             binding.chatRv.adapter = messagesAdapter
 
             if (currentUserID == sellerID) {
-                binding.sendOfferLayout.visibility = View.GONE
+                binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.SELLER_DEFAULT)
             } else {
-                with(binding) {
-                    sendOfferLayout.visibility = View.VISIBLE
-                    sendOfferButton.setOnClickListener {
+                binding.taskPanel.apply {
+                    setPanelType(ChatTaskPanelCustomView.Type.CUSTOMER_DEFAULT)
+                    onSendTaskRequestClick = {
                         viewModel.sendOfferRequest(86400000)
-                        sendOfferButton.isClickable = false
                     }
-
                 }
             }
         }
 
-        binding.sendOfferLayout.visibility = View.VISIBLE
-
         viewModel.task.observe(viewLifecycleOwner) { task ->
+            Log.e("ID's", "$currentUserId, ${task.executorId}")
+            Log.e("For ID's", task.status.trim())
             currentUserId?.let { userId ->
                 if (userId == task.executorId) {
-                    if (task.status.isEmpty()) {
-                        with(binding) {
-                            sendOfferResponseLayout.visibility = View.VISIBLE
-                            acceptOfferButton.setOnClickListener {
-                                viewModel.sendOfferResponse(true)
-                            }
-                            rejectOfferButton.setOnClickListener {
-                                viewModel.sendOfferResponse(false)
-                            }
+                    when(task.status.trim()) {
+                        "accepted" -> {
+                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_POSITIVE_RESPONSE)
                         }
-                    } else if (task.status.isNotEmpty()) {
-                        with(binding) {
-                            responseSentTv.visibility = View.VISIBLE
-                            acceptOfferButton.visibility = View.GONE
-                            rejectOfferButton.visibility = View.GONE
+                        "declined" -> {
+                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_NEGATIVE_RESPONSE)
+                        }
+                        "" -> {
+                            binding.taskPanel.apply {
+                                setPanelType(ChatTaskPanelCustomView.Type.SELLER_REQUEST_RECEIVED)
+                                onAcceptTaskClick = {
+                                    viewModel.sendOfferResponse(isAccepted = true)
+                                }
+                                onDeclineTaskClick = {
+                                    viewModel.sendOfferResponse(isAccepted = false)
+                                }
+                            }
                         }
                     }
                 }
 
                 if (userId == task.customerId) {
-                    if (task.status.isEmpty()) {
-                        with(binding) {
-                            sentTv.visibility = View.VISIBLE
-                            sendOfferButton.visibility = View.GONE
+                    when(task.status.trim()) {
+                        "accepted" -> {
+                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_POSITIVE_RESPONSE)
                         }
-                    } else if (task.status == "accepted") {
-                        binding.sentTv.text = "Принято"
-                    } else if (task.status == "declined") {
-                        binding.sentTv.text = "Отклонено"
+                        "declined" -> {
+                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_NEGATIVE_RESPONSE)
+                        }
+                        "" -> {
+                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.CUSTOMER_REQUEST_SENT)
+                        }
                     }
                 }
             }
@@ -110,7 +114,7 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
         }
 
         viewModel.dealRequestState.observe(viewLifecycleOwner) { dealRequest ->
-            binding.apply {
+            /*binding.apply {
                 sendOfferResponseLayout.visibility = View.VISIBLE
                 acceptOfferButton.setOnClickListener {
                     viewModel.sendOfferResponse(true)
@@ -118,7 +122,7 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
                 rejectOfferButton.setOnClickListener {
                     viewModel.sendOfferResponse(false)
                 }
-            }
+            }*/
         }
 
         binding.sendButton.setOnClickListener {

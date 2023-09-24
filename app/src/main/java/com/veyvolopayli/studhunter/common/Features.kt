@@ -1,9 +1,11 @@
 package com.veyvolopayli.studhunter.common
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Build.VERSION.SDK_INT
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.TypedValue
 import android.view.View
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -33,3 +35,8 @@ inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
     SDK_INT >= 33 -> getParcelable(key, T::class.java)
     else -> @Suppress("DEPRECATION") getParcelable(key) as? T
 }
+
+fun Number.toPx() = TypedValue.applyDimension(
+    TypedValue.COMPLEX_UNIT_DIP,
+    this.toFloat(),
+    Resources.getSystem().displayMetrics).toInt()

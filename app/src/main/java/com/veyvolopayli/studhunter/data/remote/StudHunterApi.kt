@@ -8,6 +8,7 @@ import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
 import com.veyvolopayli.studhunter.domain.model.User
+import com.veyvolopayli.studhunter.domain.model.chat.Task
 import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
 import com.veyvolopayli.studhunter.domain.model.requests.EditProfileRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
@@ -114,4 +115,7 @@ interface StudHunterApi {
 
     @POST("publications/filtered")
     suspend fun getFilteredPublications(@Body filterRequest: FilterRequest): List<PublicationDto>
+
+    @GET("chat/{id}/task")
+    suspend fun getTaskByChatId(@Header("Authorization") token: String, @Path("id") chatId: String): Task
 }

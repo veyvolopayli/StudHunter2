@@ -16,6 +16,7 @@ import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetMessagesByChatIdUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetMessagesByPublicationIdUseCase
+import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetTaskByChatIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -27,7 +28,8 @@ class UserChatViewModel @Inject constructor(
     private val repository: UserChatRepository,
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
     private val getMessagesByChatIdUseCase: GetMessagesByChatIdUseCase,
-    private val getMessagesByPublicationIdUseCase: GetMessagesByPublicationIdUseCase
+    private val getMessagesByPublicationIdUseCase: GetMessagesByPublicationIdUseCase,
+    private val getTaskByChatIdUseCase: GetTaskByChatIdUseCase
 ) : ViewModel() {
 
     private val _chatMessagesState = MutableLiveData(listOf<Message>())
@@ -287,6 +289,21 @@ class UserChatViewModel @Inject constructor(
     private fun getCurrentUserID() {
         getCurrentUserIdUseCase().onEach { userID ->
             userID?.let { _currentUserID.value = it }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getTask(chatId: String) {
+        getTaskByChatIdUseCase(chatId).onEach { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    resource.data?.let {
+                        _task.value = it
+                    }
+                }
+                is Resource.Error -> {
+                    _toastEvent.value = "Getting task error"
+                }
+            }
         }.launchIn(viewModelScope)
     }
 

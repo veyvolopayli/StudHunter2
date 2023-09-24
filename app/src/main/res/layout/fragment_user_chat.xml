@@ -7,88 +7,14 @@
     android:background="@color/background"
     tools:context=".presentation.user_chat_screen.UserChatFragment">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
+    <com.veyvolopayli.studhunter.presentation.custom_views.ChatTaskPanelCustomView
+        android:id="@+id/task_panel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/send_offer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/sent_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Отправлено"
-                android:visibility="gone" />
-
-            <ProgressBar
-                android:id="@+id/send_offer_progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/send_offer_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Предложить заключить сделку"
-                android:textSize="10sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/send_offer_response_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/response_sent_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ответ отправлен"
-                android:visibility="gone" />
-
-            <ProgressBar
-                android:id="@+id/send_offer_response_progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/accept_offer_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Принять"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/reject_offer_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Отклонить"
-                android:textSize="10sp" />
-
-        </LinearLayout>
-
-    </FrameLayout>
+        app:task_panel_type="seller_default"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chat_rv"
@@ -99,7 +25,7 @@
         app:layout_constraintBottom_toTopOf="@+id/send_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+        app:layout_constraintTop_toBottomOf="@+id/task_panel"
         app:reverseLayout="true" />
 
     <androidx.appcompat.widget.AppCompatImageButton

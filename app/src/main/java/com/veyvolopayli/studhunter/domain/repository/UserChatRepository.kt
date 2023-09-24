@@ -17,4 +17,5 @@ interface UserChatRepository {
     suspend fun sendOfferResponse(task: Task)
     suspend fun getMessagesByChatId(token: String, chatId: String): List<MessageDTO>
     suspend fun getMessagesByPublicationId(token: String, pubId: String): List<MessageDTO>
+    suspend fun getTaskByChatId(token: String, chatId: String): Task
 }
