@@ -24,16 +24,20 @@ class LeaveReviewNotificationView @JvmOverloads constructor(
     }
 
     private fun initAttrs(attrs: AttributeSet?) {
-        attrs ?: return
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.LeaveReviewNotificationView)
+        if (attrs != null) {
+            val typedArray = context.obtainStyledAttributes(attrs, R.styleable.LeaveReviewNotificationView)
 
-        val cardColor = typedArray.getColor(R.styleable.LeaveReviewNotificationView_leaveReviewCardColor, resources.getColor(R.color.tertiary, context.theme))
-        setCardBackgroundColor(cardColor)
+            val cardColor = typedArray.getColor(R.styleable.LeaveReviewNotificationView_leaveReviewCardColor, resources.getColor(R.color.tertiary, context.theme))
+            setCardBackgroundColor(cardColor)
 
-        val cardRadius = typedArray.getDimension(R.styleable.LeaveReviewNotificationView_leaveReviewCardRadius, 8f)
-        radius = cardRadius
+            val cardRadius = typedArray.getDimension(R.styleable.LeaveReviewNotificationView_leaveReviewCardRadius, 8f)
+            radius = cardRadius
 
-        typedArray.recycle()
+            typedArray.recycle()
+        } else {
+            setCardBackgroundColor(resources.getColor(R.color.tertiary, context.theme))
+            radius = 16f
+        }
     }
 
     fun startAnim() {

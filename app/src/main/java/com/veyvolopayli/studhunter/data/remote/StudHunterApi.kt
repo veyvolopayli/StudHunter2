@@ -15,6 +15,7 @@ import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
 import com.veyvolopayli.studhunter.domain.model.responses.CheckUpdateResponse
+import com.veyvolopayli.studhunter.domain.model.WideTask
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -29,7 +30,7 @@ interface StudHunterApi {
     suspend fun signIn(@Body signInRequest: SignInRequest): AuthResponse
 
     @POST("signup")
-    suspend fun signUp(@Body signUpRequest: SignUpRequest) : Response<AuthResponse>
+    suspend fun signUp(@Body signUpRequest: SignUpRequest): Response<AuthResponse>
 
     @GET("authenticate")
     suspend fun authenticate(@Header("Authorization") token: String)
@@ -45,10 +46,13 @@ interface StudHunterApi {
     suspend fun isUsernameUnique(@Query("username") username: String)
 
     @GET("user/public/get")
-    suspend fun isEmailUnique(@Query("email") email:String)
+    suspend fun isEmailUnique(@Query("email") email: String)
 
     @GET("publications/id/{id}")
-    suspend fun fetchPublication(@Header("Authorization") token: String, @Path("id") id: String): DetailedPublication
+    suspend fun fetchPublication(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ): DetailedPublication
 
     @GET("image/{publicationId}/image_{n}")
     suspend fun checkImageValidity(@Path("publicationId") publicationId: String, @Path("n") n: Int)
@@ -83,13 +87,22 @@ interface StudHunterApi {
     suspend fun getChats(@Header("Authorization") token: String): List<Chat>
 
     @GET("favorites/publication/{id}/check")
-    suspend fun checkPubFavoriteStatus(@Header("Authorization") token: String, @Path("id") pubID: String): Boolean
+    suspend fun checkPubFavoriteStatus(
+        @Header("Authorization") token: String,
+        @Path("id") pubID: String
+    ): Boolean
 
     @POST("favorites/publication/add")
-    suspend fun addPubToFavorite(@Header("Authorization") token: String, @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest): Boolean
+    suspend fun addPubToFavorite(
+        @Header("Authorization") token: String,
+        @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest
+    ): Boolean
 
     @POST("favorites/publication/remove-single")
-    suspend fun removePubFromFavorite(@Header("Authorization") token: String, @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest): Boolean
+    suspend fun removePubFromFavorite(
+        @Header("Authorization") token: String,
+        @Body changePubFavoriteStatusRequest: ChangePubFavoriteStatusRequest
+    ): Boolean
 
     @GET("user/{id}/publications")
     suspend fun getUserPublications(@Path("id") userID: String): List<PublicationDto>
@@ -99,23 +112,46 @@ interface StudHunterApi {
 
     @Multipart
     @POST("avatar/upload")
-    suspend fun uploadAvatar(@Header("Authorization") token: String, @Part avatar: MultipartBody.Part): String
+    suspend fun uploadAvatar(
+        @Header("Authorization") token: String,
+        @Part avatar: MultipartBody.Part
+    ): String
 
     @POST("profile/edit")
-    suspend fun editProfile(@Header("Authorization") token: String, @Body editProfileRequest: EditProfileRequest): Boolean
+    suspend fun editProfile(
+        @Header("Authorization") token: String,
+        @Body editProfileRequest: EditProfileRequest
+    ): Boolean
 
     @GET("publications/query/{query}")
     suspend fun searchPublications(@Path("query") query: String): List<PublicationDto>
 
     @GET("chat/by-chat_id/{chatID}/messages")
-    suspend fun getMessagesByChatId(@Header("Authorization") token: String, @Path("chatID") chatId: String): List<MessageDTO>
+    suspend fun getMessagesByChatId(
+        @Header("Authorization") token: String,
+        @Path("chatID") chatId: String
+    ): List<MessageDTO>
 
     @GET("chat/by-publication_id/{pubID}/messages")
-    suspend fun getMessagesByPublicationId(@Header("Authorization") token: String, @Path("pubID") pubId: String): List<MessageDTO>
+    suspend fun getMessagesByPublicationId(
+        @Header("Authorization") token: String,
+        @Path("pubID") pubId: String
+    ): List<MessageDTO>
 
     @POST("publications/filtered")
     suspend fun getFilteredPublications(@Body filterRequest: FilterRequest): List<PublicationDto>
 
     @GET("chat/{id}/task")
-    suspend fun getTaskByChatId(@Header("Authorization") token: String, @Path("id") chatId: String): Task
+    suspend fun getTaskByChatId(
+        @Header("Authorization") token: String,
+        @Path("id") chatId: String
+    ): Task
+
+    @GET("tasks")
+    suspend fun getTasks(
+        @Header("Authorization") token: String,
+        @Query("userId") userId: String,
+        @Query("userStatus") userStatus: String,
+        @Query("taskStatus") taskStatus: String
+    ): List<WideTask>
 }

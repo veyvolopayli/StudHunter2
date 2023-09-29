@@ -1,10 +1,16 @@
 package com.veyvolopayli.studhunter.presentation.home_screen
 
 import android.os.Bundle
+import android.text.BoringLayout.Metrics
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.TranslateAnimation
+import android.widget.FrameLayout
+import android.widget.FrameLayout.LayoutParams
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
@@ -88,6 +94,15 @@ class HomeFragment : Fragment() {
             if (filterRequest != null) {
                 Log.e("TAG", filterRequest.toString())
                 viewModel.getFilteredPublications(filterRequest)
+            }
+        }
+
+        viewModel.tasksState.observe(viewLifecycleOwner) {
+            binding.leaveReviewView.apply {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

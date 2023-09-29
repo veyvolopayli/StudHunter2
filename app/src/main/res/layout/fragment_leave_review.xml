@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.leave_review_screen.LeaveReviewFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="18dp"
+        android:paddingVertical="14dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/line_bottom_sheet"
+            android:layout_gravity="center_horizontal" />
+
+        <LinearLayout
+            android:id="@+id/leave_review_primary_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/GilroyFontThemeMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="Как прошла крайняя сделка?"
+                android:textSize="22sp" />
+
+            <TextView
+                style="@style/GilroyFontTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="Исполнитель"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_12px" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/profile_block_cl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/leave_review_user_image_iv"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_user_avatar"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:riv_corner_radius="24dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/leave_review_user_image_iv"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:id="@+id/leave_review_user_name_tv"
+                            style="@style/GilroyFontTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Имя Фамилия"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="@dimen/text_14px" />
+
+                        <TextView
+                            android:id="@+id/leave_review_user_nickname_tv"
+                            style="@style/GilroyFontTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:text="\@nickname"
+                            android:textColor="@color/tertiary"
+                            android:textSize="@dimen/text_14px" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/leave_review_user_rating_tv"
+                        style="@style/GilroyFontTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Рейтинг"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_12px" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                style="@style/GilroyFontTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Услуга"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_12px" />
+
+            <TextView
+                android:id="@+id/leave_review_service_name"
+                style="@style/GilroyFontTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Название"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_14px" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/leave_review_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                style="@style/AppcompatButton"
+                android:backgroundTint="@color/primary"
+                android:text="Оставить отзыв" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

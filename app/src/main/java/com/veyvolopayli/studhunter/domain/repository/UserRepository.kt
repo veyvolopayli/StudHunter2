@@ -2,9 +2,9 @@ package com.veyvolopayli.studhunter.domain.repository
 
 import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
-import com.veyvolopayli.studhunter.domain.model.Publication
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.model.requests.EditProfileRequest
+import com.veyvolopayli.studhunter.domain.model.WideTask
 import okhttp3.MultipartBody
 
 interface UserRepository {
@@ -15,4 +15,5 @@ interface UserRepository {
     suspend fun getMyPublications(token: String): List<MyPublicationDTO>
     suspend fun editProfile(token: String, editProfileRequest: EditProfileRequest): Boolean
     suspend fun uploadProfileImage(token: String, image: MultipartBody.Part): String
+    suspend fun getTasks(token: String, userId: String, userStatus: String, taskStatus: String): List<WideTask>
 }

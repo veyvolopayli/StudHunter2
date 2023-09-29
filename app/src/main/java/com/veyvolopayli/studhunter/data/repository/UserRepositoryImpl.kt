@@ -3,10 +3,10 @@ package com.veyvolopayli.studhunter.data.repository
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
-import com.veyvolopayli.studhunter.domain.model.Publication
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.model.requests.EditProfileRequest
 import com.veyvolopayli.studhunter.domain.repository.UserRepository
+import com.veyvolopayli.studhunter.domain.model.WideTask
 import okhttp3.MultipartBody
 import javax.inject.Inject
 
@@ -42,5 +42,14 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun uploadProfileImage(token: String, image: MultipartBody.Part): String {
         return api.uploadAvatar(token, image)
+    }
+
+    override suspend fun getTasks(
+        token: String,
+        userId: String,
+        userStatus: String,
+        taskStatus: String
+    ): List<WideTask> {
+        return api.getTasks(token, userId, userStatus, taskStatus)
     }
 }
