@@ -9,9 +9,5 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LeaveReviewViewModel @Inject constructor() : ViewModel() {
-    
-    private val _ = MutableLiveData<>()
-    val : LiveData<> = _
-    
-    
+
 }

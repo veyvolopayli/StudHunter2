@@ -37,6 +37,12 @@
                 android:text="Как прошла крайняя сделка?"
                 android:textSize="22sp" />
 
+            <com.veyvolopayli.studhunter.presentation.custom_views.StarsView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                />
+
             <TextView
                 style="@style/GilroyFontTheme"
                 android:layout_width="match_parent"

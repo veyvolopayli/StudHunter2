@@ -22,6 +22,7 @@ import com.veyvolopayli.studhunter.common.parcelable
 import com.veyvolopayli.studhunter.databinding.FragmentHomeBinding
 import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import com.veyvolopayli.studhunter.presentation.custom_views.LeaveReviewNotificationView
+import com.veyvolopayli.studhunter.presentation.leave_review_screen.LeaveReviewFragment
 import com.veyvolopayli.studhunter.presentation.main.MainViewModel
 import com.veyvolopayli.studhunter.presentation.publications_filter_screen.PublicationsFilterDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -101,7 +102,8 @@ class HomeFragment : Fragment() {
             binding.leaveReviewView.apply {
                 visibility = View.VISIBLE
                 setOnClickListener {
-                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+                    val leaveReviewFragment = LeaveReviewFragment()
+                    leaveReviewFragment.show(parentFragmentManager, "TAG")
                 }
             }
         }
