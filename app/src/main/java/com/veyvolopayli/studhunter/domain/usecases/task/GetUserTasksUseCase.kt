@@ -1,4 +1,4 @@
-package com.veyvolopayli.studhunter.domain.usecases.user
+package com.veyvolopayli.studhunter.domain.usecases.task
 
 import android.content.SharedPreferences
 import com.veyvolopayli.studhunter.common.Constants

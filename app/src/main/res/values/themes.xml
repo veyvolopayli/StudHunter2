@@ -11,6 +11,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
         <!-- Customize your theme here. -->
 
     </style>
@@ -137,5 +138,13 @@
         <!-- Add any other text-related attributes you want to customize -->
     </style>
 
+    <style name="BottomSheetDialogTheme" parent="Theme.Material3.DayNight.BottomSheetDialog" >
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/background_bottom_navigation</item>
+    </style>
 
 </resources>

@@ -9,11 +9,11 @@ import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
 import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import com.veyvolopayli.studhunter.domain.model.WideTask
-import com.veyvolopayli.studhunter.domain.model.chat.Task
 import com.veyvolopayli.studhunter.domain.usecases.get_publications.FetchPublicationsUseCase
 import com.veyvolopayli.studhunter.domain.usecases.get_publications.GetFilteredPublicationsUseCase
+import com.veyvolopayli.studhunter.domain.usecases.review.UploadReviewUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
-import com.veyvolopayli.studhunter.domain.usecases.user.GetUserTasksUseCase
+import com.veyvolopayli.studhunter.domain.usecases.task.GetUserTasksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,7 +24,8 @@ class HomeViewModel @Inject constructor(
     private val fetchPublicationsUseCase: FetchPublicationsUseCase,
     private val getFilteredPublicationsUseCase: GetFilteredPublicationsUseCase,
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
-    private val getUserTasksUseCase: GetUserTasksUseCase
+    private val getUserTasksUseCase: GetUserTasksUseCase,
+    private val uploadReviewUseCase: UploadReviewUseCase
 ): ViewModel() {
 
     private val _state = MutableLiveData(HomeState())
@@ -54,10 +55,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getActiveTasks(userId: String) {
-        getUserTasksUseCase(userId = userId, userStatus = "executor", taskStatus = "accepted").onEach { resource ->
+        getUserTasksUseCase(userId = userId, userStatus = "customer", taskStatus = "accepted").onEach { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    _tasksState.value = resource.data ?: emptyList()
+                    resource.data?.let { tasks ->
+                        _tasksState.value = tasks
+                    }
                 }
                 is Resource.Error -> {
                     when (resource.error ?: ErrorType.LocalError()) {
@@ -108,6 +111,19 @@ class HomeViewModel @Inject constructor(
                         error = ""
                     )
                     _event.value = HomeEvent.Error
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun uploadReview(taskId: String, reviewValue: Int, reviewMessage: String) {
+        uploadReviewUseCase(taskId = taskId, reviewValue = reviewValue, reviewMessage = reviewMessage).onEach { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    _tasksState.value = _tasksState.value?.filter { it.task.id != taskId }
+                }
+                is Resource.Error -> {
+
                 }
             }
         }.launchIn(viewModelScope)

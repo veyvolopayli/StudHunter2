@@ -11,6 +11,7 @@ import android.view.animation.TranslateAnimation
 import android.widget.FrameLayout
 import android.widget.FrameLayout.LayoutParams
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
@@ -30,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private var binding: FragmentHomeBinding? = null
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -98,13 +99,17 @@ class HomeFragment : Fragment() {
             }
         }
 
-        viewModel.tasksState.observe(viewLifecycleOwner) {
-            binding.leaveReviewView.apply {
-                visibility = View.VISIBLE
-                setOnClickListener {
-                    val leaveReviewFragment = LeaveReviewFragment()
-                    leaveReviewFragment.show(parentFragmentManager, "TAG")
+        viewModel.tasksState.observe(viewLifecycleOwner) { tasks ->
+            if (!tasks.isNullOrEmpty()) {
+                binding.leaveReviewView.apply {
+                    visibility = View.VISIBLE
+                    setOnClickListener {
+                        val leaveReviewFragment = LeaveReviewFragment().also { it.arguments = bundleOf("tasks" to tasks) }
+                        leaveReviewFragment.show(parentFragmentManager, "UPLOAD_REVIEW")
+                    }
                 }
+            } else {
+                binding.leaveReviewView.visibility = View.GONE
             }
         }
 

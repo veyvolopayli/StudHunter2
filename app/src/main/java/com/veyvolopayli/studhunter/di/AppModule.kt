@@ -10,14 +10,18 @@ import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.repository.AuthRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.ChatsRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.GalleryRepositoryImpl
+import com.veyvolopayli.studhunter.data.repository.PrefsRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.PublicationRepositoryImpl
+import com.veyvolopayli.studhunter.data.repository.ReviewsRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.UpdateRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.UserChatRepositoryImpl
 import com.veyvolopayli.studhunter.data.repository.UserRepositoryImpl
 import com.veyvolopayli.studhunter.domain.repository.AuthRepository
 import com.veyvolopayli.studhunter.domain.repository.ChatsRepository
 import com.veyvolopayli.studhunter.domain.repository.GalleryRepository
+import com.veyvolopayli.studhunter.domain.repository.PrefsRepository
 import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
+import com.veyvolopayli.studhunter.domain.repository.ReviewsRepository
 import com.veyvolopayli.studhunter.domain.repository.UpdateRepository
 import com.veyvolopayli.studhunter.domain.repository.UserChatRepository
 import com.veyvolopayli.studhunter.domain.repository.UserRepository
@@ -115,6 +119,18 @@ object AppModule {
     @Singleton
     fun providesChatsRepository(api: StudHunterApi, prefs: SharedPreferences): ChatsRepository {
         return ChatsRepositoryImpl(api, prefs)
+    }
+
+    @Provides
+    @Singleton
+    fun provideReviewsRepository(api: StudHunterApi): ReviewsRepository {
+        return ReviewsRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun providePrefsRepository(prefs: SharedPreferences): PrefsRepository {
+        return PrefsRepositoryImpl(prefs)
     }
 
 }

@@ -5,7 +5,7 @@ data class ReviewDto(
     val reviewerId: String,
     val userId: String,
     val review: Double,
-    val reviewMessage: String?,
+    val reviewMessage: String,
     val timestamp: Long,
     val publicationId: String
 )

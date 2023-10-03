@@ -4,6 +4,7 @@ import com.veyvolopayli.studhunter.data.remote.dto.Chat
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
 import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.domain.model.review.NewReviewRequest
 import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
@@ -16,6 +17,7 @@ import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
 import com.veyvolopayli.studhunter.domain.model.responses.CheckUpdateResponse
 import com.veyvolopayli.studhunter.domain.model.WideTask
+import com.veyvolopayli.studhunter.domain.model.review.ReviewDto
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -154,4 +156,7 @@ interface StudHunterApi {
         @Query("userStatus") userStatus: String,
         @Query("taskStatus") taskStatus: String
     ): List<WideTask>
+
+    @POST("reviews/new")
+    suspend fun uploadReview(@Header("Authorization") token: String, @Body newReviewRequest: NewReviewRequest): ReviewDto
 }

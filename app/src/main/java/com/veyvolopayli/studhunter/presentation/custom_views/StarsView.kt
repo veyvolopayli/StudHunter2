@@ -20,7 +20,6 @@ import com.veyvolopayli.studhunter.databinding.StarsViewBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@SuppressLint("ClickableViewAccessibility")
 class StarsView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
@@ -28,6 +27,12 @@ class StarsView @JvmOverloads constructor(
 
     private val binding: StarsViewBinding
     private val stars: List<ImageView>
+
+    private var _value: Int? = null
+    val value: Int?
+        get() {
+            return _value
+        }
 
     init {
         val layoutInflater = LayoutInflater.from(context)
@@ -45,31 +50,42 @@ class StarsView @JvmOverloads constructor(
     private suspend fun animateStars(activeStars: List<ImageView>, anim: Animation) {
         stars.forEach {
             it.clearAnimation()
-            it.imageTintList = ColorStateList.valueOf(
-                ResourcesCompat.getColor(resources, R.color.tertiary, context.theme)
-            )
         }
-//        val activeStars = stars.take(count)
+
         activeStars.forEach { starView ->
-            starView.imageTintList = ColorStateList.valueOf(
-                ResourcesCompat.getColor(resources, R.color.primary, context.theme)
-            )
             starView.startAnimation(anim)
-            delay(200)
+            delay(500)
+        }
+    }
+
+    private fun colorStars(starsCount: Int) {
+        stars.forEachIndexed { i, star ->
+            star.imageTintList = if (i < starsCount) {
+                ColorStateList.valueOf(
+                    ResourcesCompat.getColor(resources, R.color.primary, context.theme)
+                )
+            } else {
+                ColorStateList.valueOf(
+                    ResourcesCompat.getColor(resources, R.color.tertiary, context.theme)
+                )
+            }
         }
     }
 
     private fun enableStarsTouch(w: Int) {
         val starRanges = List(5) { w * it / 5..w * (it + 1) / 5 }
-        val anim = AnimationUtils.loadAnimation(context, R.anim.bounce_heart_anim)
-        setOnTouchListener { _, motionEvent ->
+//        val anim = AnimationUtils.loadAnimation(context, R.anim.bounce_heart_anim)
+        setOnTouchListener { view, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
+                view.performClick()
                 val x = motionEvent.x.toInt()
                 val starsCount = starRanges.indexOfFirst { x in it } + 1
-                val activeStars = stars.take(starsCount)
+                colorStars(starsCount)
+                _value = starsCount
+                /*val activeStars = stars.take(starsCount)
                 findViewTreeLifecycleOwner()?.lifecycleScope?.launch {
                     animateStars(activeStars, anim)
-                }
+                }*/
             }
             true
         }
@@ -79,27 +95,6 @@ class StarsView @JvmOverloads constructor(
         super.onSizeChanged(w, h, oldw, oldh)
 
         enableStarsTouch(w)
-
-        // todo Для жестов
-
-//        val starRanges = List(5) { w * it / 5..w * (it + 1) / 5 }
-//
-//        var previousRange: IntRange = 0..1
-//
-//        setOnTouchListener { view, event ->
-//            if (event.action == MotionEvent.ACTION_MOVE) {
-//                val x = event.x.toInt()
-//                val currentRange = starRanges.firstOrNull { x in it }
-//
-//                if (currentRange != null && currentRange != previousRange) {
-//                    previousRange = currentRange
-//                    val starIndex = starRanges.indexOf(currentRange) + 1
-//                    Log.e("TAG", starIndex.toString())
-//                }
-//            }
-//            true
-//        }
-
     }
 
     private fun initAttrs(attrs: AttributeSet?) {
