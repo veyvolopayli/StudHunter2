@@ -17,6 +17,7 @@ import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetMessagesByChatIdUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetMessagesByPublicationIdUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetTaskByChatIdUseCase
+import com.veyvolopayli.studhunter.domain.usecases.user_chat.GetTaskByPubIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -29,7 +30,8 @@ class UserChatViewModel @Inject constructor(
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
     private val getMessagesByChatIdUseCase: GetMessagesByChatIdUseCase,
     private val getMessagesByPublicationIdUseCase: GetMessagesByPublicationIdUseCase,
-    private val getTaskByChatIdUseCase: GetTaskByChatIdUseCase
+    private val getTaskByChatIdUseCase: GetTaskByChatIdUseCase,
+    private val getTaskByPubIdUseCase: GetTaskByPubIdUseCase
 ) : ViewModel() {
 
     private val _chatMessagesState = MutableLiveData(listOf<Message>())
@@ -44,8 +46,8 @@ class UserChatViewModel @Inject constructor(
     private val _dealRequestState = MutableLiveData<DealRequest>()
     val dealRequestState: LiveData<DealRequest> = _dealRequestState
 
-    private val _task = MutableLiveData<Task>()
-    val task: LiveData<Task> = _task
+    private val _task = MutableLiveData<Task?>()
+    val task: LiveData<Task?> = _task
 
     init {
         getCurrentUserID()
@@ -292,13 +294,24 @@ class UserChatViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun getTask(chatId: String) {
+    fun getTaskByChatId(chatId: String) {
         getTaskByChatIdUseCase(chatId).onEach { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    resource.data?.let {
-                        _task.value = it
-                    }
+                    _task.value = resource.data
+                }
+                is Resource.Error -> {
+                    _toastEvent.value = "Getting task error"
+                }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    fun getTaskByPubId(pubId: String) {
+        getTaskByPubIdUseCase(pubId).onEach { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    _task.value = resource.data
                 }
                 is Resource.Error -> {
                     _toastEvent.value = "Getting task error"

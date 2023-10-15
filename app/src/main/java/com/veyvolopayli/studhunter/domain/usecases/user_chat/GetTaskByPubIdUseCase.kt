@@ -11,18 +11,18 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class GetTaskByChatIdUseCase @Inject constructor(
+class GetTaskByPubIdUseCase @Inject constructor(
     private val repository: UserChatRepository,
     private val prefsRepository: PrefsRepository
 ) {
 
-    operator fun invoke(chatId: String) = flow<Resource<Task?>> {
+    operator fun invoke(pubId: String) = flow<Resource<Task?>> {
         try {
             val token = prefsRepository.getJwtToken() ?: run {
                 emit(Resource.Error(ErrorType.Unauthorized()))
                 return@flow
             }
-            val task = repository.getTaskByChatId(token = token, chatId = chatId)
+            val task = repository.getTaskByPubId(token = token, pubId = pubId)
             emit(Resource.Success(task))
         } catch (e: HttpException) {
             if (e.code() == 409) {

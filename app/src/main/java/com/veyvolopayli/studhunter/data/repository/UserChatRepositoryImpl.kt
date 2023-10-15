@@ -135,6 +135,10 @@ class UserChatRepositoryImpl @Inject constructor(
         return api.getTaskByChatId(token = token, chatId = chatId)
     }
 
+    override suspend fun getTaskByPubId(token: String, pubId: String): Task {
+        return api.getTaskByPubId(token = token, pubId = pubId)
+    }
+
     override suspend fun disconnect() {
         try {
             session?.close()

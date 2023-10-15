@@ -35,11 +35,12 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
         if (savedInstanceState == null) {
             pubID?.let {
                 viewModel.getMessagesByPublicationId(publicationId = it)
+                viewModel.getTaskByPubId(pubId = it)
             }
 
             chatID?.let {
                 viewModel.getMessagesByChatId(chatId = it)
-                viewModel.getTask(chatId = chatID)
+                viewModel.getTaskByChatId(chatId = chatID)
             }
         }
 
@@ -57,55 +58,56 @@ class UserChatFragment : Fragment(R.layout.fragment_user_chat) {
             binding.chatRv.layoutManager =
                 LinearLayoutManager(requireContext()).also { it.reverseLayout = true }
             binding.chatRv.adapter = messagesAdapter
-
-            if (currentUserID == sellerID) {
-                binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.SELLER_DEFAULT)
-            } else {
-                binding.taskPanel.apply {
-                    setPanelType(ChatTaskPanelCustomView.Type.CUSTOMER_DEFAULT)
-                    onSendTaskRequestClick = {
-                        viewModel.sendOfferRequest(86400000)
-                    }
-                }
-            }
         }
 
         viewModel.task.observe(viewLifecycleOwner) { task ->
-            Log.e("ID's", "$currentUserId, ${task.executorId}")
-            Log.e("For ID's", task.status.trim())
             currentUserId?.let { userId ->
-                if (userId == task.executorId) {
-                    when(task.status.trim()) {
-                        "accepted" -> {
-                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_POSITIVE_RESPONSE)
+                if (task == null) {
+                    if (currentUserId == sellerID) {
+                        binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.DEFAULT)
+                    } else {
+                        binding.taskPanel.apply {
+                            setPanelType(ChatTaskPanelCustomView.Type.CUSTOMER_DEFAULT)
+                            onSendTaskRequestClick = {
+                                val time = timeToComplete
+                                if (time >= 3600000) viewModel.sendOfferRequest(time)
+                            }
                         }
-                        "declined" -> {
-                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_NEGATIVE_RESPONSE)
-                        }
-                        "" -> {
-                            binding.taskPanel.apply {
-                                setPanelType(ChatTaskPanelCustomView.Type.SELLER_REQUEST_RECEIVED)
-                                onAcceptTaskClick = {
-                                    viewModel.sendOfferResponse(isAccepted = true)
-                                }
-                                onDeclineTaskClick = {
-                                    viewModel.sendOfferResponse(isAccepted = false)
+                    }
+                } else {
+                    if (userId == task.executorId) {
+                        when(task.status.trim()) {
+                            "accepted" -> {
+                                binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_POSITIVE_RESPONSE)
+                            }
+                            "declined" -> {
+                                binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_NEGATIVE_RESPONSE)
+                            }
+                            "" -> {
+                                binding.taskPanel.apply {
+                                    setPanelType(ChatTaskPanelCustomView.Type.SELLER_REQUEST_RECEIVED)
+                                    onAcceptTaskClick = {
+                                        viewModel.sendOfferResponse(isAccepted = true)
+                                    }
+                                    onDeclineTaskClick = {
+                                        viewModel.sendOfferResponse(isAccepted = false)
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                if (userId == task.customerId) {
-                    when(task.status.trim()) {
-                        "accepted" -> {
-                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_POSITIVE_RESPONSE)
-                        }
-                        "declined" -> {
-                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_NEGATIVE_RESPONSE)
-                        }
-                        "" -> {
-                            binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.CUSTOMER_REQUEST_SENT)
+                    if (userId == task.customerId) {
+                        when(task.status.trim()) {
+                            "accepted" -> {
+                                binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_POSITIVE_RESPONSE)
+                            }
+                            "declined" -> {
+                                binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.AFTER_NEGATIVE_RESPONSE)
+                            }
+                            "" -> {
+                                binding.taskPanel.setPanelType(ChatTaskPanelCustomView.Type.CUSTOMER_REQUEST_SENT)
+                            }
                         }
                     }
                 }

@@ -29,7 +29,7 @@
     <declare-styleable name="ChatTaskPanelCustomView">
         <attr name="task_panel_type" format="enum" >
             <enum name="customer_default" value="0" />
-            <enum name="seller_default" value="1" />
+            <enum name="default_panel" value="1" />
             <enum name="after_positive_response" value="2" />
             <enum name="after_negative_response" value="3" />
             <enum name="seller_request_received" value="4" />

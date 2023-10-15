@@ -143,10 +143,16 @@ interface StudHunterApi {
     @POST("publications/filtered")
     suspend fun getFilteredPublications(@Body filterRequest: FilterRequest): List<PublicationDto>
 
-    @GET("chat/{id}/task")
+    @GET("chat/task")
     suspend fun getTaskByChatId(
         @Header("Authorization") token: String,
-        @Path("id") chatId: String
+        @Query("chatId") chatId: String
+    ): Task
+
+    @GET("chat/task")
+    suspend fun getTaskByPubId(
+        @Header("Authorization") token: String,
+        @Query("pubId") pubId: String
     ): Task
 
     @GET("tasks")
