@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.veyvolopayli.studhunter.common.millsToDate
 import com.veyvolopayli.studhunter.data.remote.dto.Chat
 import com.veyvolopayli.studhunter.databinding.ItemChatBinding
+import com.veyvolopayli.studhunter.domain.model.DetailedChat
 
 class ChatsAdapter() : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
-    private var chats = listOf<Chat>()
-    var onItemClick : ((Chat) -> Unit)? = null
+    private var chats = listOf<DetailedChat>()
+    var onItemClick : ((DetailedChat) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatsAdapter.ChatViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -20,7 +21,7 @@ class ChatsAdapter() : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chat = chats[position]
-        holder.title.text = chat.publicationId
+        holder.title.text = chat.publicationTitle
         holder.lastMessage.text = chat.lastMessage
         holder.date.text = chat.timestamp.millsToDate()
         holder.binding.chatLayout.setOnClickListener {
@@ -30,7 +31,7 @@ class ChatsAdapter() : RecyclerView.Adapter<ChatsAdapter.ChatViewHolder>() {
 
     override fun getItemCount(): Int = chats.size
 
-    fun setData(chats: List<Chat>) {
+    fun setData(chats: List<DetailedChat>) {
         this.chats = chats
         notifyDataSetChanged()
     }

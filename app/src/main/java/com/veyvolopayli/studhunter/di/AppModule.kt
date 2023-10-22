@@ -117,8 +117,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesChatsRepository(api: StudHunterApi, prefs: SharedPreferences): ChatsRepository {
-        return ChatsRepositoryImpl(api, prefs)
+    fun providesChatsRepository(api: StudHunterApi): ChatsRepository {
+        return ChatsRepositoryImpl(api)
     }
 
     @Provides

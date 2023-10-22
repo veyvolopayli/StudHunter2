@@ -4,6 +4,7 @@ import com.veyvolopayli.studhunter.data.remote.dto.Chat
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
 import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.domain.model.DetailedChat
 import com.veyvolopayli.studhunter.domain.model.review.NewReviewRequest
 import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.FilterRequest
@@ -86,7 +87,7 @@ interface StudHunterApi {
     suspend fun getUniversities(): List<String>
 
     @GET("chats/get")
-    suspend fun getChats(@Header("Authorization") token: String): List<Chat>
+    suspend fun getChats(@Header("Authorization") token: String): List<DetailedChat>
 
     @GET("favorites/publication/{id}/check")
     suspend fun checkPubFavoriteStatus(
