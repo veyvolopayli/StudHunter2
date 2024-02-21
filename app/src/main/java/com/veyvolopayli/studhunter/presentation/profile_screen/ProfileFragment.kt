@@ -125,7 +125,7 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mainVm.showBottomBar()
+//        mainVm.showBottomBar()
     }
 
     override fun onDestroyView() {

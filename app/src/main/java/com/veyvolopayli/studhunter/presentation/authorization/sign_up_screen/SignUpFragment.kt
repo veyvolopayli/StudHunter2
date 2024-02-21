@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.common.emailIsValid
@@ -32,7 +33,6 @@ class SignUpFragment : Fragment() {
 
     private var binding: FragmentSignUpBinding? = null
     private val vm: SignUpViewModel by viewModels()
-    private val mainVm: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +41,7 @@ class SignUpFragment : Fragment() {
         val binding = FragmentSignUpBinding.inflate(layoutInflater, container, false)
         this.binding = binding
 
-        mainVm.hideBottomBar()
+//        mainVm.hideBottomBar()
 
         binding.username.addTextChangedListener(signUpTextWatcher)
         binding.password.addTextChangedListener(signUpTextWatcher)
@@ -72,7 +72,9 @@ class SignUpFragment : Fragment() {
         vm.signUpResult.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is AuthorizationResult.Authorized -> {
-                    findNavController().setGraph(R.navigation.nav_graph)
+//                    findNavController().setGraph(R.navigation.nav_graph)
+                    val navOptions = NavOptions.Builder().setPopUpTo(R.id.authFragment, true).build()
+                    findNavController().navigate(R.id.action_signUpFragment_to_mainFragment, null, navOptions)
                 }
                 is AuthorizationResult.Error -> {
                     Toast.makeText(requireContext(), result.error.toString().trim(), Toast.LENGTH_SHORT).show()

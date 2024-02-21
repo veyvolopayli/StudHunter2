@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,63 +23,45 @@ class MainViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
 
-    private val _isBottomBarVisible = MutableStateFlow(false)
-    val isBottomBarVisible = _isBottomBarVisible.asStateFlow()
-
     private val _launchAppResult = MutableLiveData<LaunchAppResult>()
     val launchAppResult: LiveData<LaunchAppResult> = _launchAppResult
 
     init {
-        checkUpdate()
+        checkUpdate {
+            authenticate()
+        }
     }
 
-    private fun checkUpdate() {
-        checkUpdateUseCase().onEach { result ->
-            when (result) {
-                is CheckUpdateResult.UpdateAvailable -> {
-                    _launchAppResult.value = LaunchAppResult.UpdateAvailable()
-                }
-                is CheckUpdateResult.Error -> {
-                    _launchAppResult.value = LaunchAppResult.Error(result.error)
-                }
-                is CheckUpdateResult.LastVersionInstalled -> {
-                    authenticate()
+    private fun checkUpdate(onClearLaunch: suspend () -> Unit) {
+        viewModelScope.launch {
+            checkUpdateUseCase().collect { result ->
+                when (result) {
+                    is CheckUpdateResult.UpdateAvailable -> {
+                        _launchAppResult.value = LaunchAppResult.UpdateAvailable()
+                    }
+                    is CheckUpdateResult.Error -> {
+                        _launchAppResult.value = LaunchAppResult.Error(result.error)
+                    }
+                    is CheckUpdateResult.LastVersionInstalled -> {
+                        onClearLaunch()
+                    }
                 }
             }
-        }.launchIn(viewModelScope)
+        }
     }
 
-    private fun authenticate() {
-        authenticateUseCase().onEach { result ->
+    private suspend fun authenticate() {
+        authenticateUseCase().collect { result ->
             _launchAppResult.value = when (result) {
                 is AuthResult.Authorized -> LaunchAppResult.Success()
                 is AuthResult.Unauthorized -> LaunchAppResult.NotAuthorized()
                 is AuthResult.Error -> LaunchAppResult.Error(result.errorType)
             }
-            _isLoading.value = false
-        }.launchIn(viewModelScope)
+//            _isLoading.value = false
+        }
     }
 
-    fun disableSplashScreen() {
+    fun stopLoading() {
         _isLoading.value = false
     }
-
-    fun showBottomBar() {
-        if (!_isBottomBarVisible.value) {
-            _isBottomBarVisible.value = true
-        }
-    }
-
-    fun hideBottomBar() {
-        if (_isBottomBarVisible.value) {
-            _isBottomBarVisible.value = false
-        }
-    }
-
-    fun launchAppOk() {
-        _launchAppResult.value = LaunchAppResult.Success()
-    }
-
-
-
 }

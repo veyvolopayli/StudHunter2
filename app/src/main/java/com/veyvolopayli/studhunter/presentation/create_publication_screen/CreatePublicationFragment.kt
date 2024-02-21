@@ -191,7 +191,6 @@ class CreatePublicationFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mainViewModel.showBottomBar()
     }
 
     private companion object {

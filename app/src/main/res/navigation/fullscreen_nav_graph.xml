@@ -20,15 +20,31 @@
             app:destination="@id/signUpFragment"
             app:enterAnim="@anim/enter_from_right_anim"
             app:popExitAnim="@anim/exit_to_right_anim"/>
+        <action
+            android:id="@+id/action_authFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
         android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_in_screen.SignInFragment"
         android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in" />
+        tools:layout="@layout/fragment_sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.veyvolopayli.studhunter.presentation.authorization.sign_up_screen.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.veyvolopayli.studhunter.presentation.main.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
 </navigation>

@@ -9,16 +9,15 @@ import androidx.navigation.fragment.findNavController
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.databinding.FragmentAuthBinding
 
-class AuthFragment : Fragment() {
+class AuthFragment : Fragment(R.layout.fragment_auth) {
 
-    private lateinit var binding: FragmentAuthBinding
+    private var binding: FragmentAuthBinding? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentAuthBinding.inflate(layoutInflater, container, false)
+        val binding = FragmentAuthBinding.bind(view)
+        this.binding = binding
 
         binding.signUpButton.setOnClickListener {
             findNavController().navigate(R.id.action_authFragment_to_signUpFragment)
@@ -27,8 +26,11 @@ class AuthFragment : Fragment() {
         binding.signInButton.setOnClickListener {
             findNavController().navigate(R.id.action_authFragment_to_signInFragment)
         }
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
 }

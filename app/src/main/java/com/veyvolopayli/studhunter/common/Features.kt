@@ -7,6 +7,10 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.TypedValue
 import android.view.View
+import androidx.annotation.NavigationRes
+import androidx.fragment.app.FragmentContainerView
+import androidx.navigation.fragment.NavHostFragment
+import com.veyvolopayli.studhunter.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

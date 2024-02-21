@@ -6,6 +6,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.veyvolopayli.studhunter.R
 import com.veyvolopayli.studhunter.base.BaseFragment
@@ -27,14 +28,15 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainVm.hideBottomBar()
+//        mainVm.hideBottomBar()
 
         vm.signInResult.observe(viewLifecycleOwner) { signInResult ->
             when (signInResult) {
                 is AuthorizationResult.Authorized -> {
                     loadingLayoutVisibility(false, binding.loadingLayout.root)
-                    mainVm.launchAppOk()
-                    findNavController().setGraph(R.navigation.nav_graph)
+//                    mainVm.launchAppOk()
+                    val navOptions = NavOptions.Builder().setPopUpTo(R.id.authFragment, true).build()
+                    findNavController().navigate(R.id.action_signInFragment_to_mainFragment, null, navOptions)
                 }
                 is AuthorizationResult.Error -> {
                     when (signInResult.error) {

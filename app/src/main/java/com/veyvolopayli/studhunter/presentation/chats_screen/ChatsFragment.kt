@@ -35,7 +35,7 @@ class ChatsFragment : Fragment() {
         chatsAdapter.onItemClick = { chat ->
             val bundle = bundleOf("chat_id" to chat.chatId, "seller_id" to chat.sellerId)
             findNavController().navigate(R.id.action_chatsFragment_to_userChatFragment2, bundle)
-            mainVm.hideBottomBar()
+//            mainVm.hideBottomBar()
         }
 
         binding.swipeLayout.apply {
@@ -68,7 +68,6 @@ class ChatsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        mainVm.showBottomBar()
     }
 
 }

@@ -25,7 +25,7 @@
             android:id="@+id/action_profileFragment_to_uploadProfileImageFragment"
             app:destination="@id/uploadProfileImageFragment" />
     </fragment>
-    <include app:graph="@navigation/auth" />
+    <include app:graph="@navigation/fullscreen_nav_graph" />
     <fragment
         android:id="@+id/myPublicationsFragment"
         android:name="com.veyvolopayli.studhunter.presentation.my_publications_screen.MyPublicationsFragment"
