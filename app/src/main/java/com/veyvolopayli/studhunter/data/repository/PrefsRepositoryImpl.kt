@@ -16,4 +16,8 @@ class PrefsRepositoryImpl @Inject constructor(
     override fun insertJwtToken(token: String) {
         prefs.edit().putString(Constants.JWT, token).apply()
     }
+
+    override fun clearPrefs() {
+        prefs.edit().clear().apply()
+    }
 }

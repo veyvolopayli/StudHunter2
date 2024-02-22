@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavOptions
@@ -27,6 +28,13 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val onBackPressedCallback = object : OnBackPressedCallback(enabled = true) {
+            override fun handleOnBackPressed() {
+
+            }
+
+        }
 
 //        mainVm.hideBottomBar()
 

@@ -1,20 +1,13 @@
 package com.veyvolopayli.studhunter.presentation.profile_screen
 
-import android.content.SharedPreferences
-import android.util.Log
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.veyvolopayli.studhunter.R
-import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
-import com.veyvolopayli.studhunter.common.hide
 import com.veyvolopayli.studhunter.domain.model.User
+import com.veyvolopayli.studhunter.domain.usecases.auth.ClearAuthDataUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user.FetchUserByIdUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user.GetCurrentUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +19,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
     private val fetchUserByIdUseCase: FetchUserByIdUseCase,
-    private val prefs: SharedPreferences
+    private val clearAuthDataUseCase: ClearAuthDataUseCase
 ) : ViewModel() {
 
     private val _user = MutableLiveData<User>()
@@ -85,8 +78,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun logout() {
-        prefs.edit().clear().apply()
-//        _authorized.value = false
+        clearAuthDataUseCase()
     }
 
     fun updateUser(name: String, surname: String, university: String) {
