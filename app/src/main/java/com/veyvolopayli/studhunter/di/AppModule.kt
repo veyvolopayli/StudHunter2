@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.ContentResolver
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.veyvolopayli.studhunter.common.Constants
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.repository.AuthRepositoryImpl
@@ -35,9 +35,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -59,11 +59,13 @@ object AppModule {
     @Provides
     @Singleton
     fun provideStudHunterApi(): StudHunterApi {
+        val okHttpClient = OkHttpClient.Builder().build()
+        val jsonConverterFactory = Json.asConverterFactory("application/json".toMediaType())
         return Retrofit
             .Builder()
             .baseUrl(Constants.BASE_URL)
-            .client(OkHttpClient())
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+            .client(okHttpClient)
+            .addConverterFactory(jsonConverterFactory)
             .build()
             .create(StudHunterApi::class.java)
     }
