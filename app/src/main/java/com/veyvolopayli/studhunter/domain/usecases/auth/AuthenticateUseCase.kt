@@ -23,6 +23,7 @@ class AuthenticateUseCase @Inject constructor(
             repository.authenticate(token)
             emit(AuthResult.Authorized())
         } catch (e: HttpException) {
+            e.printStackTrace()
             if (e.code() == 401) {
                 emit(AuthResult.Unauthorized())
             }
@@ -33,6 +34,7 @@ class AuthenticateUseCase @Inject constructor(
                 emit(AuthResult.Error(ErrorType.NetworkError()))
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(AuthResult.Error(ErrorType.LocalError()))
         }
     }

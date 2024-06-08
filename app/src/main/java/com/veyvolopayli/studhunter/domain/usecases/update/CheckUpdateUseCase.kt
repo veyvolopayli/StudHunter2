@@ -25,6 +25,7 @@ class CheckUpdateUseCase @Inject constructor(
             else emit(CheckUpdateResult.LastVersionInstalled())
 
         } catch (e: HttpException) {
+            e.printStackTrace()
             if (e.code() == 409) {
                 emit(CheckUpdateResult.Error(error = ErrorType.ServerError()))
             }
@@ -32,6 +33,7 @@ class CheckUpdateUseCase @Inject constructor(
                 emit(CheckUpdateResult.Error(error = ErrorType.NetworkError()))
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(CheckUpdateResult.Error(error = ErrorType.NetworkError()))
         }
     }
