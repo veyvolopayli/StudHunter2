@@ -24,7 +24,7 @@ class AuthFragment : Fragment(R.layout.fragment_auth) {
         val binding = FragmentAuthBinding.bind(view)
         this.binding = binding
 
-        mainViewModel.stopLoading()
+//        mainViewModel.stopLoading()
 
         binding.signUpButton.setOnClickListener {
             findNavController().navigate(R.id.action_authFragment_to_signUpFragment)

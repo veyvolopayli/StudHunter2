@@ -32,7 +32,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         }
 
         binding.navigationView.setupWithNavController(navHostFragment.navController)
-        mainViewModel.stopLoading()
+//        mainViewModel.stopLoading()
     }
 
     override fun onDestroyView() {

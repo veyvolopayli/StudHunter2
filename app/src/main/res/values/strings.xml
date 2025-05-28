@@ -89,4 +89,8 @@
     <string name="any">Любой</string>
     <string name="search">Поиск</string>
     <string name="lets_go">Погнали</string>
+    <string name="network_error">Ошибка сети</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="local_error">Локальная ошибка</string>
+    <string name="no_internet_connection">Нет соединения с интернетом</string>
 </resources>

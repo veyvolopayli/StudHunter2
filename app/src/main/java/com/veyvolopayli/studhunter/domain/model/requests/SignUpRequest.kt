@@ -1,5 +1,8 @@
 package com.veyvolopayli.studhunter.domain.model.requests
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class SignUpRequest(
     val username: String,
     val password: String,

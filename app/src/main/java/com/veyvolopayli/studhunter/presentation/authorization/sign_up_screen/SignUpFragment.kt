@@ -86,6 +86,13 @@ class SignUpFragment : Fragment() {
             }
         }
 
+        binding.username.setText("ilyapolo")
+        binding.password.setText("123123123")
+        binding.email.setText("ilya.polovyev06@gmail.com")
+        binding.name.setText("qweqweqw")
+        binding.surname.setText("qweqweqwe")
+        binding.university.setText("ГУУ")
+
         binding.university.setOnClickListener {
             val universitiesFragment = UniversitiesFragment()
             universitiesFragment.show(parentFragmentManager, null)

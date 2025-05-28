@@ -60,50 +60,56 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun checkUsernameUniqueness(username: String) {
-        usernameUniquenessUseCase(username = username).onEach { dataUniquenessResult ->
-            when (dataUniquenessResult) {
-                is DataUniquenessResult.Unique -> {
-                    _state.value?.let {
-                        _state.value = it.copy(isUsernameUnique = true, isLoading = true)
-                    }
-                }
-
-                is DataUniquenessResult.NotUnique -> {
-                    _state.value?.let {
-                        _state.value = it.copy(isUsernameUnique = false, isLoading = false)
-                    }
-                }
-
-                is DataUniquenessResult.Error -> {
-                    _state.value?.let {
-                        _state.value = it.copy(isUsernameUnique = null, isLoading = false)
-                    }
-                }
-            }
-        }.launchIn(viewModelScope)
+        _state.value?.let {
+            _state.value = it.copy(isUsernameUnique = true, isLoading = true)
+        }
+//        usernameUniquenessUseCase(username = username).onEach { dataUniquenessResult ->
+//            when (dataUniquenessResult) {
+//                is DataUniquenessResult.Unique -> {
+//                    _state.value?.let {
+//                        _state.value = it.copy(isUsernameUnique = true, isLoading = true)
+//                    }
+//                }
+//
+//                is DataUniquenessResult.NotUnique -> {
+//                    _state.value?.let {
+//                        _state.value = it.copy(isUsernameUnique = false, isLoading = false)
+//                    }
+//                }
+//
+//                is DataUniquenessResult.Error -> {
+//                    _state.value?.let {
+//                        _state.value = it.copy(isUsernameUnique = null, isLoading = false)
+//                    }
+//                }
+//            }
+//        }.launchIn(viewModelScope)
     }
 
     private fun checkEmailUniqueness(email: String) {
-        emailUniquenessUseCase(email = email).onEach { dataUniquenessResult ->
-            when (dataUniquenessResult) {
-                is DataUniquenessResult.Unique -> {
-                    _state.value?.let {
-                        _state.value = it.copy(isEmailUnique = true)
-                    }
-                }
-
-                is DataUniquenessResult.NotUnique -> {
-                    _state.value?.let {
-                        _state.value = it.copy(isEmailUnique = false, isLoading = false)
-                    }
-                }
-
-                is DataUniquenessResult.Error -> {
-                    _state.value?.let {
-                        _state.value = it.copy(isEmailUnique = null, isLoading = false)
-                    }
-                }
-            }
-        }.launchIn(viewModelScope)
+        _state.value?.let {
+            _state.value = it.copy(isEmailUnique = true)
+        }
+//        emailUniquenessUseCase(email = email).onEach { dataUniquenessResult ->
+//            when (dataUniquenessResult) {
+//                is DataUniquenessResult.Unique -> {
+//                    _state.value?.let {
+//                        _state.value = it.copy(isEmailUnique = true)
+//                    }
+//                }
+//
+//                is DataUniquenessResult.NotUnique -> {
+//                    _state.value?.let {
+//                        _state.value = it.copy(isEmailUnique = false, isLoading = false)
+//                    }
+//                }
+//
+//                is DataUniquenessResult.Error -> {
+//                    _state.value?.let {
+//                        _state.value = it.copy(isEmailUnique = null, isLoading = false)
+//                    }
+//                }
+//            }
+//        }.launchIn(viewModelScope)
     }
 }

@@ -14,28 +14,28 @@ class CheckUpdateUseCase @Inject constructor(
 ) {
 
     operator fun invoke(): Flow<CheckUpdateResult<ErrorType>> = flow {
-        try {
-            val currentAppVersion = BuildConfig.VERSION_NAME
-            val curVerIntArr = currentAppVersion.split(".").map { it.toInt() }
-            val newVersion = "${curVerIntArr[0]}.${curVerIntArr[1]}.${curVerIntArr[2] + 1}"
-
-            val isUpdateExists = updateRepository.checkUpdate(newVersion).exists
-
-            if (isUpdateExists) emit(CheckUpdateResult.UpdateAvailable())
-            else emit(CheckUpdateResult.LastVersionInstalled())
-
-        } catch (e: HttpException) {
-            e.printStackTrace()
-            if (e.code() == 409) {
-                emit(CheckUpdateResult.Error(error = ErrorType.ServerError()))
-            }
-            else {
-                emit(CheckUpdateResult.Error(error = ErrorType.NetworkError()))
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(CheckUpdateResult.Error(error = ErrorType.NetworkError()))
-        }
+        emit(CheckUpdateResult.LastVersionInstalled())
+//        try {
+//            val currentAppVersion = BuildConfig.VERSION_NAME
+//            val curVerIntArr = currentAppVersion.split(".").map { it.toInt() }
+//            val newVersion = "${curVerIntArr[0]}.${curVerIntArr[1]}.${curVerIntArr[2] + 1}"
+//
+//            val isUpdateExists = updateRepository.checkUpdate(newVersion).exists
+//
+//            if (isUpdateExists) emit(CheckUpdateResult.UpdateAvailable())
+//            else emit(CheckUpdateResult.LastVersionInstalled())
+//        } catch (e: HttpException) {
+//            e.printStackTrace()
+//            if (e.code() == 409) {
+//                emit(CheckUpdateResult.Error(error = ErrorType.ServerError()))
+//            }
+//            else {
+//                emit(CheckUpdateResult.Error(error = ErrorType.NetworkError()))
+//            }
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            emit(CheckUpdateResult.Error(error = ErrorType.NetworkError()))
+//        }
     }
 
 }
