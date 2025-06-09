@@ -24,7 +24,7 @@ class UniversitiesViewModel @Inject constructor(
 
     private fun getUniversities() {
         getUniversitiesUseCase().onEach { unis ->
-            unis?.let { _universities.value = it }
+            _universities.value = unis.map { it.shortName }
         }.launchIn(viewModelScope)
     }
 }

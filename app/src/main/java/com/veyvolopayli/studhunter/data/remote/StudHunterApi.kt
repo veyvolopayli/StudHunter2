@@ -1,15 +1,16 @@
 package com.veyvolopayli.studhunter.data.remote
 
-import com.veyvolopayli.studhunter.data.remote.dto.Chat
+import com.veyvolopayli.studhunter.common.SimpleResponse
 import com.veyvolopayli.studhunter.data.remote.dto.MessageDTO
 import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
 import com.veyvolopayli.studhunter.domain.model.DetailedChat
-import com.veyvolopayli.studhunter.domain.model.review.NewReviewRequest
 import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.FilterRequest
 import com.veyvolopayli.studhunter.domain.model.PublicationToUpload
+import com.veyvolopayli.studhunter.domain.model.University
 import com.veyvolopayli.studhunter.domain.model.User
+import com.veyvolopayli.studhunter.domain.model.WideTask
 import com.veyvolopayli.studhunter.domain.model.chat.Task
 import com.veyvolopayli.studhunter.domain.model.requests.ChangePubFavoriteStatusRequest
 import com.veyvolopayli.studhunter.domain.model.requests.EditProfileRequest
@@ -17,12 +18,20 @@ import com.veyvolopayli.studhunter.domain.model.requests.SignInRequest
 import com.veyvolopayli.studhunter.domain.model.requests.SignUpRequest
 import com.veyvolopayli.studhunter.domain.model.responses.AuthResponse
 import com.veyvolopayli.studhunter.domain.model.responses.CheckUpdateResponse
-import com.veyvolopayli.studhunter.domain.model.WideTask
+import com.veyvolopayli.studhunter.domain.model.review.NewReviewRequest
 import com.veyvolopayli.studhunter.domain.model.review.ReviewDto
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.Path
+import retrofit2.http.Query
+import retrofit2.http.Streaming
 
 interface StudHunterApi {
 
@@ -34,9 +43,6 @@ interface StudHunterApi {
 
     @POST("signup")
     suspend fun signUp(@Body signUpRequest: SignUpRequest): Response<AuthResponse>
-
-    @GET("authenticate")
-    suspend fun authenticate(@Header("Authorization") token: String)
 
     @GET("update/check/{version}")
     suspend fun checkUpdate(@Path("version") version: String): CheckUpdateResponse
@@ -60,14 +66,17 @@ interface StudHunterApi {
     @GET("image/{publicationId}/image_{n}")
     suspend fun checkImageValidity(@Path("publicationId") publicationId: String, @Path("n") n: Int)
 
+    @GET("authenticate")
+    suspend fun authenticate(@Header("Authorization") token: String)
+
     @GET("user/get")
     suspend fun fetchUserById(@Header("Authorization") token: String, @Query("id") id: String): User
 
+    @GET("userid")
+    suspend fun getCurrentUserId(@Header("Authorization") token: String): SimpleResponse<String>
+
     @GET("publication/categories")
     suspend fun getCategories(): Map<Int, String>
-
-    @GET("userid")
-    suspend fun getCurrentUserId(@Header("Authorization") token: String): String
 
     @Multipart
     @POST("publications/new")
@@ -84,7 +93,7 @@ interface StudHunterApi {
     suspend fun getDistricts(): List<String>
 
     @GET("universities/get")
-    suspend fun getUniversities(): List<String>
+    suspend fun getUniversities(): List<University>
 
     @GET("chats/get")
     suspend fun getChats(@Header("Authorization") token: String): List<DetailedChat>

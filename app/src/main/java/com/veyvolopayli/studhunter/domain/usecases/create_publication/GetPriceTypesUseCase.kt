@@ -11,7 +11,7 @@ class GetPriceTypesUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<Map<Int, String>?> = flow {
         try {
-            val priceTypes = publicationRepository.getPriceTypes()
+            val priceTypes = mapOf(1 to "р", 2 to "р/час")
             emit(priceTypes)
         } catch (e: Exception) {
             emit(null)

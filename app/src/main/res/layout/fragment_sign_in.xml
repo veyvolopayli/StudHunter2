@@ -104,24 +104,29 @@
                     style="@style/TextInputEdittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&amp;*()_+-=\|/"
                     android:hint="@string/password"
-                    android:inputType="textPassword|textFilter"
+                    android:inputType="textPassword"
                     android:textSize="@dimen/text_16px" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
-        <com.veyvolopayli.studhunter.presentation.custom_views.LgbtqButtonView
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/AppcompatButton"
             android:id="@+id/button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:buttonText="@string/sign_in"
-            app:buttonType="primary"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/secondary"
+            android:text="@string/sign_in"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -148,7 +148,7 @@ class SignUpFragment : Fragment() {
                     && nameIsValid && surnameIsValid && universityIsValid) {
                     bind.signUpButton.apply {
                         backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary))
-                        onClick = {
+                        setOnClickListener {
                             vm.checkUniqueness(
                                 username = username,
                                 password = password,
@@ -161,7 +161,7 @@ class SignUpFragment : Fragment() {
                 } else {
                     bind.signUpButton.apply {
                         backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.secondary))
-                        onClick = {
+                        setOnClickListener {
                             if (!usernameIsValid) {
                                 bind.usernameLayout.error = context.getString(R.string.incorrect_username)
                             }

@@ -3,6 +3,7 @@ package com.veyvolopayli.studhunter.data.repository
 import com.veyvolopayli.studhunter.data.remote.StudHunterApi
 import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.data.remote.dto.PublicationDto
+import com.veyvolopayli.studhunter.domain.model.University
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.model.requests.EditProfileRequest
 import com.veyvolopayli.studhunter.domain.repository.UserRepository
@@ -18,10 +19,10 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCurrentUserId(token: String): String {
-        return api.getCurrentUserId(token)
+        return api.getCurrentUserId(token).data
     }
 
-    override suspend fun getUniversities(): List<String> {
+    override suspend fun getUniversities(): List<University> {
         return api.getUniversities()
     }
 

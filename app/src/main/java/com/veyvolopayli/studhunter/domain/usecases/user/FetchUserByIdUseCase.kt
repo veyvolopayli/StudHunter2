@@ -26,6 +26,7 @@ class FetchUserByIdUseCase @Inject constructor(
                 val user = repository.fetchUserById(token = token, id = id)
                 emit(Resource.Success(user))
             } else {
+                println("NOT AUTHORIZED")
                 emit(Resource.Error(ErrorType.Unauthorized()))
             }
         } catch (e: HttpException) {

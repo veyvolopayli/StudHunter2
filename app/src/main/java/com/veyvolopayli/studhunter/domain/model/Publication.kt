@@ -1,5 +1,8 @@
 package com.veyvolopayli.studhunter.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Publication(
     val description: String,
     val id: String,

@@ -71,7 +71,7 @@ class GalleryFragment() : BottomSheetDialogFragment() {
             if (isGranted) {
                 showImageGallery()
             } else {
-                Toast.makeText(requireContext(), "Пидарас", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Дайте разрешение", Toast.LENGTH_SHORT).show()
             }
         }
 

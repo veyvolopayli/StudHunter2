@@ -29,14 +29,8 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val onBackPressedCallback = object : OnBackPressedCallback(enabled = true) {
-            override fun handleOnBackPressed() {
-
-            }
-
-        }
-
-//        mainVm.hideBottomBar()
+        binding.username.setText("ilyapolo")
+//        binding.password.setText("123123123")
 
         vm.signInResult.observe(viewLifecycleOwner) { signInResult ->
             when (signInResult) {
@@ -73,7 +67,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
             }
         }
 
-        binding.button.onClick = {
+        binding.button.setOnClickListener {
             val signInRequest = SignInRequest(
                 username = binding.username.text.toString().trim(),
                 password = binding.password.text.toString().trim()

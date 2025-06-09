@@ -21,6 +21,7 @@ class SignInByEmailUseCase @Inject constructor(
             prefs.edit().putString("jwt", "Bearer ${response.token}").apply()
             emit(AuthorizationResult.Authorized())
         } catch (e: HttpException) {
+            e.printStackTrace()
             if (e.code() == 409) {
                 emit(AuthorizationResult.WrongData())
             }
@@ -29,6 +30,7 @@ class SignInByEmailUseCase @Inject constructor(
             }
         } catch (e: Exception) {
             emit(AuthorizationResult.Error(ErrorType.LocalError()))
+            e.printStackTrace()
         }
     }
 }
