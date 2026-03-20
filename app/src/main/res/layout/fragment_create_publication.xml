@@ -160,33 +160,33 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                style="@style/GilroyFontThemeMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/indicate_district"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/text_18px" />
+<!--            <TextView-->
+<!--                style="@style/GilroyFontThemeMedium"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/indicate_district"-->
+<!--                android:textColor="@color/textColorPrimary"-->
+<!--                android:textSize="@dimen/text_18px" />-->
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                style="@style/TextInputLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="12dp">-->
 
-                <AutoCompleteTextView
-                    android:id="@+id/district"
-                    style="@style/TextInputEdittext"
-                    android:layout_weight="1"
-                    android:inputType="none"
-                    android:focusable="false"
-                    android:clickable="true"
-                    android:maxLength="50"
-                    android:hint="@string/district"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+<!--                <AutoCompleteTextView-->
+<!--                    android:id="@+id/district"-->
+<!--                    style="@style/TextInputEdittext"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:inputType="none"-->
+<!--                    android:focusable="false"-->
+<!--                    android:clickable="true"-->
+<!--                    android:maxLength="50"-->
+<!--                    android:hint="@string/district"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content" />-->
 
-            </com.google.android.material.textfield.TextInputLayout>
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <TextView
                 android:id="@+id/textView5"

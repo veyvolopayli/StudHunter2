@@ -63,7 +63,7 @@ object AppModule {
         val jsonConverterFactory = Json.asConverterFactory("application/json".toMediaType())
         return Retrofit
             .Builder()
-            .baseUrl(Constants.LOCALHOST)
+            .baseUrl(Constants.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(jsonConverterFactory)
             .build()

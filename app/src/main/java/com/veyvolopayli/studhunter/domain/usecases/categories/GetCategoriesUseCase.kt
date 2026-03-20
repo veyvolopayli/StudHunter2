@@ -14,7 +14,12 @@ class GetCategoriesUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<Resource<Map<Int, String>>> = flow {
         try {
-            val categories = repository.getCategories()
+            val categories = mapOf(
+                1 to "Разработка и программирование",
+                2 to "Юридические услуги",
+                3 to "Психология",
+                4 to "Лаборатория"
+            )
             emit(Resource.Success(categories))
         } catch (e: HttpException) {
             emit(Resource.Error(ErrorType.ServerError()))

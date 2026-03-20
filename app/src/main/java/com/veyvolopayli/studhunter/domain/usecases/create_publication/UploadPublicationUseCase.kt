@@ -39,6 +39,8 @@ class UploadPublicationUseCase @Inject constructor(
             emit(Resource.Success(publicationId))
         } catch (e: HttpException) {
             emit(Resource.Error(ErrorType.NetworkError()))
+            e.printStackTrace()
+            println(e.response()?.errorBody()?.string())
             return@flow
         } catch (e: Exception) {
             e.printStackTrace()

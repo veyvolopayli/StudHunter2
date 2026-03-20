@@ -64,9 +64,9 @@ class CreatePublicationFragment : Fragment() {
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.publicationRecycler.adapter = imagesAdapter
 
-        binding.district.setOnClickListener {
-            districtsFragment.show(parentFragmentManager, null)
-        }
+//        binding.district.setOnClickListener {
+//            districtsFragment.show(parentFragmentManager, null)
+//        }
 
         imagesAdapter.onItemClick = {
             galleryBottomSheet.show(parentFragmentManager, null)
@@ -75,7 +75,7 @@ class CreatePublicationFragment : Fragment() {
         with(binding) {
             title.addTextChangedListener(textWatcher)
             description.addTextChangedListener(textWatcher)
-            district.addTextChangedListener(textWatcher)
+//            district.addTextChangedListener(textWatcher)
             price.addTextChangedListener(textWatcher)
             priceType.addTextChangedListener(textWatcher)
             category.addTextChangedListener(textWatcher)
@@ -90,7 +90,8 @@ class CreatePublicationFragment : Fragment() {
 
                 val title = binding.title.text.toString().trim()
                 val description = binding.description.text.toString().trim()
-                val district = binding.district.text.toString().trim()
+//                val district = binding.district.text.toString().trim()
+                val district = "test_dist"
                 val price = binding.price.text.toString().trim().toIntOrNull() ?: 0
                 val priceType = binding.priceType.text.toString().trim()
                 val category = binding.category.text.toString().trim()
@@ -163,9 +164,9 @@ class CreatePublicationFragment : Fragment() {
             }
         }
 
-        viewModel.selectedDistrict.observe(viewLifecycleOwner) { district ->
-            binding.district.setText(district)
-        }
+//        viewModel.selectedDistrict.observe(viewLifecycleOwner) { district ->
+//            binding.district.setText(district)
+//        }
 
         setFragmentResultListener(IMAGES_KEY) { _, bundle ->
             val images = bundle.getStringArrayList(SELECTED_IMAGES_KEY)?.toList() ?: run {
@@ -210,14 +211,17 @@ class CreatePublicationFragment : Fragment() {
                 with(it) {
                     val title = title.text.toString().trim()
                     val description = description.text.toString().trim()
-                    val district = district.text.toString().trim()
+//                    val district = district.text.toString().trim()
+                    val district = "test_dist"
                     val price = price.text.toString().trim().toIntOrNull() ?: 0
                     val priceType = priceType.text.toString().trim()
                     val category = category.text.toString().trim()
 
-                    if (title.titleIsValid() && description.descriptionIsValid()
-                        && district.districtIsValid() && price.priceIsValid()
-                        && priceType.priceTypeIsValid() && category.categoryIsValid()
+                    if (
+                        title.titleIsValid() &&
+                        description.descriptionIsValid()
+                        && price.priceIsValid()
+                        && category.categoryIsValid()
                     ) {
                         publishButton.backgroundTintList =
                             ColorStateList.valueOf(

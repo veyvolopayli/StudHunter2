@@ -29,7 +29,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.username.setText("ilyapolo")
+//        binding.username.setText("ilyapolo")
 //        binding.password.setText("123123123")
 
         vm.signInResult.observe(viewLifecycleOwner) { signInResult ->
@@ -67,18 +67,18 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(
             }
         }
 
-//        binding.button.setOnClickListener {
-//            val signInRequest = SignInRequest(
-//                username = binding.username.text.toString().trim(),
-//                password = binding.password.text.toString().trim()
-//            )
-//
-//            vm.signIn(signInRequest)
-//        }
-//
-//        binding.signInFragmentBackIv.setOnClickListener {
-//            parentFragmentManager.popBackStack()
-//        }
+        binding.button.setOnClickListener {
+            val signInRequest = SignInRequest(
+                username = binding.username.text.toString().trim(),
+                password = binding.password.text.toString().trim()
+            )
+
+            vm.signIn(signInRequest)
+        }
+
+        binding.signInFragmentBackIv.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
     }
 
     private fun loadingLayoutVisibility(loading: Boolean, view: FrameLayout) {
