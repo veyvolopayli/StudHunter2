@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
-import com.veyvolopayli.studhunter.data.remote.dto.Chat
 import com.veyvolopayli.studhunter.domain.model.DetailedChat
 import com.veyvolopayli.studhunter.domain.usecases.chats.GetChatsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

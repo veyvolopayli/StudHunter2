@@ -1,0 +1,15 @@
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\ErrorType.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\AuthorizationResult.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\CheckUpdateResult.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\AuthResult.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\FileUtil.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\NetworkUtil.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\Features.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\DataUniquenessResult.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\NavigationFeatures.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\Validators.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\Constants.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\SimpleResponse.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\Resource.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\DownloadUpdateResult.kt
+C:\Users\ilyap\AndroidStudioProjects\StudHunter2\core\common\src\main\java\com\veyvolopayli\studhunter\common\InstallUpdateResult.kt

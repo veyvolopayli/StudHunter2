@@ -21,3 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "StudHunter"
 include(":app")
+include(":core:common")
+include(":core:domain")
+include(":core:data")
+include(":feature:auth")

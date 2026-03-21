@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
-import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
+import com.veyvolopayli.studhunter.domain.model.MyPublication
 import com.veyvolopayli.studhunter.domain.model.Publication
 import com.veyvolopayli.studhunter.domain.usecases.my_publications.GetMyPublicationsUseCase
 import com.veyvolopayli.studhunter.domain.usecases.user_publicaitons.GetUserPublicationsUseCase
@@ -20,8 +20,8 @@ class MyPublicationsViewModel @Inject constructor(
     private val getMyPublicationsUseCase: GetMyPublicationsUseCase
 ) : ViewModel() {
 
-    private val _myPublications = MutableLiveData<List<MyPublicationDTO>>()
-    val myPublications: LiveData<List<MyPublicationDTO>> = _myPublications
+    private val _myPublications = MutableLiveData<List<MyPublication>>()
+    val myPublications: LiveData<List<MyPublication>> = _myPublications
 
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error

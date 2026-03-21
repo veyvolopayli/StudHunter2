@@ -4,14 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.veyvolopayli.studhunter.data.remote.dto.MyPublicationDTO
 import com.veyvolopayli.studhunter.databinding.ItemMyPublicationBinding
-import com.veyvolopayli.studhunter.databinding.ItemPublicationHomeBinding
-import com.veyvolopayli.studhunter.domain.model.Message
-import com.veyvolopayli.studhunter.domain.model.Publication
+import com.veyvolopayli.studhunter.domain.model.MyPublication
 
 class MyPublicationsAdapter() : RecyclerView.Adapter<MyPublicationsAdapter.PublicationViewHolder>() {
-    private var publications = listOf<MyPublicationDTO>()
+    private var publications = listOf<MyPublication>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyPublicationsAdapter.PublicationViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -37,7 +34,7 @@ class MyPublicationsAdapter() : RecyclerView.Adapter<MyPublicationsAdapter.Publi
 
     inner class PublicationViewHolder(val binding: ItemMyPublicationBinding) : RecyclerView.ViewHolder(binding.root)
 
-    fun setPublications(publications: List<MyPublicationDTO>) {
+    fun setPublications(publications: List<MyPublication>) {
         this.publications = publications
         notifyDataSetChanged()
     }

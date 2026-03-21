@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.veyvolopayli.studhunter.common.ErrorType
 import com.veyvolopayli.studhunter.common.Resource
-import com.veyvolopayli.studhunter.data.remote.dto.millsToDateTime
 import com.veyvolopayli.studhunter.domain.model.DetailedPublication
 import com.veyvolopayli.studhunter.domain.model.User
 import com.veyvolopayli.studhunter.domain.usecases.publication.AddToFavoriteUseCase
@@ -77,7 +76,7 @@ class PublicationViewModel @Inject constructor(
                         username = user.username,
                         isLoading = false,
                         isUserOwner = detailedPublication.userIsOwner,
-                        date = publication.timestamp.millsToDateTime()
+                        date = publication.timestamp
                     )
 
                 }

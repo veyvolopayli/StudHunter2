@@ -1,0 +1,27 @@
+package com.veyvolopayli.studhunter.domain.usecases.get_publications
+
+import com.veyvolopayli.studhunter.common.ErrorType
+import com.veyvolopayli.studhunter.common.Resource
+import com.veyvolopayli.studhunter.domain.model.Publication
+import com.veyvolopayli.studhunter.domain.repository.PublicationRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.io.IOException
+import javax.inject.Inject
+
+class FetchPublicationsUseCase @Inject constructor(
+    private val publicationRepository: PublicationRepository
+) {
+    operator fun invoke(): Flow<Resource<List<Publication>>> = flow {
+        try {
+//            emit(Resource.Loading())
+            val publications = publicationRepository.fetchPublications()
+            emit(Resource.Success(publications))
+        } catch (e: HttpException) {
+            emit(Resource.Error(ErrorType.NetworkError()))
+        } catch (e: IOException) {
+            emit(Resource.Error(ErrorType.LocalError()))
+        }
+    }
+}

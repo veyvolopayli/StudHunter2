@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.veyvolopayli.studhunter.common.millsToDate
-import com.veyvolopayli.studhunter.data.remote.dto.Chat
 import com.veyvolopayli.studhunter.databinding.ItemChatBinding
 import com.veyvolopayli.studhunter.domain.model.DetailedChat
 

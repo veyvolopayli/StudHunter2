@@ -50,6 +50,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:data"))
+    implementation(project(":feature:auth"))
+
     implementation(libs.androidx.activity)
     // Core
     implementation(libs.androidx.core)
